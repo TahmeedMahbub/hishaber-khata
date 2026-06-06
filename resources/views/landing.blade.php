@@ -57,8 +57,9 @@ nav {
 .logo-icon {
   width:40px; height:40px; background: var(--green);
   border-radius:10px; display:flex; align-items:center; justify-content:center;
-  font-size:20px;
+  font-size:20px; overflow:hidden;
 }
+.logo-icon img { width:100%; height:100%; object-fit:cover; }
 .logo-text { font-size:1.25rem; font-weight:700; color:var(--green); letter-spacing:-0.3px; }
 .logo-text span { color: var(--accent); }
 .nav-links { display:flex; align-items:center; gap:8px; }
@@ -580,7 +581,7 @@ footer {
 <nav>
   <div class="nav-inner">
     <a href="#" class="logo">
-      <div class="logo-icon">📒</div>
+      <div class="logo-icon"><img src="{{ asset('assets/img/project/logo.png') }}" alt="হিসাবের খাতা"></div>
       <span class="logo-text">হিসাবের <span>খাতা</span></span>
     </a>
     <div class="nav-links">
@@ -1292,7 +1293,7 @@ footer {
   <div class="footer-inner">
     <div class="footer-brand">
       <a href="#" class="logo" style="text-decoration:none">
-        <div class="logo-icon"><img src="{{ asset("public\assets\img\project\logo.png") }}" alt=""></div>
+        <div class="logo-icon"><img src="{{ asset('assets/img/project/logo.png') }}" alt="হিসাবের খাতা"></div>
         <span class="logo-text">হিসাবের <span>খাতা</span></span>
       </a>
       <p>ছোট ব্যবসার জন্য ডিজিটাল হিসাব খাতা। বাংলাদেশের দোকানদারদের জন্য তৈরি।</p>

@@ -2,7 +2,7 @@
     <div class="app-brand demo">
         <a href="{{ route('dashboard') }}" class="app-brand-link">
             <span class="app-brand-logo demo">
-                <i class="menu-icon tf-icons mdi mdi-notebook-outline text-primary" style="font-size: 1.75rem;"></i>
+                <img src="{{ asset('assets/img/project/logo.png') }}" alt="হিসাবের খাতা" width="35" height="35" style="border-radius:8px;">
             </span>
             <span class="app-brand-text demo menu-text fw-bold ms-2">হিসাবের খাতা</span>
         </a>
