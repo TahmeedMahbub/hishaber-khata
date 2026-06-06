@@ -23,7 +23,13 @@
 
     <div class="col-md-8">
         <label for="barcode" class="form-label">বারকোড <span class="text-muted">(ঐচ্ছিক)</span></label>
-        <input type="text" id="barcode" name="barcode" class="form-control" value="{{ $val('barcode') }}">
+        <div class="input-group">
+            <input type="text" id="barcode" name="barcode" class="form-control" value="{{ $val('barcode') }}">
+            <button type="button" class="btn btn-outline-primary" id="scanBarcodeBtn"
+                data-bs-toggle="modal" data-bs-target="#barcodeScanModal" title="ক্যামেরা দিয়ে স্ক্যান করুন">
+                <i class="mdi mdi-barcode-scan"></i>
+            </button>
+        </div>
     </div>
 
     <div class="col-md-4">
@@ -65,3 +71,56 @@
         </select>
     </div>
 </div>
+
+{{-- Barcode scanner modal --}}
+<div class="modal fade" id="barcodeScanModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">বারকোড স্ক্যান করুন</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="barcodeReader" class="w-100"></div>
+                <p class="text-muted text-center small mt-2 mb-0">পণ্যের বারকোড ক্যামেরার সামনে ধরুন</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script>
+(function () {
+    var modalEl = document.getElementById('barcodeScanModal');
+    if (!modalEl || typeof Html5Qrcode === 'undefined') return;
+
+    var scanner = null;
+
+    function stopScanner() {
+        if (scanner) {
+            scanner.stop().then(function () { scanner.clear(); }).catch(function () {});
+            scanner = null;
+        }
+    }
+
+    modalEl.addEventListener('shown.bs.modal', function () {
+        scanner = new Html5Qrcode('barcodeReader');
+        scanner.start(
+            { facingMode: 'environment' },
+            { fps: 10, qrbox: { width: 250, height: 150 } },
+            function (decodedText) {
+                document.getElementById('barcode').value = decodedText;
+                stopScanner();
+                var modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) modal.hide();
+            },
+            function () {}
+        ).catch(function (err) {
+            document.getElementById('barcodeReader').innerHTML =
+                '<div class="alert alert-danger mb-0">ক্যামেরা চালু করা যায়নি। অনুমতি দিন বা ম্যানুয়ালি লিখুন।</div>';
+        });
+    });
+
+    modalEl.addEventListener('hidden.bs.modal', stopScanner);
+})();
+</script>
