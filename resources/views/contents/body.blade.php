@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed" dir="ltr" data-theme="theme-default" data-template="vertical-menu-template">
+    <head>
+        @include('contents.head-section')
+    </head>
+
+    <body>
+        <div class="layout-wrapper layout-content-navbar">
+            <div class="layout-container">
+                @include('contents.sidebar')
+                <div class="layout-page">
+                    @include('contents.navbar')
+
+                    <div class="content-wrapper">
+                        <div class="container-xxl flex-grow-1 container-p-y">
+                            <div class="row gy-4">
+                                @yield('content')
+                            </div>
+                        </div>
+                        @include('contents.footer')
+                        <div class="content-backdrop fade"></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="layout-overlay layout-menu-toggle"></div>
+
+            <div class="drag-target"></div>
+        </div>
+        @include('contents.end-section')
+    </body>
+</html>
