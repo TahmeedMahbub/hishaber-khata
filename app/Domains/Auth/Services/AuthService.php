@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Domains\Auth\Services;
+
+use Illuminate\Support\Facades\Auth;
+
+/**
+ * Thin wrapper around Laravel authentication for the SME login flow.
+ * Users sign in with their mobile number + password.
+ */
+class AuthService
+{
+    /**
+     * Attempt to authenticate a user by phone + password.
+     */
+    public function attempt(string $phone, string $password, bool $remember = false): bool
+    {
+        return Auth::attempt(
+            ['phone' => $phone, 'password' => $password, 'status' => 'active'],
+            $remember
+        );
+    }
+
+    /**
+     * Log the given user in (used right after registration).
+     */
+    public function login(\App\Models\User $user): void
+    {
+        Auth::login($user);
+    }
+
+    /**
+     * Log the current user out.
+     */
+    public function logout(): void
+    {
+        Auth::logout();
+    }
+}
