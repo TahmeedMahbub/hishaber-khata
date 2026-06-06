@@ -15,6 +15,7 @@ SET NAMES utf8mb4;
 DROP TABLE IF EXISTS `activity_logs`;
 DROP TABLE IF EXISTS `cash_transactions`;
 DROP TABLE IF EXISTS `stock_movements`;
+DROP TABLE IF EXISTS `damages`;
 DROP TABLE IF EXISTS `expenses`;
 DROP TABLE IF EXISTS `expense_categories`;
 DROP TABLE IF EXISTS `sale_items`;
@@ -395,7 +396,31 @@ CREATE TABLE IF NOT EXISTS `cash_transactions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =====================================================================
--- 18. activity_logs  (system audit trail)
+-- 18. damages  (damaged / lost stock log)
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS `damages` (
+    `id`          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `tenant_id`   BIGINT UNSIGNED NOT NULL,
+    `branch_id`   BIGINT UNSIGNED NULL,
+    `product_id`  BIGINT UNSIGNED NOT NULL,
+    `type`        ENUM('damage','lost') NOT NULL DEFAULT 'damage',
+    `qty`         DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+    `unit_cost`   DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+    `reason`      VARCHAR(255) NULL,
+    `damage_date` DATE NOT NULL,
+    `created_at`  TIMESTAMP NULL DEFAULT NULL,
+    `updated_at`  TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `damages_tenant_id_index` (`tenant_id`),
+    KEY `damages_product_id_index` (`product_id`),
+    KEY `damages_tenant_date_index` (`tenant_id`, `damage_date`),
+    CONSTRAINT `damages_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `damages_branch_id_foreign` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`) ON DELETE SET NULL,
+    CONSTRAINT `damages_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =====================================================================
+-- 19. activity_logs  (system audit trail)
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `activity_logs` (
     `id`           BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,

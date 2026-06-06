@@ -1,0 +1,89 @@
+@extends('contents.body')
+
+@section('title', 'Damage/Lost')
+
+@section('content')
+    <div class="row gy-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="fw-bold mb-0">ড্যামেজ / হারানো</h4>
+                <a href="{{ route('damages.create') }}" class="btn btn-primary">
+                    <i class="mdi mdi-plus me-1"></i> নতুন রেকর্ড
+                </a>
+            </div>
+
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+            <div class="card">
+                <div class="card-header">
+                    <form method="GET" action="{{ route('damages.index') }}" class="row g-2">
+                        <div class="col-md-10">
+                            <input type="text" name="search" value="{{ $search ?? '' }}"
+                                class="form-control" placeholder="পণ্য বা কারণ দিয়ে খুঁজুন...">
+                        </div>
+                        <div class="col-md-2 d-grid">
+                            <button type="submit" class="btn btn-outline-secondary">
+                                <i class="mdi mdi-magnify"></i> খুঁজুন
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="table-responsive text-nowrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>পণ্য</th>
+                                <th>ধরন</th>
+                                <th class="text-end">পরিমাণ</th>
+                                <th>কারণ</th>
+                                <th>তারিখ</th>
+                                <th class="text-end">অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($damages as $damage)
+                                <tr>
+                                    <td class="fw-medium">{{ $damage->product->name ?? '—' }}</td>
+                                    <td>
+                                        @if ($damage->type === 'lost')
+                                            <span class="badge bg-label-secondary">হারানো</span>
+                                        @else
+                                            <span class="badge bg-label-warning">ড্যামেজ</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-end">{{ rtrim(rtrim(number_format($damage->qty, 2), '0'), '.') }}</td>
+                                    <td>{{ $damage->reason ?? '—' }}</td>
+                                    <td>{{ $damage->damage_date?->format('d/m/Y') }}</td>
+                                    <td class="text-end">
+                                        <form method="POST" action="{{ route('damages.destroy', $damage) }}"
+                                            class="d-inline" onsubmit="return confirm('আপনি কি নিশ্চিত? স্টক ফিরিয়ে দেওয়া হবে।');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-icon btn-text-danger">
+                                                <i class="mdi mdi-delete-outline"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">কোনো রেকর্ড নেই।</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                @if ($damages->hasPages())
+                    <div class="card-footer">
+                        {{ $damages->links() }}
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+@endsection

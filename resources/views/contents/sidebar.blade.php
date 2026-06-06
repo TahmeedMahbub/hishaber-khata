@@ -64,7 +64,8 @@
         {{-- More --}}
         @php
             $moreActive = request()->is('purchases*') || request()->is('customers*')
-                || request()->is('suppliers*') || request()->is('expenses*') || request()->is('settings*');
+                || request()->is('suppliers*') || request()->is('expenses*')
+                || request()->is('damages*') || request()->is('settings*');
         @endphp
         <li class="menu-item {{ $moreActive ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -90,6 +91,11 @@
                 <li class="menu-item {{ request()->is('expenses*') ? 'active' : '' }}">
                     <a href="{{ url('/expenses') }}" class="menu-link">
                         <div>খরচ</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('damages*') ? 'active' : '' }}">
+                    <a href="{{ url('/damages') }}" class="menu-link">
+                        <div>ড্যামেজ / হারানো</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('settings*') ? 'active' : '' }}">

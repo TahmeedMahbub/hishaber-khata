@@ -416,7 +416,7 @@
         errBox.classList.add('d-none');
         saveCustomerBtn.disabled = true;
 
-        fetch('{{ route('customers.store') }}', {
+        fetch('{{ route('customers.quickStore') }}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
