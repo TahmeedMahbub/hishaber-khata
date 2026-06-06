@@ -41,3 +41,60 @@
 <script src="{{ asset('assets/vendor/js/template-customizer.js')}} "></script>
 <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 <script src="{{ asset('assets/js/config.js')}} "></script>
+
+<!-- Custom navbar theme: dark background with light text -->
+<style>
+    :root {
+        --hk-navbar-bg: #1B8B5A;
+        --hk-navbar-bg-2: #29875e;
+        --hk-navbar-text: #e7e7f0;
+        --hk-navbar-muted: #b4b4cc;
+    }
+
+    #layout-navbar.bg-navbar-theme {
+        background: linear-gradient(90deg, var(--hk-navbar-bg) 0%, var(--hk-navbar-bg-2) 100%) !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+    }
+
+    /* Full-width navbar attached to the top (remove detached floating look) */
+    #layout-navbar.navbar-detached {
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 0 !important;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+    }
+
+    .layout-page > .content-wrapper {
+        padding-top: 0 !important;
+    }
+
+    #layout-navbar .text-heading,
+    #layout-navbar .nav-link,
+    #layout-navbar .nav-item .nav-link i,
+    #layout-navbar i {
+        color: var(--hk-navbar-text) !important;
+    }
+
+    #layout-navbar .navbar-nav > .nav-item > span.fw-medium {
+        color: var(--hk-navbar-text) !important;
+        letter-spacing: .2px;
+    }
+
+    #layout-navbar .text-muted,
+    #layout-navbar small.text-muted {
+        color: var(--hk-navbar-muted) !important;
+    }
+
+    #layout-navbar .nav-link:hover i {
+        color: #fff !important;
+    }
+
+    /* Keep dropdown menu readable on light surface */
+    #layout-navbar .dropdown-menu .dropdown-item,
+    #layout-navbar .dropdown-menu .dropdown-item i,
+    #layout-navbar .dropdown-menu small.text-muted {
+        color: inherit !important;
+    }
+</style>
