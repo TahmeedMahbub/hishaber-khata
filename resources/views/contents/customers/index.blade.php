@@ -39,7 +39,8 @@
                             <tr>
                                 <th>নাম</th>
                                 <th>মোবাইল</th>
-                                <th>ঠিকানা</th>
+                                <th class="text-end">অর্ডার</th>
+                                <th class="text-end">বিক্রয়</th>
                                 <th class="text-end">বাকি</th>
                                 <th class="text-end">অ্যাকশন</th>
                             </tr>
@@ -49,7 +50,8 @@
                                 <tr>
                                     <td class="fw-medium">{{ $customer->name }}</td>
                                     <td>{{ $customer->phone ?? '—' }}</td>
-                                    <td>{{ $customer->address ?? '—' }}</td>
+                                    <td class="text-end">{{ $customer->sales_count }}</td>
+                                    <td class="text-end">৳ {{ number_format($customer->sales_sum_total ?? 0, 2) }}</td>
                                     <td class="text-end">
                                         @if ($customer->due_balance > 0)
                                             <span class="text-danger">৳ {{ number_format($customer->due_balance, 2) }}</span>
@@ -74,7 +76,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">কোনো কাস্টমার নেই।</td>
+                                    <td colspan="6" class="text-center text-muted py-4">কোনো কাস্টমার নেই।</td>
                                 </tr>
                             @endforelse
                         </tbody>

@@ -7,6 +7,7 @@ use App\Domains\Product\Models\Product;
 use App\Domains\Product\Requests\ProductRequest;
 use App\Domains\Product\Services\ProductService;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -69,6 +70,34 @@ class ProductController extends Controller
 
         return redirect()->route('products.index')
             ->with('success', 'পণ্য মুছে ফেলা হয়েছে।');
+    }
+
+    /**
+     * Quick-create a product from another screen (e.g. POS / Purchase). Returns JSON.
+     */
+    public function quickStore(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'name'           => ['required', 'string', 'max:150'],
+            'barcode'        => ['nullable', 'string', 'max:100'],
+            'unit'           => ['nullable', 'string', 'max:20'],
+            'purchase_price' => ['nullable', 'numeric', 'min:0'],
+            'sale_price'     => ['nullable', 'numeric', 'min:0'],
+        ], [
+            'name.required' => 'পণ্যের নাম দিন।',
+        ]);
+
+        $product = $this->service->create($data);
+
+        return response()->json([
+            'id'             => $product->id,
+            'name'           => $product->name,
+            'barcode'        => (string) $product->barcode,
+            'unit'           => $product->unit,
+            'purchase_price' => (float) $product->purchase_price,
+            'sale_price'     => (float) $product->sale_price,
+            'stock'          => (float) $product->stock_qty,
+        ]);
     }
 
     /**

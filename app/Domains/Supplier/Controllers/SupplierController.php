@@ -6,6 +6,7 @@ use App\Domains\Supplier\Models\Supplier;
 use App\Domains\Supplier\Requests\SupplierRequest;
 use App\Domains\Supplier\Services\SupplierService;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -56,5 +57,27 @@ class SupplierController extends Controller
 
         return redirect()->route('suppliers.index')
             ->with('success', 'সরবরাহকারী মুছে ফেলা হয়েছে।');
+    }
+
+    /**
+     * Quick-create a supplier from another screen (e.g. Purchase). Returns JSON.
+     */
+    public function quickStore(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'name'    => ['required', 'string', 'max:150'],
+            'phone'   => ['nullable', 'string', 'max:20'],
+            'address' => ['nullable', 'string', 'max:255'],
+        ], [
+            'name.required' => 'সরবরাহকারীর নাম দিন।',
+        ]);
+
+        $supplier = $this->service->create($data);
+
+        return response()->json([
+            'id'    => $supplier->id,
+            'name'  => $supplier->name,
+            'phone' => (string) $supplier->phone,
+        ]);
     }
 }

@@ -19,6 +19,8 @@ class CustomerRepository extends BaseRepository
     public function list(?string $search = null, int $perPage = 15): LengthAwarePaginator
     {
         return $this->query()
+            ->withCount('sales')
+            ->withSum('sales', 'total')
             ->when($search, fn ($q) => $q->where(function ($w) use ($search) {
                 $w->where('name', 'like', "%{$search}%")
                     ->orWhere('phone', 'like', "%{$search}%");

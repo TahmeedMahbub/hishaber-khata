@@ -46,12 +46,14 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('categories', CategoryController::class)->except('show');
+    Route::post('/products/quick', [ProductController::class, 'quickStore'])->name('products.quickStore');
     Route::resource('products', ProductController::class)->except('show');
     Route::resource('sales', SaleController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
     Route::resource('purchases', PurchaseController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
 
     Route::post('/customers/quick', [CustomerController::class, 'quickStore'])->name('customers.quickStore');
     Route::resource('customers', CustomerController::class)->except('show');
+    Route::post('/suppliers/quick', [SupplierController::class, 'quickStore'])->name('suppliers.quickStore');
     Route::resource('suppliers', SupplierController::class)->except('show');
     Route::resource('expenses', ExpenseController::class)->except('show');
     Route::resource('damages', DamageController::class)->only(['index', 'create', 'store', 'destroy']);
