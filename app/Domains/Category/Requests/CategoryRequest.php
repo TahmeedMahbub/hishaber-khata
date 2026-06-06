@@ -28,7 +28,7 @@ class CategoryRequest extends FormRequest
                     ->where(fn ($q) => $q->where('tenant_id', $tenantId))
                     ->ignore($categoryId),
             ],
-            'status' => ['required', Rule::in(['active', 'inactive'])],
+            'status' => ['nullable', Rule::in(['active', 'inactive'])],
         ];
     }
 

@@ -20,15 +20,15 @@
         <li class="menu-item {{ request()->is('dashboard') ? 'active' : '' }}">
             <a href="{{ route('dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-view-dashboard-outline"></i>
-                <div>Dashboard</div>
+                <div>ড্যাশবোর্ড</div>
             </a>
         </li>
 
         {{-- Sales --}}
         <li class="menu-item {{ request()->is('sales*') ? 'active' : '' }}">
-            <a href="{{ url('/sales') }}" class="menu-link">
+            <a href="{{ route('sales.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-cart-outline"></i>
-                <div>Sales</div>
+                <div>বিক্রয়</div>
             </a>
         </li>
 
@@ -37,17 +37,17 @@
         <li class="menu-item {{ $productsActive ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons mdi mdi-package-variant-closed"></i>
-                <div>Products</div>
+                <div>পণ্য</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->is('products*') ? 'active' : '' }}">
                     <a href="{{ url('/products') }}" class="menu-link">
-                        <div>All Products</div>
+                        <div>সকল পণ্য</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('categories*') ? 'active' : '' }}">
                     <a href="{{ route('categories.index') }}" class="menu-link">
-                        <div>Categories</div>
+                        <div>ক্যাটাগরি</div>
                     </a>
                 </li>
             </ul>
@@ -57,7 +57,7 @@
         <li class="menu-item {{ request()->is('reports*') ? 'active' : '' }}">
             <a href="{{ url('/reports') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-chart-box-outline"></i>
-                <div>Reports</div>
+                <div>রিপোর্ট</div>
             </a>
         </li>
 
@@ -69,32 +69,32 @@
         <li class="menu-item {{ $moreActive ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons mdi mdi-dots-horizontal"></i>
-                <div>More</div>
+                <div>আরও</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->is('purchases*') ? 'active' : '' }}">
                     <a href="{{ url('/purchases') }}" class="menu-link">
-                        <div>Purchases</div>
+                        <div>ক্রয়</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('customers*') ? 'active' : '' }}">
                     <a href="{{ url('/customers') }}" class="menu-link">
-                        <div>Customers</div>
+                        <div>কাস্টমার</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('suppliers*') ? 'active' : '' }}">
                     <a href="{{ url('/suppliers') }}" class="menu-link">
-                        <div>Suppliers</div>
+                        <div>সরবরাহকারী</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('expenses*') ? 'active' : '' }}">
                     <a href="{{ url('/expenses') }}" class="menu-link">
-                        <div>Expenses</div>
+                        <div>খরচ</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('settings*') ? 'active' : '' }}">
                     <a href="{{ url('/settings') }}" class="menu-link">
-                        <div>Settings</div>
+                        <div>সেটিংস</div>
                     </a>
                 </li>
             </ul>

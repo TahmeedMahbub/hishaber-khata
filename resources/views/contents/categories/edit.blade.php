@@ -16,9 +16,10 @@
                         @method('PUT')
                         @include('contents.categories.partials.form', ['category' => $category])
 
-                        <div class="d-flex gap-2 mt-3">
+                        <div class="d-flex gap-2 mt-3 align-items-center">
                             <button type="submit" class="btn btn-primary">আপডেট করুন</button>
                             <a href="{{ route('categories.index') }}" class="btn btn-outline-secondary">বাতিল</a>
+                            @include('contents.partials.status-switch', ['model' => $category])
                         </div>
                     </form>
                 </div>

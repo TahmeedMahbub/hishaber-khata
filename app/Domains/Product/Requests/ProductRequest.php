@@ -32,7 +32,7 @@ class ProductRequest extends FormRequest
             'sale_price'      => ['required', 'numeric', 'min:0'],
             'stock_qty'       => ['required', 'numeric', 'min:0'],
             'low_stock_alert' => ['nullable', 'numeric', 'min:0'],
-            'status'          => ['required', Rule::in(['active', 'inactive'])],
+            'status'          => ['nullable', Rule::in(['active', 'inactive'])],
         ];
     }
 }

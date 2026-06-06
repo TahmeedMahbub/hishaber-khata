@@ -16,9 +16,10 @@
                         @method('PUT')
                         @include('contents.products.partials.form', ['product' => $product])
 
-                        <div class="d-flex gap-2 mt-3">
+                        <div class="d-flex gap-2 mt-3 align-items-center">
                             <button type="submit" class="btn btn-primary">আপডেট করুন</button>
                             <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">বাতিল</a>
+                            @include('contents.partials.status-switch', ['model' => $product])
                         </div>
                     </form>
                 </div>

@@ -38,19 +38,19 @@
             value="{{ $val('unit', 'pcs') }}" placeholder="pcs, kg, litre" required>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <label for="purchase_price" class="form-label">ক্রয়মূল্য (৳)</label>
         <input type="number" step="0.01" min="0" id="purchase_price" name="purchase_price"
             class="form-control" value="{{ $val('purchase_price', '0') }}" required>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <label for="sale_price" class="form-label">বিক্রয়মূল্য (৳)</label>
         <input type="number" step="0.01" min="0" id="sale_price" name="sale_price"
             class="form-control" value="{{ $val('sale_price', '0') }}" required>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <label for="stock_qty" class="form-label">বর্তমান স্টক</label>
         <input type="number" step="0.01" min="0" id="stock_qty" name="stock_qty"
             class="form-control" value="{{ $val('stock_qty', '0') }}" required>
@@ -60,15 +60,6 @@
         <label for="low_stock_alert" class="form-label">কম স্টক সতর্কতা</label>
         <input type="number" step="0.01" min="0" id="low_stock_alert" name="low_stock_alert"
             class="form-control" value="{{ $val('low_stock_alert', '0') }}">
-    </div>
-
-    <div class="col-md-6">
-        <label for="status" class="form-label">স্ট্যাটাস</label>
-        <select id="status" name="status" class="form-select" required>
-            @php $current = $val('status', 'active'); @endphp
-            <option value="active" {{ $current === 'active' ? 'selected' : '' }}>সক্রিয়</option>
-            <option value="inactive" {{ $current === 'inactive' ? 'selected' : '' }}>নিষ্ক্রিয়</option>
-        </select>
     </div>
 </div>
 
