@@ -18,11 +18,13 @@
         <ul class="navbar-nav flex-row align-items-center ms-auto">
             @auth
             {{-- POS quick access --}}
+            @unless (request()->routeIs('sales.create'))
             <li class="nav-item me-3">
                 <a href="{{ route('sales.create') }}" class="btn btn-primary btn-sm">
-                    <i class="mdi mdi-cash-register me-1"></i> বিক্রয় করুন
+                    <i class="mdi mdi-cash-register me-1"></i> বিক্রয় করুন
                 </a>
             </li>
+            @endunless
             {{-- User --}}
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">

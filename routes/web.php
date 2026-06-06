@@ -3,6 +3,7 @@
 use App\Domains\Auth\Controllers\LoginController;
 use App\Domains\Auth\Controllers\RegisterController;
 use App\Domains\Category\Controllers\CategoryController;
+use App\Domains\Customer\Controllers\CustomerController;
 use App\Domains\Dashboard\Controllers\DashboardController;
 use App\Domains\Product\Controllers\ProductController;
 use App\Domains\Sales\Controllers\SaleController;
@@ -43,6 +44,8 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::resource('categories', CategoryController::class)->except('show');
     Route::resource('products', ProductController::class)->except('show');
     Route::resource('sales', SaleController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
+
+    Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
