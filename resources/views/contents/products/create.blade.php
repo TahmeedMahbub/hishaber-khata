@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row gy-4 justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-12">
             <h4 class="fw-bold mb-3">নতুন পণ্য</h4>
 
             <div class="card">

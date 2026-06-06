@@ -59,15 +59,23 @@
     /* Full-width navbar attached to the top (remove detached floating look) */
     #layout-navbar.navbar-detached {
         margin: 0 !important;
-        width: 100% !important;
-        max-width: 100% !important;
+        width: auto !important;
+        max-width: none !important;
         border-radius: 0 !important;
         padding-left: 1.5rem !important;
         padding-right: 1.5rem !important;
+        box-sizing: border-box;
     }
 
     .layout-page > .content-wrapper {
         padding-top: 0 !important;
+    }
+
+    /* Ensure the right cluster (business name, POS button, profile) fills the
+       width and stays visible on desktop after the full-width override */
+    #layout-navbar .navbar-nav-right {
+        flex: 1 1 auto;
+        min-width: 0;
     }
 
     #layout-navbar .text-heading,

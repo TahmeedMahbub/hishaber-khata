@@ -17,7 +17,7 @@
     <form method="POST" action="{{ route('sales.store') }}" id="posForm">
         @csrf
         <div class="row justify-content-center">
-            <div class="col-lg-8">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">নতুন বিক্রয় (POS)</h5>

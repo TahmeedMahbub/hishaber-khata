@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row gy-4 justify-content-center">
-        <div class="col-md-8 col-lg-6">
+        <div class="col-12">
             <h4 class="fw-bold mb-3">ক্যাটাগরি সম্পাদনা</h4>
 
             <div class="card">

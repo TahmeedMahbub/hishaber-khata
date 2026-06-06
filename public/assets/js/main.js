@@ -34,16 +34,9 @@ if (document.getElementById('layout-menu')) {
   }
 
   // Window scroll function for navbar
-//   function onScroll() {
-//     var layoutPage = document.querySelector('.layout-page');
-//     if (layoutPage) {
-//     //   if (window.pageYOffset > 0) {
-//     //     layoutPage.classList.add('window-scrolled');
-//     //   } else {
-//     //     layoutPage.classList.remove('window-scrolled');
-//     //   }
-//     }
-//   }
+  function onScroll() {
+    // Scroll-based navbar styling disabled.
+  }
   // On load time out
   setTimeout(() => {
     onScroll();
