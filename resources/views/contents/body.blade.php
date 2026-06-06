@@ -14,9 +14,10 @@
 
                     <div class="content-wrapper">
                         <div class="container-xxl flex-grow-1 container-p-y">
-                            <div class="row gy-4">
-                                @yield('content')
-                            </div>
+                            @hasSection('page-title')
+                                <h4 class="fw-bold py-3 mb-2">@yield('page-title')</h4>
+                            @endif
+                            @yield('content')
                         </div>
                         @include('contents.footer')
                         <div class="content-backdrop fade"></div>

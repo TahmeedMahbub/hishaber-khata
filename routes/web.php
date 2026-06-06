@@ -2,6 +2,7 @@
 
 use App\Domains\Auth\Controllers\LoginController;
 use App\Domains\Auth\Controllers\RegisterController;
+use App\Domains\Dashboard\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,5 +35,7 @@ Route::middleware('guest')->group(function () {
 | Authenticated + tenant-scoped routes
 */
 Route::middleware(['auth', 'tenant'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
