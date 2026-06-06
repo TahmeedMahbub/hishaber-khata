@@ -4,6 +4,7 @@ use App\Domains\Auth\Controllers\LoginController;
 use App\Domains\Auth\Controllers\RegisterController;
 use App\Domains\Category\Controllers\CategoryController;
 use App\Domains\Dashboard\Controllers\DashboardController;
+use App\Domains\Product\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +40,7 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('categories', CategoryController::class)->except('show');
+    Route::resource('products', ProductController::class)->except('show');
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });

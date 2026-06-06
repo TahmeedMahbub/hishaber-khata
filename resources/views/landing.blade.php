@@ -1292,7 +1292,7 @@ footer {
   <div class="footer-inner">
     <div class="footer-brand">
       <a href="#" class="logo" style="text-decoration:none">
-        <div class="logo-icon">📒</div>
+        <div class="logo-icon"><img src="{{ asset("public\assets\img\project\logo.png") }}" alt=""></div>
         <span class="logo-text">হিসাবের <span>খাতা</span></span>
       </a>
       <p>ছোট ব্যবসার জন্য ডিজিটাল হিসাব খাতা। বাংলাদেশের দোকানদারদের জন্য তৈরি।</p>
