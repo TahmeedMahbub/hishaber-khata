@@ -2,6 +2,7 @@
 
 use App\Domains\Auth\Controllers\LoginController;
 use App\Domains\Auth\Controllers\RegisterController;
+use App\Domains\Category\Controllers\CategoryController;
 use App\Domains\Dashboard\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('landing');
+})->name('home');
 
 /*
 | Guest routes: business registration & login
@@ -36,6 +37,8 @@ Route::middleware('guest')->group(function () {
 */
 Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::resource('categories', CategoryController::class)->except('show');
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });

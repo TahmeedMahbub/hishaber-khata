@@ -33,11 +33,24 @@
         </li>
 
         {{-- Products --}}
-        <li class="menu-item {{ request()->is('products*') || request()->is('categories*') ? 'active' : '' }}">
-            <a href="{{ url('/products') }}" class="menu-link">
+        @php $productsActive = request()->is('products*') || request()->is('categories*'); @endphp
+        <li class="menu-item {{ $productsActive ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons mdi mdi-package-variant-closed"></i>
                 <div>Products</div>
             </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('products*') ? 'active' : '' }}">
+                    <a href="{{ url('/products') }}" class="menu-link">
+                        <div>All Products</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('categories*') ? 'active' : '' }}">
+                    <a href="{{ route('categories.index') }}" class="menu-link">
+                        <div>Categories</div>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         {{-- Reports --}}
