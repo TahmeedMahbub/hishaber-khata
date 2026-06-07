@@ -40,20 +40,8 @@
                         </div>
 
                         {{-- Cart --}}
-                        <div class="table-responsive">
-                            <table class="table table-sm align-middle" style="table-layout:fixed">
-                                <thead>
-                                    <tr>
-                                        <th>পণ্য</th>
-                                        <th style="width:90px">পরিমাণ</th>
-                                        <th class="text-end" style="width:110px">দাম</th>
-                                        <th style="width:44px"></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="cartBody">
-                                    <tr id="cartEmpty"><td colspan="4" class="text-center text-muted py-3">কার্ট খালি</td></tr>
-                                </tbody>
-                            </table>
+                        <div id="cartBody">
+                            <div id="cartEmpty" class="text-center text-muted py-3 border rounded">কার্ট খালি</div>
                         </div>
 
                         <hr>
@@ -189,6 +177,7 @@
         'barcode' => (string) $p->barcode,
         'price'   => (float) $p->sale_price,
         'stock'   => (float) $p->stock_qty,
+        'unit'    => $p->unit,
     ])->values();
     $customerDue = $customers->mapWithKeys(fn ($c) => [$c->id => (float) $c->due_balance])->all();
 @endphp
@@ -208,19 +197,15 @@
 
     function fmt(n) { return (Math.round(n * 100) / 100).toFixed(2); }
 
-    function shortName(name) {
-        return name.length > 25 ? name.slice(0, 18) + '......' + name.slice(-10) : name;
-    }
-
     function addToCart(p) {
         var id = p.id;
         if (cart[id]) { cart[id].qty += 1; }
-        else { cart[id] = { name: p.name, price: p.price, qty: 1 }; }
+        else { cart[id] = { name: p.name, price: p.price, qty: 1, unit: p.unit }; }
         render();
     }
 
     function render() {
-        cartBody.querySelectorAll('tr[data-row]').forEach(function (r) { r.remove(); });
+        cartBody.querySelectorAll('.item-row').forEach(function (r) { r.remove(); });
         var ids = Object.keys(cart);
         cartEmpty.style.display = ids.length ? 'none' : '';
 
@@ -228,17 +213,33 @@
             var it = cart[id];
             var line = (parseFloat(it.qty) || 0) * it.price;
 
-            var tr = document.createElement('tr');
-            tr.setAttribute('data-row', id);
-            tr.innerHTML =
-                '<td style="word-break:break-word" title="' + it.name + '">' + shortName(it.name) +
-                  '<input type="hidden" name="items[' + id + '][product_id]" value="' + id + '">' +
-                  '<input type="hidden" name="items[' + id + '][unit_price]" value="' + it.price + '"></td>' +
-                '<td><input type="number" step="any" min="0.01" onfocus="this.select()" class="form-control form-control-sm qty-input" ' +
-                  'name="items[' + id + '][qty]" value="' + it.qty + '" data-id="' + id + '"></td>' +
-                '<td class="text-end line-total">৳ ' + fmt(line) + '</td>' +
-                '<td class="text-end"><button type="button" class="btn btn-sm btn-text-danger btn-icon remove-item" data-id="' + id + '"><i class="mdi mdi-close"></i></button></td>';
-            cartBody.appendChild(tr);
+            var row = document.createElement('div');
+            row.className = 'item-row border rounded p-2 mb-2';
+            row.setAttribute('data-row', id);
+            row.innerHTML =
+                '<div class="d-flex justify-content-between align-items-start mb-2">' +
+                    '<span class="fw-medium" style="word-break:break-word" title="' + it.name + '">' + it.name + '</span>' +
+                    '<button type="button" class="btn btn-sm btn-icon btn-text-danger remove-item ms-2 flex-shrink-0" data-id="' + id + '"><i class="mdi mdi-close"></i></button>' +
+                    '<input type="hidden" name="items[' + id + '][product_id]" value="' + id + '">' +
+                    '<input type="hidden" name="items[' + id + '][unit_price]" value="' + it.price + '">' +
+                '</div>' +
+                '<div class="row g-2 align-items-end">' +
+                    '<div class="col-4">' +
+                        '<label class="form-label small text-muted mb-1">পরিমাণ' +
+                            (it.unit ? ' <span class="text-body">(' + it.unit + ')</span>' : '') + '</label>' +
+                        '<input type="number" step="any" min="0.01" onfocus="this.select()" class="form-control form-control-sm qty-input" ' +
+                            'name="items[' + id + '][qty]" value="' + it.qty + '" data-id="' + id + '">' +
+                    '</div>' +
+                    '<div class="col-4">' +
+                        '<label class="form-label small text-muted mb-1">একক দাম</label>' +
+                        '<div class="form-control form-control-sm bg-light text-end">৳ ' + fmt(it.price) + '</div>' +
+                    '</div>' +
+                    '<div class="col-4 text-end">' +
+                        '<label class="form-label small text-muted mb-1 d-block">মোট</label>' +
+                        '<span class="line-total fw-medium">৳ ' + fmt(line) + '</span>' +
+                    '</div>' +
+                '</div>';
+            cartBody.appendChild(row);
         });
 
         recalc();
@@ -337,7 +338,7 @@
             // Keep raw string so the field can be cleared while typing
             cart[id].qty = e.target.value;
             var line = (parseFloat(e.target.value) || 0) * cart[id].price;
-            var cell = e.target.closest('tr').querySelector('.line-total');
+            var cell = e.target.closest('.item-row').querySelector('.line-total');
             if (cell) { cell.textContent = '৳ ' + fmt(line); }
             recalc();
         }
