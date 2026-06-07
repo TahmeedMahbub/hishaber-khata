@@ -251,7 +251,8 @@
                 '</div>' +
                 '<div class="row g-2 align-items-end">' +
                     '<div class="col-4">' +
-                        '<label class="form-label small text-muted mb-1">পরিমাণ</label>' +
+                        '<label class="form-label small text-muted mb-1">পরিমাণ' +
+                            (it.unit ? ' <span class="text-body">(' + it.unit + ')</span>' : '') + '</label>' +
                         '<input type="number" step="any" min="0.01" name="items[' + i + '][qty]" value="' + it.qty +
                             '" onfocus="this.select()" class="form-control form-control-sm qty-in">' +
                     '</div>' +
@@ -289,7 +290,7 @@
     function addProduct(p) {
         var existing = items.find(function (it) { return it.id === p.id; });
         if (existing) { existing.qty += 1; }
-        else { items.push({ id: p.id, name: p.name, price: p.price, qty: 1 }); }
+        else { items.push({ id: p.id, name: p.name, price: p.price, qty: 1, unit: p.unit }); }
         render();
     }
 
