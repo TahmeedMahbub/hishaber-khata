@@ -1,9 +1,25 @@
 {{-- Global reusable modal. Trigger via JS: GlobalModal.show({ ... }) --}}
+<style>
+    #globalModalIcon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+    }
+
+    #globalModalIcon i,
+    #globalModalIcon i::before {
+        font-size: 2rem !important;
+        line-height: 1;
+    }
+</style>
 <div class="modal fade" id="globalModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"
-                aria-label="বন্ধ করুন" id="globalModalClose"></button>
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-3"
+                style="z-index: 10;" data-bs-dismiss="modal" aria-label="বন্ধ করুন" id="globalModalClose"></button>
 
             <div class="modal-body text-center p-4 p-md-5">
                 {{-- Image / Icon --}}
@@ -16,7 +32,7 @@
                 <h4 class="mb-2 fw-bold" id="globalModalTitle"></h4>
 
                 {{-- Text --}}
-                <p class="text-muted mb-4" id="globalModalText"></p>
+                <p class="mb-4" id="globalModalText"></p>
 
                 {{-- Action buttons --}}
                 <div class="d-flex justify-content-center gap-2 flex-wrap">

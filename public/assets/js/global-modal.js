@@ -68,10 +68,11 @@ window.GlobalModal = (function () {
         // Icon
         const icon = el('globalModalIcon');
         if (opts.icon) {
-            icon.innerHTML = '<i class="' + opts.icon + '" style="font-size: 4rem;"></i>';
-            icon.classList.remove('d-none');
+            const variant = opts.iconVariant || 'primary';
+            icon.className = 'bg-label-' + variant;
+            icon.innerHTML = '<i class="' + opts.icon + '"></i>';
         } else {
-            icon.classList.add('d-none');
+            icon.className = 'd-none';
             icon.innerHTML = '';
         }
 
@@ -105,6 +106,13 @@ window.GlobalModal = (function () {
     document.addEventListener('DOMContentLoaded', function () {
         const processBtn = el('globalModalProcess');
         const cancelBtn = el('globalModalCancel');
+        const closeBtn = el('globalModalClose');
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function () {
+                hide();
+            });
+        }
 
         if (processBtn) {
             processBtn.addEventListener('click', function () {
