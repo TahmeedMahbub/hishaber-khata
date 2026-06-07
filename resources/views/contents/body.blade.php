@@ -31,6 +31,7 @@
 
             <div class="drag-target"></div>
         </div>
+        @include('contents.partials.global-modal')
         @include('contents.end-section')
     </body>
 </html>

@@ -20,5 +20,8 @@
 <!-- Main JS -->
 <script src="{{ asset('assets/js/main.js')}} "></script>
 
+<!-- Global Modal -->
+<script src="{{ asset('assets/js/global-modal.js')}} "></script>
+
 <!-- Page JS -->
 @yield('page-script')
