@@ -25,7 +25,11 @@ class SupplierService extends BaseService
 
     public function update(Supplier $supplier, array $data): Supplier
     {
-        return $this->suppliers->update($supplier, $this->prepare($data));
+        // due_balance is managed via due payments, never edited directly here.
+        $payload = $this->prepare($data);
+        unset($payload['due_balance']);
+
+        return $this->suppliers->update($supplier, $payload);
     }
 
     public function delete(Supplier $supplier): bool

@@ -13,6 +13,7 @@ SET NAMES utf8mb4;
 -- (Removes Laravel's default users/migration tables that lack tenant_id.)
 -- ---------------------------------------------------------------------
 DROP TABLE IF EXISTS `activity_logs`;
+DROP TABLE IF EXISTS `due_payments`;
 DROP TABLE IF EXISTS `cash_transactions`;
 DROP TABLE IF EXISTS `stock_movements`;
 DROP TABLE IF EXISTS `damages`;
@@ -438,6 +439,32 @@ CREATE TABLE IF NOT EXISTS `activity_logs` (
     KEY `activity_logs_subject_index` (`subject_type`, `subject_id`),
     CONSTRAINT `activity_logs_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE,
     CONSTRAINT `activity_logs_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =====================================================================
+-- 20. due_payments  (customer due collection / supplier due payment)
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS `due_payments` (
+    `id`           BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `tenant_id`    BIGINT UNSIGNED NOT NULL,
+    `branch_id`    BIGINT UNSIGNED NULL,
+    `user_id`      BIGINT UNSIGNED NULL,
+    `party_type`   ENUM('customer','supplier') NOT NULL,
+    `party_id`     BIGINT UNSIGNED NOT NULL,
+    `amount`       DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+    `method`       ENUM('cash','bkash','nagad','rocket','bank','other') NOT NULL DEFAULT 'cash',
+    `payment_date` DATE NOT NULL,
+    `note`         VARCHAR(255) NULL,
+    `created_at`   TIMESTAMP NULL DEFAULT NULL,
+    `updated_at`   TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `due_payments_tenant_id_index` (`tenant_id`),
+    KEY `due_payments_branch_id_index` (`branch_id`),
+    KEY `due_payments_party_index` (`party_type`, `party_id`),
+    KEY `due_payments_tenant_date_index` (`tenant_id`, `payment_date`),
+    CONSTRAINT `due_payments_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `due_payments_branch_id_foreign` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`) ON DELETE SET NULL,
+    CONSTRAINT `due_payments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;

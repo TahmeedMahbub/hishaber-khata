@@ -23,6 +23,10 @@
     <div class="col-md-4">
         <label for="due_balance" class="form-label">পূর্ববর্তী বাকি (৳)</label>
         <input type="number" step="0.01" id="due_balance" name="due_balance"
-            class="form-control" value="{{ $val('due_balance', '0') }}">
+            class="form-control" value="{{ number_format((float) $val('due_balance', '0'), 2, '.', '') }}"
+            {{ ($customer ?? null) ? 'readonly' : '' }}>
+        @if ($customer ?? null)
+            <small class="text-muted">বাকি এখান থেকে পরিবর্তন করা যাবে না। <a href="{{ route('due-payments.index') }}">বাকি আদায়</a> পেজ ব্যবহার করুন।</small>
+        @endif
     </div>
 </div>

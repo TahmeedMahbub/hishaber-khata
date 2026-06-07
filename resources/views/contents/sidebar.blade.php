@@ -65,6 +65,7 @@
         @php
             $moreActive = request()->is('purchases*') || request()->is('customers*')
                 || request()->is('suppliers*') || request()->is('expenses*')
+                || request()->is('due-payments*')
                 || request()->is('damages*') || request()->is('settings*');
         @endphp
         <li class="menu-item {{ $moreActive ? 'active open' : '' }}">
@@ -86,6 +87,11 @@
                 <li class="menu-item {{ request()->is('suppliers*') ? 'active' : '' }}">
                     <a href="{{ url('/suppliers') }}" class="menu-link">
                         <div>সরবরাহকারী</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('due-payments*') ? 'active' : '' }}">
+                    <a href="{{ url('/due-payments') }}" class="menu-link">
+                        <div>বাকি আদায় / পরিশোধ</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('expenses*') ? 'active' : '' }}">

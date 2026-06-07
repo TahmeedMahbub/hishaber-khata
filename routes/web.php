@@ -7,6 +7,7 @@ use App\Domains\Customer\Controllers\CustomerController;
 use App\Domains\Dashboard\Controllers\DashboardController;
 use App\Domains\Expense\Controllers\ExpenseController;
 use App\Domains\Inventory\Controllers\DamageController;
+use App\Domains\Payment\Controllers\DuePaymentController;
 use App\Domains\Product\Controllers\ProductController;
 use App\Domains\Purchase\Controllers\PurchaseController;
 use App\Domains\Sales\Controllers\SaleController;
@@ -55,6 +56,11 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::resource('customers', CustomerController::class)->except('show');
     Route::post('/suppliers/quick', [SupplierController::class, 'quickStore'])->name('suppliers.quickStore');
     Route::resource('suppliers', SupplierController::class)->except('show');
+
+    Route::resource('due-payments', DuePaymentController::class)
+        ->only(['index', 'store', 'destroy'])
+        ->parameters(['due-payments' => 'duePayment']);
+
     Route::resource('expenses', ExpenseController::class)->except('show');
     Route::resource('damages', DamageController::class)->only(['index', 'create', 'store', 'destroy']);
 
