@@ -61,7 +61,7 @@
                                     <td>{{ $damage->damage_date?->format('d/m/Y') }}</td>
                                     <td class="text-end">
                                         <form method="POST" action="{{ route('damages.destroy', $damage) }}"
-                                            class="d-inline" onsubmit="return confirm('আপনি কি নিশ্চিত? স্টক ফিরিয়ে দেওয়া হবে।');">
+                                            class="d-inline" data-confirm="আপনি কি নিশ্চিত? স্টক ফিরিয়ে দেওয়া হবে।">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-icon btn-text-danger">

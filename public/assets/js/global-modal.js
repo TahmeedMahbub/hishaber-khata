@@ -129,6 +129,35 @@ window.GlobalModal = (function () {
                 if (currentOnCancel) currentOnCancel();
             });
         }
+
+        // Auto-intercept any form marked with [data-confirm].
+        // Usage on a <form>:
+        //   data-confirm="message text"            (required to enable)
+        //   data-confirm-title="..."               (optional)
+        //   data-confirm-icon="mdi mdi-..."        (optional)
+        //   data-confirm-variant="danger"          (optional icon circle color)
+        //   data-confirm-process="মুছে ফেলুন"      (optional process button text)
+        //   data-confirm-process-class="btn-danger"(optional process button style)
+        document.body.addEventListener('submit', function (e) {
+            const form = e.target;
+            if (!form.matches('form[data-confirm]') || form.dataset.confirmed === 'true') {
+                return;
+            }
+            e.preventDefault();
+            show({
+                icon: form.dataset.confirmIcon || 'mdi mdi-delete-outline',
+                iconVariant: form.dataset.confirmVariant || 'danger',
+                title: form.dataset.confirmTitle || 'আপনি কি নিশ্চিত?',
+                text: form.dataset.confirm,
+                processText: form.dataset.confirmProcess || 'মুছে ফেলুন',
+                processClass: form.dataset.confirmProcessClass || 'btn-danger',
+                onProcess: function (modal) {
+                    modal.setLoading(true);
+                    form.dataset.confirmed = 'true';
+                    form.submit();
+                }
+            });
+        });
     });
 
     return { show: show, hide: hide, setLoading: setLoading };

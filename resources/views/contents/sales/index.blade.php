@@ -67,7 +67,7 @@
                                             <i class="mdi mdi-eye-outline"></i>
                                         </a>
                                         <form method="POST" action="{{ route('sales.destroy', $sale) }}"
-                                            class="d-inline" onsubmit="return confirm('এই বিক্রয় মুছলে স্টক ফেরত যাবে। নিশ্চিত?');">
+                                            class="d-inline" data-confirm="এই বিক্রয় মুছলে স্টক ফেরত যাবে। নিশ্চিত?">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-icon btn-text-danger">

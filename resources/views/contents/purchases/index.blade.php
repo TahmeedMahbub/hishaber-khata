@@ -67,7 +67,8 @@
                                             <i class="mdi mdi-eye-outline"></i>
                                         </a>
                                         <form method="POST" action="{{ route('purchases.destroy', $purchase) }}"
-                                            class="d-inline" onsubmit="return confirm('আপনি কি নিশ্চিত? স্টক ফিরিয়ে নেওয়া হবে।');">
+                                            class="d-inline"
+                                            data-confirm="ইনভয়েস <strong>{{ $purchase->invoice_no }}</strong> মুছে ফেলা হবে এবং স্টক ফিরিয়ে নেওয়া হবে।">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-icon btn-text-danger">

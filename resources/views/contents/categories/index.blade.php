@@ -55,7 +55,7 @@
                                             <i class="mdi mdi-pencil-outline"></i>
                                         </a>
                                         <form method="POST" action="{{ route('categories.destroy', $category) }}"
-                                            class="d-inline" onsubmit="return confirm('আপনি কি নিশ্চিত?');">
+                                            class="d-inline" data-confirm="আপনি কি নিশ্চিত?">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-icon btn-text-danger">
