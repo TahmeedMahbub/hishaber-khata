@@ -6,7 +6,15 @@
     <h4 class="mb-1 pt-2">স্বাগতম! 👋</h4>
     <p class="mb-4">আপনার মোবাইল নম্বর ও পাসওয়ার্ড দিয়ে লগইন করুন।</p>
 
-    @if ($errors->any())
+    @if (session('show_register_prompt'))
+        <div class="alert alert-warning d-flex align-items-center justify-content-between flex-wrap gap-2" role="alert">
+            <div>
+                <i class="mdi mdi-account-alert-outline me-1"></i>
+                এই নম্বরে কোনো অ্যাকাউন্ট নেই। অনুগ্রহ করে প্রথমে রেজিস্টার করুন।
+            </div>
+            <a href="{{ route('register') }}" class="btn btn-sm btn-warning fw-bold">রেজিস্টার করুন</a>
+        </div>
+    @elseif ($errors->any())
         <div class="alert alert-danger" role="alert">
             <ul class="mb-0 ps-3">
                 @foreach ($errors->all() as $error)

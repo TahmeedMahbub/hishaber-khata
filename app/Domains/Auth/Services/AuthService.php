@@ -2,6 +2,7 @@
 
 namespace App\Domains\Auth\Services;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -10,6 +11,14 @@ use Illuminate\Support\Facades\Auth;
  */
 class AuthService
 {
+    /**
+     * Determine whether an account exists for the given phone number.
+     */
+    public function phoneExists(string $phone): bool
+    {
+        return User::where('phone', $phone)->exists();
+    }
+
     /**
      * Attempt to authenticate a user by phone + password.
      */
