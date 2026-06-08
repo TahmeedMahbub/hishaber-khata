@@ -3,14 +3,13 @@
 @section('title', 'Log In')
 
 @section('auth-content')
-    <h4 class="mb-1 pt-2">স্বাগতম! 👋</h4>
-    <p class="mb-4">আপনার মোবাইল নম্বর ও পাসওয়ার্ড দিয়ে লগইন করুন।</p>
+    <h4 class="mb-1 pt-2 text-center">লগ-ইন করুন</h4>
+    <p class="mb-4 text-center">আপনার মোবাইল নম্বর ও পাসওয়ার্ড দিয়ে লগইন করুন।</p>
 
     @if (session('show_register_prompt'))
-        <div class="alert alert-warning d-flex align-items-center justify-content-between flex-wrap gap-2" role="alert">
+        <div class="alert alert-danger d-flex flex-column align-items-center text-center gap-2" role="alert">
             <div>
-                <i class="mdi mdi-account-alert-outline me-1"></i>
-                এই নম্বরে কোনো অ্যাকাউন্ট নেই। অনুগ্রহ করে প্রথমে রেজিস্টার করুন।
+                ভুল তথ্য! নতুন ব্যবহারকারী হলে অনুগ্রহ করে প্রথমে রেজিস্টার করুন।
             </div>
             <a href="{{ route('register') }}" class="btn btn-sm btn-warning fw-bold">রেজিস্টার করুন</a>
         </div>
@@ -50,7 +49,7 @@
     </form>
 
     <p class="text-center mt-3">
-        <span>নতুন ব্যবসা?</span>
+        <span>নতুন ব্যবহারকারী?</span>
         <a href="{{ route('register') }}"><span>একাউন্ট তৈরি করুন</span></a>
     </p>
 @endsection

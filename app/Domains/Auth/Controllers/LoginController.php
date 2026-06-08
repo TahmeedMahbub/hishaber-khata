@@ -30,17 +30,18 @@ class LoginController extends Controller
     {
         $credentials = $request->validated();
 
-        if (! $this->auth->phoneExists($credentials['phone'])) {
-            return back()
-                ->withInput($request->only('phone'))
-                ->with('show_register_prompt', true)
-                ->withErrors(['phone' => 'এই মোবাইল নম্বরে কোনো অ্যাকাউন্ট নেই। প্রথমে রেজিস্টার করুন।']);
-        }
+        // if (! $this->auth->phoneExists($credentials['phone'])) {
+        //     return back()
+        //         ->withInput($request->only('phone'))
+        //         ->with('show_register_prompt', true)
+        //         ->withErrors(['phone' => 'এই মোবাইল নম্বরে কোনো অ্যাকাউন্ট নেই। প্রথমে রেজিস্টার করুন।']);
+        // }
 
         if (! $this->auth->attempt($credentials['phone'], $credentials['password'], $request->boolean('remember'))) {
             return back()
                 ->withInput($request->only('phone'))
-                ->withErrors(['phone' => 'These credentials do not match our records.']);
+                ->with('show_register_prompt', true)
+                ->withErrors(['phone' => 'এই মোবাইল নম্বরে কোনো অ্যাকাউন্ট নেই। প্রথমে রেজিস্টার করুন।']);
         }
 
         $request->session()->regenerate();
