@@ -1300,22 +1300,22 @@ footer {
     </div>
     <div class="footer-col">
       <h5>ফিচার</h5>
-      <a href="#">বিক্রয় ব্যবস্থাপনা</a>
-      <a href="#">স্টক ব্যবস্থাপনা</a>
-      <a href="#">কাস্টমার ব্যবস্থাপনা</a>
-      <a href="#">রিপোর্ট</a>
-      <a href="#">ইনভয়েস</a>
+      <a href="#features">বিক্রয় ব্যবস্থাপনা</a>
+      <a href="#features">স্টক ব্যবস্থাপনা</a>
+      <a href="#features">কাস্টমার ব্যবস্থাপনা</a>
+      <a href="#features">রিপোর্ট</a>
+      <a href="#features">ইনভয়েস</a>
     </div>
     <div class="footer-col">
       <h5>প্ল্যান</h5>
-      <a href="#">ফ্রি</a>
-      <a href="#">স্টার্টার</a>
-      <a href="#">ড্রিমার</a>
-      <a href="#">এন্টারপ্রাইজ</a>
+      <a href="#plans">ফ্রি</a>
+      <a href="#plans">স্টার্টার</a>
+      <a href="#plans">ড্রিমার</a>
+      <a href="#plans">এন্টারপ্রাইজ</a>
     </div>
     <div class="footer-col">
       <h5>সাহায্য</h5>
-      <a href="#">FAQ</a>
+      <a href="#faq">FAQ</a>
       <a href="#">সাপোর্ট সেন্টার</a>
       <a href="#">যোগাযোগ করুন</a>
       <a href="#">গোপনীয়তা নীতি</a>
