@@ -20,21 +20,53 @@ class DuePaymentController extends Controller
 
     public function index(Request $request): View
     {
-        $type = $request->query('type') === 'supplier' ? 'supplier' : null;
+        $type = $this->normalizeType($request->query('type'));
 
-        $payments = $this->service->paginate($type);
+        $customers = collect();
+        $suppliers = collect();
 
-        // Eager-load party names for the listing.
-        $customerNames = Customer::pluck('name', 'id');
-        $supplierNames = Supplier::pluck('name', 'id');
+        if ($type !== 'supplier') {
+            $customers = Customer::where('due_balance', '>', 0)
+                ->orderByDesc('due_balance')
+                ->get(['id', 'name', 'phone', 'due_balance']);
+        }
+
+        if ($type !== 'customer') {
+            $suppliers = Supplier::where('due_balance', '>', 0)
+                ->orderByDesc('due_balance')
+                ->get(['id', 'name', 'phone', 'due_balance']);
+        }
 
         return view('contents.due-payments.index', [
-            'payments'      => $payments,
+            'type'             => $request->query('type'),
+            'customers'        => $customers,
+            'suppliers'        => $suppliers,
+            'customerDueTotal' => $customers->sum('due_balance'),
+            'supplierDueTotal' => $suppliers->sum('due_balance'),
+        ]);
+    }
+
+    public function create(Request $request): View
+    {
+        return view('contents.due-payments.create', [
+            'partyType' => $request->query('party_type') === 'supplier' ? 'supplier' : 'customer',
+            'partyId'   => $request->query('party_id'),
+            'customers' => Customer::where('due_balance', '>', 0)
+                ->orderBy('name')->get(['id', 'name', 'phone', 'due_balance']),
+            'suppliers' => Supplier::where('due_balance', '>', 0)
+                ->orderBy('name')->get(['id', 'name', 'phone', 'due_balance']),
+        ]);
+    }
+
+    public function history(Request $request): View
+    {
+        $type = $this->normalizeType($request->query('type'));
+
+        return view('contents.due-payments.history', [
+            'payments'      => $this->service->paginate($type),
             'type'          => $request->query('type'),
-            'customers'     => Customer::orderBy('name')->get(['id', 'name', 'phone', 'due_balance']),
-            'suppliers'     => Supplier::orderBy('name')->get(['id', 'name', 'phone', 'due_balance']),
-            'customerNames' => $customerNames,
-            'supplierNames' => $supplierNames,
+            'customerNames' => Customer::pluck('name', 'id'),
+            'supplierNames' => Supplier::pluck('name', 'id'),
         ]);
     }
 
@@ -52,7 +84,12 @@ class DuePaymentController extends Controller
     {
         $this->service->delete($duePayment);
 
-        return redirect()->route('due-payments.index')
+        return redirect()->route('due-payments.history')
             ->with('success', 'লেনদেন মুছে ফেলা হয়েছে এবং বাকি পুনরায় যোগ হয়েছে।');
+    }
+
+    private function normalizeType(?string $type): ?string
+    {
+        return in_array($type, ['customer', 'supplier'], true) ? $type : null;
     }
 }

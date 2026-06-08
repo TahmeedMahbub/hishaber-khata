@@ -91,7 +91,7 @@
                 </li>
                 <li class="menu-item {{ request()->is('due-payments*') ? 'active' : '' }}">
                     <a href="{{ url('/due-payments') }}" class="menu-link">
-                        <div>বাকি আদায় / পরিশোধ</div>
+                        <div>বাকির হিসাব</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('expenses*') ? 'active' : '' }}">

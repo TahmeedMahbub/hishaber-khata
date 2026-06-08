@@ -57,8 +57,9 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::post('/suppliers/quick', [SupplierController::class, 'quickStore'])->name('suppliers.quickStore');
     Route::resource('suppliers', SupplierController::class)->except('show');
 
+    Route::get('/due-payments/history', [DuePaymentController::class, 'history'])->name('due-payments.history');
     Route::resource('due-payments', DuePaymentController::class)
-        ->only(['index', 'store', 'destroy'])
+        ->only(['index', 'create', 'store', 'destroy'])
         ->parameters(['due-payments' => 'duePayment']);
 
     Route::resource('expenses', ExpenseController::class)->except('show');
