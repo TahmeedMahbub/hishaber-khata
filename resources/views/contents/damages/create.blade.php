@@ -24,14 +24,25 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="product_id" class="form-label">পণ্য</label>
-                                <select id="product_id" name="product_id" class="form-select" required>
-                                    <option value="">— পণ্য নির্বাচন করুন —</option>
-                                    @foreach ($products as $p)
-                                        <option value="{{ $p->id }}" {{ (string) old('product_id') === (string) $p->id ? 'selected' : '' }}>
-                                            {{ $p->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <div class="d-flex gap-2">
+                                    <div class="flex-grow-1">
+                                        <select id="product_id" name="product_id" class="form-select" required>
+                                            <option value="">— পণ্য নির্বাচন করুন —</option>
+                                            @foreach ($products as $p)
+                                                <option value="{{ $p->id }}"
+                                                    data-unit="{{ $p->unit }}"
+                                                    data-barcode="{{ $p->barcode }}"
+                                                    {{ (string) old('product_id') === (string) $p->id ? 'selected' : '' }}>
+                                                    {{ $p->name }}{{ $p->barcode ? ' (' . $p->barcode . ')' : '' }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary flex-shrink-0" id="scanBtn"
+                                        data-bs-toggle="modal" data-bs-target="#barcodeScanModal" title="বারকোড স্ক্যান">
+                                        <i class="mdi mdi-barcode-scan"></i>
+                                    </button>
+                                </div>
                             </div>
 
                             <div class="col-md-3">
@@ -44,8 +55,11 @@
 
                             <div class="col-md-3">
                                 <label for="qty" class="form-label">পরিমাণ</label>
-                                <input type="number" step="0.01" min="0.01" id="qty" name="qty"
-                                    class="form-control" value="{{ old('qty', '1') }}" required>
+                                <div class="input-group">
+                                    <input type="number" step="0.01" min="0.01" id="qty" name="qty"
+                                        class="form-control" value="{{ old('qty', '1') }}" required>
+                                    <span class="input-group-text" id="unitText">একক</span>
+                                </div>
                             </div>
 
                             <div class="col-md-4">
@@ -74,4 +88,102 @@
             </div>
         </div>
     </div>
+
+    {{-- Barcode scan modal --}}
+    <div class="modal fade" id="barcodeScanModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">বারকোড স্ক্যান</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="scanReader" style="width:100%"></div>
+                    <p class="text-muted small text-center mt-2 mb-0">ক্যামেরার সামনে বারকোড ধরুন</p>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
+@section('page-script')
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}">
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
+<script>
+(function () {
+    var productSelect = document.getElementById('product_id');
+    var unitText = document.getElementById('unitText');
+
+    function updateUnit() {
+        var opt = productSelect.options[productSelect.selectedIndex];
+        var unit = opt ? (opt.getAttribute('data-unit') || '') : '';
+        unitText.textContent = unit || 'একক';
+    }
+
+    // select2 searchable product dropdown
+    if (window.jQuery && jQuery.fn.select2) {
+        jQuery(productSelect).select2({
+            width: '100%',
+            placeholder: '— পণ্য নির্বাচন করুন —',
+            dropdownParent: jQuery(productSelect).parent(),
+        }).on('select2:open', function () {
+            setTimeout(function () {
+                var input = document.querySelector('.select2-container--open .select2-search__field');
+                if (input) { input.focus(); }
+            }, 0);
+        }).on('change', updateUnit);
+    } else {
+        productSelect.addEventListener('change', updateUnit);
+    }
+
+    updateUnit();
+
+    // Select a product by scanned barcode
+    function selectByBarcode(code) {
+        code = String(code).trim().toLowerCase();
+        if (!code) { return false; }
+        for (var i = 0; i < productSelect.options.length; i++) {
+            var bc = (productSelect.options[i].getAttribute('data-barcode') || '').toLowerCase();
+            if (bc && bc === code) {
+                productSelect.value = productSelect.options[i].value;
+                if (window.jQuery && jQuery.fn.select2) { jQuery(productSelect).trigger('change'); }
+                else { updateUnit(); }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Barcode scanner (camera)
+    var scanModalEl = document.getElementById('barcodeScanModal');
+    var html5Qr = null;
+
+    function stopScanner() {
+        if (html5Qr) {
+            html5Qr.stop().then(function () { html5Qr.clear(); html5Qr = null; }).catch(function () { html5Qr = null; });
+        }
+    }
+
+    scanModalEl.addEventListener('shown.bs.modal', function () {
+        if (typeof Html5Qrcode === 'undefined') { return; }
+        html5Qr = new Html5Qrcode('scanReader');
+        html5Qr.start(
+            { facingMode: 'environment' },
+            { fps: 10, qrbox: { width: 250, height: 150 } },
+            function (decodedText) {
+                selectByBarcode(decodedText);
+                bootstrap.Modal.getInstance(scanModalEl).hide();
+            },
+            function () {}
+        ).catch(function () {
+            document.getElementById('scanReader').innerHTML =
+                '<p class="text-danger text-center mb-0">ক্যামেরা চালু করা যায়নি। অনুমতি দিন।</p>';
+        });
+    });
+
+    scanModalEl.addEventListener('hidden.bs.modal', stopScanner);
+})();
+</script>
+@endsection
+

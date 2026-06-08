@@ -22,7 +22,8 @@ class PurchaseRepository extends BaseRepository
             ->with('supplier')
             ->when($search, fn ($q) => $q->where(function ($w) use ($search) {
                 $w->where('invoice_no', 'like', "%{$search}%")
-                    ->orWhereHas('supplier', fn ($s) => $s->where('name', 'like', "%{$search}%"));
+                    ->orWhereHas('supplier', fn ($s) => $s->where('name', 'like', "%{$search}%")
+                        ->orWhere('phone', 'like', "%{$search}%"));
             }))
             ->latest()
             ->paginate($perPage)

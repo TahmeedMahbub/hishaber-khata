@@ -24,7 +24,7 @@
                     <form method="GET" action="{{ route('purchases.index') }}" class="row g-2">
                         <div class="col-md-10">
                             <input type="text" name="search" value="{{ $search ?? '' }}"
-                                class="form-control" placeholder="ইনভয়েস বা সরবরাহকারীর নাম দিয়ে খুঁজুন...">
+                                class="form-control" placeholder="ইনভয়েস, সরবরাহকারীর নাম বা মোবাইল দিয়ে খুঁজুন...">
                         </div>
                         <div class="col-md-2 d-grid">
                             <button type="submit" class="btn btn-outline-secondary">
@@ -50,7 +50,12 @@
                             @forelse ($purchases as $purchase)
                                 <tr>
                                     <td class="fw-medium">{{ $purchase->invoice_no }}</td>
-                                    <td>{{ $purchase->supplier->name ?? 'নগদ ক্রয়' }}</td>
+                                    <td>
+                                        {{ $purchase->supplier->name ?? 'নগদ ক্রয়' }}
+                                        @if ($purchase->supplier?->phone)
+                                            <small class="text-muted d-block">{{ $purchase->supplier->phone }}</small>
+                                        @endif
+                                    </td>
                                     <td>{{ $purchase->purchase_date?->format('d/m/Y') }}</td>
                                     <td class="text-end">৳ {{ number_format($purchase->total, 2) }}</td>
                                     <td class="text-end">৳ {{ number_format($purchase->paid, 2) }}</td>
