@@ -580,7 +580,7 @@ footer {
 <!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="logo">
+    <a href="{{ route('home') }}" class="logo">
       <div class="logo-icon"><img src="{{ asset('assets/img/project/logo.png') }}" alt="হিসাবের খাতা"></div>
       <span class="logo-text">হিসাবের <span>খাতা</span></span>
     </a>
@@ -589,8 +589,8 @@ footer {
       <a href="#how">কিভাবে কাজ করে</a>
       <a href="#plans">প্ল্যান</a>
       <a href="#faq">FAQ</a>
-      <a href="#" class="btn-nav-login">লগইন</a>
-      <a href="#" class="btn-nav-cta">বিনামূল্যে শুরু করুন</a>
+      <a href="{{ route('login') }}" class="btn-nav-login">লগইন</a>
+      <a href="{{ route('register') }}" class="btn-nav-cta">বিনামূল্যে শুরু করুন</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -602,8 +602,8 @@ footer {
     <a href="#plans">প্ল্যান</a>
     <a href="#faq">প্রশ্ন-উত্তর</a>
     <div class="mobile-menu-btns">
-      <a href="#" class="btn-secondary" style="flex:1;text-align:center;padding:11px;">লগইন</a>
-      <a href="#" class="btn-primary" style="flex:1;text-align:center;padding:11px;">বিনামূল্যে শুরু</a>
+      <a href="{{ route('login') }}" class="btn-secondary" style="flex:1;text-align:center;padding:11px;">লগইন</a>
+      <a href="{{ route('register') }}" class="btn-primary" style="flex:1;text-align:center;padding:11px;">বিনামূল্যে শুরু</a>
     </div>
   </div>
 </nav>
@@ -620,8 +620,8 @@ footer {
         মোবাইল থেকেই বিক্রয়, কেনাকাটা, স্টক, খরচ ও লাভ ট্র্যাক করুন। কোনো অ্যাকাউন্টিং জ্ঞান দরকার নেই।
       </p>
       <div class="hero-btns fade-up delay-3">
-        <a href="#" class="btn-primary"><span>🚀</span> বিনামূল্যে শুরু করুন</a>
-        <a href="#" class="btn-secondary"><span>🔑</span> লগইন করুন</a>
+        <a href="{{ route('register') }}" class="btn-primary"><span>🚀</span> বিনামূল্যে শুরু করুন</a>
+        <a href="{{ route('login') }}" class="btn-secondary"><span>🔑</span> লগইন করুন</a>
       </div>
       <div class="trust-badges fade-up delay-4">
         <div class="trust-badge"><span class="material-icons">smartphone</span> মোবাইল ফ্রেন্ডলি</div>
@@ -974,7 +974,7 @@ footer {
           <li><span class="cross">✗</span> কাস্টমার ম্যানেজমেন্ট</li>
           <li><span class="cross">✗</span> ব্যাকআপ</li>
         </ul>
-        <a href="#" class="plan-btn">বিনামূল্যে শুরু করুন</a>
+        <a href="{{ route('register') }}" class="plan-btn">বিনামূল্যে শুরু করুন</a>
       </div>
 
       <!-- Starter -->
@@ -990,7 +990,7 @@ footer {
           <li><span class="check">✓</span> ক্লাউড ব্যাকআপ</li>
           <li><span class="cross">✗</span> একাধিক ব্যবহারকারী</li>
         </ul>
-        <a href="#" class="plan-btn">শুরু করুন</a>
+        <a href="{{ route('register') }}" class="plan-btn">শুরু করুন</a>
       </div>
 
       <!-- Dreamer — Most Popular -->
@@ -1007,7 +1007,7 @@ footer {
           <li><span class="check">✓</span> প্রিমিয়াম রিপোর্ট</li>
           <li><span class="check">✓</span> WhatsApp ইনভয়েস</li>
         </ul>
-        <a href="#" class="plan-btn primary">এখনই শুরু করুন</a>
+        <a href="{{ route('register') }}" class="plan-btn primary">এখনই শুরু করুন</a>
       </div>
 
       <!-- Enterprise -->
@@ -1277,10 +1277,10 @@ footer {
     <h2>আজ থেকেই আপনার ব্যবসা<br>স্মার্টভাবে পরিচালনা করুন</h2>
     <p>বিনামূল্যে শুরু করুন। কোনো ক্রেডিট কার্ড লাগবে না। কোনো ঝামেলা নেই।</p>
     <div class="cta-btns">
-      <a href="#" class="btn-cta-white">
+      <a href="{{ route('register') }}" class="btn-cta-white">
         <span>📒</span> বিনামূল্যে অ্যাকাউন্ট খুলুন
       </a>
-      <a href="#" class="btn-cta-outline">
+      <a href="{{ route('login') }}" class="btn-cta-outline">
         <span>🔑</span> লগইন করুন
       </a>
     </div>
@@ -1292,7 +1292,7 @@ footer {
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <a href="#" class="logo" style="text-decoration:none">
+      <a href="{{ route('home') }}" class="logo" style="text-decoration:none">
         <div class="logo-icon"><img src="{{ asset('assets/img/project/logo.png') }}" alt="হিসাবের খাতা"></div>
         <span class="logo-text">হিসাবের <span>খাতা</span></span>
       </a>
