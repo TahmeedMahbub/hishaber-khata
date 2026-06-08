@@ -40,6 +40,7 @@
                                 <th>নাম</th>
                                 <th>মোবাইল</th>
                                 <th>ঠিকানা</th>
+                                <th class="text-center">ক্রয়</th>
                                 <th class="text-end">বাকি</th>
                                 <th class="text-end">অ্যাকশন</th>
                             </tr>
@@ -50,6 +51,7 @@
                                     <td class="fw-medium">{{ $supplier->name }}</td>
                                     <td>{{ $supplier->phone ?? '—' }}</td>
                                     <td>{{ $supplier->address ?? '—' }}</td>
+                                    <td class="text-center">{{ $supplier->purchases_count }}</td>
                                     <td class="text-end">
                                         @if ($supplier->due_balance > 0)
                                             <span class="text-danger">৳ {{ number_format($supplier->due_balance, 2) }}</span>
@@ -74,7 +76,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">কোনো সরবরাহকারী নেই।</td>
+                                    <td colspan="6" class="text-center text-muted py-4">কোনো সরবরাহকারী নেই।</td>
                                 </tr>
                             @endforelse
                         </tbody>

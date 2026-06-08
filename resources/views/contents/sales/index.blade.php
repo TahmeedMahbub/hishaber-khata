@@ -40,6 +40,7 @@
                                 <th>ইনভয়েস</th>
                                 <th>কাস্টমার</th>
                                 <th>তারিখ</th>
+                                <th class="text-center">আইটেম</th>
                                 <th class="text-end">মোট</th>
                                 <th class="text-end">পরিশোধ</th>
                                 <th class="text-end">বাকি</th>
@@ -52,6 +53,7 @@
                                     <td class="fw-medium">{{ $sale->invoice_no }}</td>
                                     <td>{{ $sale->customer->name ?? 'ওয়াক-ইন' }}</td>
                                     <td>{{ $sale->sale_date->format('d M Y') }}</td>
+                                    <td class="text-center">{{ $sale->items_count }}</td>
                                     <td class="text-end">৳ {{ number_format($sale->total, 2) }}</td>
                                     <td class="text-end">৳ {{ number_format($sale->paid, 2) }}</td>
                                     <td class="text-end">
@@ -78,7 +80,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="text-center text-muted py-4">কোনো বিক্রয় নেই।</td>
+                                    <td colspan="8" class="text-center text-muted py-4">কোনো বিক্রয় নেই।</td>
                                 </tr>
                             @endforelse
                         </tbody>

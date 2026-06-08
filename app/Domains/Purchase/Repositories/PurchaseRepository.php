@@ -20,6 +20,7 @@ class PurchaseRepository extends BaseRepository
     {
         return $this->query()
             ->with('supplier')
+            ->withCount('items')
             ->when($search, fn ($q) => $q->where(function ($w) use ($search) {
                 $w->where('invoice_no', 'like', "%{$search}%")
                     ->orWhereHas('supplier', fn ($s) => $s->where('name', 'like', "%{$search}%")

@@ -10,6 +10,7 @@ use App\Domains\Inventory\Controllers\DamageController;
 use App\Domains\Payment\Controllers\DuePaymentController;
 use App\Domains\Product\Controllers\ProductController;
 use App\Domains\Purchase\Controllers\PurchaseController;
+use App\Domains\Report\Controllers\ReportController;
 use App\Domains\Sales\Controllers\SaleController;
 use App\Domains\Supplier\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,11 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::get('/dashboard/stats', [DashboardController::class, 'stats'])->name('dashboard.stats');
+    Route::get('/dashboard/alerts', [DashboardController::class, 'alerts'])->name('dashboard.alerts');
+    Route::get('/dashboard/recent-sales', [DashboardController::class, 'recentSales'])->name('dashboard.recent-sales');
+    Route::get('/dashboard/top-products', [DashboardController::class, 'topProducts'])->name('dashboard.top-products');
+
     Route::resource('categories', CategoryController::class)->except('show');
     Route::post('/products/quick', [ProductController::class, 'quickStore'])->name('products.quickStore');
     Route::resource('products', ProductController::class)->except('show');
@@ -64,6 +70,8 @@ Route::middleware(['auth', 'tenant'])->group(function () {
 
     Route::resource('expenses', ExpenseController::class)->except('show');
     Route::resource('damages', DamageController::class)->only(['index', 'create', 'store', 'destroy']);
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });

@@ -53,14 +53,6 @@
             </ul>
         </li>
 
-        {{-- Reports --}}
-        <li class="menu-item {{ request()->is('reports*') ? 'active' : '' }}">
-            <a href="{{ url('/reports') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-chart-box-outline"></i>
-                <div>রিপোর্ট</div>
-            </a>
-        </li>
-
         {{-- More --}}
         @php
             $moreActive = request()->is('purchases*') || request()->is('customers*')
@@ -110,6 +102,14 @@
                     </a>
                 </li>
             </ul>
+        </li>
+        
+        {{-- Reports --}}
+        <li class="menu-item {{ request()->is('reports*') ? 'active' : '' }}">
+            <a href="{{ url('/reports') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-chart-box-outline"></i>
+                <div>রিপোর্ট</div>
+            </a>
         </li>
     </ul>
 </aside>

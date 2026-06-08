@@ -20,6 +20,7 @@ class SaleRepository extends BaseRepository
     {
         return $this->query()
             ->with('customer')
+            ->withCount('items')
             ->when($search, fn ($q) => $q->where(function ($w) use ($search) {
                 $w->where('invoice_no', 'like', "%{$search}%")
                     ->orWhereHas('customer', fn ($c) => $c->where('name', 'like', "%{$search}%"));

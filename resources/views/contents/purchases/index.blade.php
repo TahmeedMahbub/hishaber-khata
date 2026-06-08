@@ -40,6 +40,7 @@
                                 <th>ইনভয়েস</th>
                                 <th>সরবরাহকারী</th>
                                 <th>তারিখ</th>
+                                <th class="text-center">আইটেম</th>
                                 <th class="text-end">মোট</th>
                                 <th class="text-end">পরিশোধ</th>
                                 <th class="text-end">বাকি</th>
@@ -57,6 +58,7 @@
                                         @endif
                                     </td>
                                     <td>{{ $purchase->purchase_date?->format('d/m/Y') }}</td>
+                                    <td class="text-center">{{ $purchase->items_count }}</td>
                                     <td class="text-end">৳ {{ number_format($purchase->total, 2) }}</td>
                                     <td class="text-end">৳ {{ number_format($purchase->paid, 2) }}</td>
                                     <td class="text-end">
@@ -84,7 +86,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="text-center text-muted py-4">কোনো ক্রয় নেই।</td>
+                                    <td colspan="8" class="text-center text-muted py-4">কোনো ক্রয় নেই।</td>
                                 </tr>
                             @endforelse
                         </tbody>
