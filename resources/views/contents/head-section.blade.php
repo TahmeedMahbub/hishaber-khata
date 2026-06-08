@@ -105,4 +105,12 @@
     #layout-navbar .dropdown-menu small.text-muted {
         color: inherit !important;
     }
+
+    /* Reduce content horizontal padding by 50% on mobile (keep desktop as-is) */
+    @media (max-width: 767.98px) {
+        .content-wrapper .container-xxl.container-p-y {
+            padding-left: 0.7rem !important;
+            padding-right: 0.7rem !important;
+        }
+    }
 </style>
