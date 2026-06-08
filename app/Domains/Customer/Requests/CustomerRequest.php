@@ -20,6 +20,13 @@ class CustomerRequest extends FormRequest
     {
         $tenantId = app(TenantManager::class)->getTenantId();
 
+        // Ignore the customer currently being edited (works whether the route
+        // param resolves to a model instance or a raw id).
+        $customer = $this->route('customer');
+        $customerId = $customer instanceof \App\Domains\Customer\Models\Customer
+            ? $customer->getKey()
+            : $customer;
+
         return [
             'name'  => ['required', 'string', 'max:150'],
             'phone' => [
@@ -28,7 +35,7 @@ class CustomerRequest extends FormRequest
                 'max:20',
                 Rule::unique('customers', 'phone')
                     ->where(fn ($q) => $q->where('tenant_id', $tenantId))
-                    ->ignore($this->route('customer')),
+                    ->ignore($customerId, 'id'),
             ],
             'address'     => ['nullable', 'string', 'max:255'],
             'due_balance' => ['nullable', 'numeric'],

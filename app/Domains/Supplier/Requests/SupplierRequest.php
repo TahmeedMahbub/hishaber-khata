@@ -20,6 +20,13 @@ class SupplierRequest extends FormRequest
     {
         $tenantId = app(TenantManager::class)->getTenantId();
 
+        // Ignore the supplier currently being edited (works whether the route
+        // param resolves to a model instance or a raw id).
+        $supplier = $this->route('supplier');
+        $supplierId = $supplier instanceof \App\Domains\Supplier\Models\Supplier
+            ? $supplier->getKey()
+            : $supplier;
+
         return [
             'name'  => ['required', 'string', 'max:150'],
             'phone' => [
@@ -28,7 +35,7 @@ class SupplierRequest extends FormRequest
                 'max:20',
                 Rule::unique('suppliers', 'phone')
                     ->where(fn ($q) => $q->where('tenant_id', $tenantId))
-                    ->ignore($this->route('supplier')),
+                    ->ignore($supplierId, 'id'),
             ],
             'address'     => ['nullable', 'string', 'max:255'],
             'due_balance' => ['nullable', 'numeric'],
