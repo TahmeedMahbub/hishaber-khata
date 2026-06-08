@@ -25,7 +25,7 @@
         <input type="number" step="0.01" id="due_balance" name="due_balance"
             class="form-control" value="{{ number_format((float) $val('due_balance', '0'), 2, '.', '') }}"
             {{ ($customer ?? null) ? 'disabled' : '' }}>
-        @if ($customer ?? null)
+        @if (($customer ?? null) && (float) $customer->due_balance > 0)
             <small class="text-muted">বাকি এখান থেকে পরিবর্তন করা যাবে না। <a href="{{ route('due-payments.create', ['party_type' => 'customer', 'party_id' => $customer->id]) }}">বাকি আদায়</a> পেজ ব্যবহার করুন।</small>
         @endif
     </div>
