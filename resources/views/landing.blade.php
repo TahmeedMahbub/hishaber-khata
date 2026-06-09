@@ -525,8 +525,24 @@ footer {
   text-decoration:none; margin-bottom:7px; transition:.2s;
 }
 .footer-col a:hover { color:#fff; }
-.footer-bottom { max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:0.82rem; }
+.footer-bottom { max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:0.82rem; }
 .footer-bottom a { color:rgba(255,255,255,0.5); text-decoration:none; }
+/* Developer credit */
+.footer-credit {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:7px 16px; border-radius:999px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  color:rgba(255,255,255,0.75); font-size:0.82rem;
+  text-decoration:none; transition:.25s;
+}
+.footer-credit:hover {
+  background:linear-gradient(135deg, var(--green), #0ea371);
+  border-color:transparent; color:#fff; transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(16,185,129,0.35);
+}
+.footer-credit .dev-heart { color:#ef4444; }
+.footer-credit .dev-name { font-weight:700; }
 
 /* ── DIVIDER ── */
 .divider {
@@ -1324,6 +1340,10 @@ footer {
   </div>
   <div class="footer-bottom">
     <span>© ২০২৪ হিসাবের খাতা। সর্বস্বত্ব সংরক্ষিত।</span>
+    <a href="https://tahmeed-three.vercel.app/" target="_blank" rel="noopener" class="footer-credit">
+      <span class="dev-heart">❤</span>
+      <span>Designed &amp; Developed by <span class="dev-name">Tahmeed Mahbub</span></span>
+    </a>
     <span><a href="#">গোপনীয়তা</a> · <a href="#">শর্তাবলী</a></span>
   </div>
 </footer>

@@ -12,7 +12,9 @@
 
     function money(value) {
         var n = Number(value || 0);
-        return '৳ ' + n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        var parts = n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).split('.');
+        var cents = parts[1] ? '<span class="stat-cents">.' + parts[1] + '</span>' : '';
+        return '৳ ' + parts[0] + cents;
     }
 
     function getJson(url) {
@@ -30,7 +32,7 @@
             .then(function (data) {
                 Object.keys(data).forEach(function (key) {
                     var el = document.querySelector('.stat-value[data-stat="' + key + '"]');
-                    if (el) el.textContent = money(data[key]);
+                    if (el) el.innerHTML = money(data[key]);
                 });
             })
             .catch(function () {

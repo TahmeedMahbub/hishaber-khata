@@ -1,15 +1,18 @@
 
 <footer class="content-footer footer bg-footer-theme">
     <div class="container-xxl">
-        <div
-        class="footer-container d-flex align-items-center justify-content-between py-3 flex-md-row flex-column">
-        <div class="mb-2 mb-md-0">
-            ©
-            <script>
-            document.write(new Date().getFullYear());
-            </script>, made by
-            <a href="https://tahmeed-three.vercel.app/" target="_blank" class="footer-link fw-medium">Tahmeed Mahbub</a>
-        </div>
+        <div class="footer-container d-flex align-items-center justify-content-between py-3 flex-md-row flex-column gap-2">
+            <div class="text-muted small">
+                ©
+                <script>document.write(new Date().getFullYear());</script>
+                <span class="fw-medium">হিসাবের খাতা</span> — সর্বস্বত্ব সংরক্ষিত।
+            </div>
+            <a href="https://tahmeed-three.vercel.app/" target="_blank" rel="noopener"
+                class="d-inline-flex align-items-center gap-1 small text-muted text-decoration-none footer-dev-credit">
+                <i class="mdi mdi-code-tags text-primary"></i>
+                <span>Crafted by</span>
+                <span class="fw-semibold text-primary">Tahmeed Mahbub</span>
+            </a>
         </div>
     </div>
 </footer>

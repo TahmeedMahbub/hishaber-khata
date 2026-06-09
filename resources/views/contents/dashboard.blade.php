@@ -3,6 +3,26 @@
 @section('title', 'Dashboard')
 
 @section('content')
+    <style>
+        /* Shrink + mute the decimal/cents part of stat values */
+        .stat-value .stat-cents {
+            font-size: .7em;
+            font-weight: 400;
+            opacity: .55;
+        }
+        /* Tighter stat cards on mobile: ~50% less horizontal padding & gap */
+        @media (max-width: 575.98px) {
+            .dashboard-stat-body {
+                padding-left: .5rem !important;
+                padding-right: .5rem !important;
+                gap: .5rem !important;
+            }
+            .stat-value {
+                font-size: 1rem;
+                white-space: nowrap;
+            }
+        }
+    </style>
     <div class="dashboard-wrap" id="dashboard">
 
         {{-- Stat cards (draggable, order persisted in localStorage) --}}
@@ -20,12 +40,12 @@
             @foreach ($cards as $card)
                 <div class="col-6 col-xl-4 dashboard-card-col" data-widget-id="{{ $card['key'] }}">
                     <div class="card h-100">
-                        <div class="card-body d-flex align-items-center gap-3 p-3">
+                        <div class="card-body dashboard-stat-body d-flex align-items-center gap-3 p-3">
                             <span class="badge bg-label-{{ $card['color'] }} rounded p-2 drag-handle" style="cursor:grab;">
                                 <i class="mdi {{ $card['icon'] }} mdi-24px"></i>
                             </span>
-                            <div class="flex-grow-1">
-                                <small class="text-muted d-block">{{ $card['label'] }}</small>
+                            <div class="text-dark flex-grow-1">
+                                <small class=" d-block">{{ $card['label'] }}</small>
                                 <h5 class="mb-0 stat-value" data-stat="{{ $card['key'] }}">
                                     <span class="placeholder-glow"><span class="placeholder col-7"></span></span>
                                 </h5>
