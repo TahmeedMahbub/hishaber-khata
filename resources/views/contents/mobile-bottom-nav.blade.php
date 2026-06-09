@@ -24,9 +24,9 @@
         <span>পণ্য</span>
     </a>
 
-    <a href="{{ route('sales.index') }}"
+    <a href="{{ route('sales.create') }}"
         class="hk-mnav__item hk-mnav__item--primary {{ $isSales ? 'active' : '' }}">
-        <i class="hk-mnav__icon mdi mdi-cart-outline"></i>
+        <i class="hk-mnav__icon mdi mdi-cart-plus"></i>
         <span>বিক্রয়</span>
     </a>
 
@@ -61,8 +61,14 @@
     </div>
 
     <div class="hk-sheet__grid">
+        <a href="{{ route('sales.index') }}" class="hk-sheet__link {{ request()->is('sales*') ? 'active' : '' }}">
+            <i class="mdi mdi-cart-outline"></i><span>বিক্রয়</span>
+        </a>
         <a href="{{ route('purchases.index') }}" class="hk-sheet__link {{ request()->is('purchases*') ? 'active' : '' }}">
             <i class="mdi mdi-cart-arrow-down"></i><span>ক্রয়</span>
+        </a>
+        <a href="{{ route('expenses.index') }}" class="hk-sheet__link {{ request()->is('expenses*') ? 'active' : '' }}">
+            <i class="mdi mdi-cash-minus"></i><span>খরচ</span>
         </a>
         <a href="{{ route('customers.index') }}" class="hk-sheet__link {{ request()->is('customers*') ? 'active' : '' }}">
             <i class="mdi mdi-account-group-outline"></i><span>কাস্টমার</span>
@@ -72,9 +78,6 @@
         </a>
         <a href="{{ route('due-payments.index') }}" class="hk-sheet__link {{ request()->is('due-payments*') ? 'active' : '' }}">
             <i class="mdi mdi-account-cash-outline"></i><span>বাকির হিসাব</span>
-        </a>
-        <a href="{{ route('expenses.index') }}" class="hk-sheet__link {{ request()->is('expenses*') ? 'active' : '' }}">
-            <i class="mdi mdi-cash-minus"></i><span>খরচ</span>
         </a>
         <a href="{{ route('damages.index') }}" class="hk-sheet__link {{ request()->is('damages*') ? 'active' : '' }}">
             <i class="mdi mdi-package-variant-remove"></i><span>ড্যামেজ</span>
