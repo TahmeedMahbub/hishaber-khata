@@ -23,5 +23,8 @@
 <!-- Global Modal -->
 <script src="{{ asset('assets/js/global-modal.js')}} "></script>
 
+<!-- Mobile bottom navigation -->
+<script src="{{ asset('assets/js/mobile-bottom-nav.js')}} "></script>
+
 <!-- Page JS -->
 @yield('page-script')

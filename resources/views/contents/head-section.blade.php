@@ -33,6 +33,9 @@
 <!-- Page CSS -->
 <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/cards-statistics.css')}} " />
 <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/cards-analytics.css')}} " />
+
+<!-- Mobile bottom navigation -->
+<link rel="stylesheet" href="{{ asset('assets/css/mobile-bottom-nav.css')}}" />
 <!-- Helpers -->
 <script src="{{ asset('assets/vendor/js/helpers.js')}} "></script>
 

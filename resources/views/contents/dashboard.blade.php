@@ -5,42 +5,6 @@
 @section('page-title', 'Dashboard')
 
 @section('content')
-    <style>
-        .dashboard-bottom-nav {
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 1030;
-            display: flex;
-            justify-content: space-around;
-            background: #fff;
-            border-top: 1px solid rgba(0, 0, 0, .08);
-            box-shadow: 0 -2px 8px rgba(0, 0, 0, .04);
-        }
-        .dashboard-bottom-nav a {
-            flex: 1;
-            padding: .5rem 0;
-            text-align: center;
-            color: #697a8d;
-            text-decoration: none;
-            font-size: .7rem;
-            line-height: 1.4;
-        }
-        .dashboard-bottom-nav a .mdi {
-            display: block;
-            font-size: 1.35rem;
-        }
-        .dashboard-bottom-nav a.active {
-            color: var(--bs-primary, #696cff);
-        }
-        @media (max-width: 1199.98px) {
-            .content-wrapper {
-                padding-bottom: 4.5rem;
-            }
-        }
-    </style>
-
     <div class="dashboard-wrap" id="dashboard">
         {{-- Greeting --}}
         <div class="mb-3">
@@ -171,25 +135,6 @@
             </div>
         </div>
     </div>
-
-    {{-- Mobile bottom navigation --}}
-    <nav class="dashboard-bottom-nav d-xl-none">
-        <a href="{{ route('dashboard') }}" class="active">
-            <i class="mdi mdi-view-dashboard-outline"></i><span>ড্যাশবোর্ড</span>
-        </a>
-        <a href="{{ route('sales.index') }}">
-            <i class="mdi mdi-cart-outline"></i><span>বিক্রয়</span>
-        </a>
-        <a href="{{ route('products.index') }}">
-            <i class="mdi mdi-package-variant-closed"></i><span>পণ্য</span>
-        </a>
-        <a href="{{ route('reports.index') }}">
-            <i class="mdi mdi-chart-box-outline"></i><span>রিপোর্ট</span>
-        </a>
-        <a href="{{ route('suppliers.index') }}">
-            <i class="mdi mdi-dots-horizontal"></i><span>আরও</span>
-        </a>
-    </nav>
 @endsection
 
 @section('page-script')

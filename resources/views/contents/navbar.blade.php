@@ -8,23 +8,30 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        {{-- Business name --}}
+        {{-- Business name (links to dashboard) --}}
         <div class="navbar-nav align-items-center">
-            <span class="fw-medium text-heading">
+            <a href="{{ route('dashboard') }}" class="fw-medium text-heading text-decoration-none hk-topbar-title">
                 {{ optional(optional(auth()->user())->tenant)->name ?? config('app.name') }}
-            </span>
+            </a>
         </div>
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
             @auth
-            {{-- POS quick access --}}
+            {{-- POS quick access (desktop only — mobile uses the bottom nav) --}}
             @unless (request()->routeIs('sales.create'))
-            <li class="nav-item me-3">
+            <li class="nav-item me-3 d-none d-lg-block">
                 <a href="{{ route('sales.create') }}" class="btn btn-primary btn-sm">
                     <i class="mdi mdi-cash-register me-1"></i> বিক্রয় করুন
                 </a>
             </li>
             @endunless
+            {{-- Notifications --}}
+            <li class="nav-item me-2 me-lg-3">
+                <a class="nav-link position-relative" href="javascript:void(0);" aria-label="নোটিফিকেশন">
+                    <i class="mdi mdi-bell-outline mdi-24px"></i>
+                    <span class="badge bg-danger rounded-pill hk-topbar-badge"></span>
+                </a>
+            </li>
             {{-- User --}}
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">

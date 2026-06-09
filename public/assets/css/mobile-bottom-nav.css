@@ -1,0 +1,279 @@
+/**
+ * Mobile Bottom Navigation + "More" Bottom Sheet
+ * Hishaber Khata — mobile only (< 992px). Desktop keeps the existing sidebar.
+ */
+
+:root {
+  --hk-mnav-accent: #1b8b5a;
+  --hk-mnav-accent-2: #29875e;
+  --hk-mnav-inactive: #6b7a8d;
+  --hk-mnav-bg: #ffffff;
+  --hk-mnav-height: 64px;
+}
+
+/* Hidden by default (desktop) — only shown under 992px */
+.hk-mnav,
+.hk-sheet,
+.hk-sheet-backdrop {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  /* Keep page content clear of the fixed bar */
+  body {
+    padding-bottom: calc(var(--hk-mnav-height) + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Bottom nav is replacing the sidebar on mobile — hide the drawer toggle */
+  #layout-navbar .layout-menu-toggle {
+    display: none !important;
+  }
+
+  /* ───────────────────────── Bottom navigation bar ───────────────────────── */
+  .hk-mnav {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(var(--hk-mnav-height) + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--hk-mnav-bg);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.08);
+    z-index: 1040;
+    justify-content: space-around;
+    align-items: stretch;
+  }
+
+  .hk-mnav__item {
+    position: relative;
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-width: 48px;
+    min-height: 48px;
+    padding: 6px 2px;
+    color: var(--hk-mnav-inactive);
+    text-decoration: none;
+    font-size: 0.72rem;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+    transition: color 0.2s ease, transform 0.12s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hk-mnav__item .hk-mnav__icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+
+  .hk-mnav__item:active {
+    transform: scale(0.94);
+  }
+
+  .hk-mnav__item.active {
+    color: var(--hk-mnav-accent);
+  }
+
+  /* Active top indicator pill */
+  .hk-mnav__item.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 26px;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: var(--hk-mnav-accent);
+  }
+
+  /* ─────────────── Sales: visually dominant primary action ─────────────── */
+  .hk-mnav__item--primary {
+    color: var(--hk-mnav-accent);
+    font-weight: 600;
+  }
+
+  .hk-mnav__item--primary .hk-mnav__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin-top: -26px;
+    margin-bottom: 1px;
+    font-size: 1.8rem;
+    color: #fff;
+    background: linear-gradient(135deg, var(--hk-mnav-accent), var(--hk-mnav-accent-2));
+    border-radius: 50%;
+    border: 4px solid var(--hk-mnav-bg);
+    box-shadow: 0 6px 16px rgba(27, 139, 90, 0.45);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hk-mnav__item--primary:active .hk-mnav__icon {
+    transform: scale(0.92);
+    box-shadow: 0 3px 10px rgba(27, 139, 90, 0.4);
+  }
+
+  /* Sales never shows the top indicator pill (it has its own treatment) */
+  .hk-mnav__item--primary.active::before {
+    display: none;
+  }
+
+  /* ───────────────────────── "More" bottom sheet ───────────────────────── */
+  .hk-sheet-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    z-index: 1050;
+  }
+
+  .hk-sheet-backdrop.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .hk-sheet {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 82vh;
+    overflow-y: auto;
+    padding: 6px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -6px 26px rgba(0, 0, 0, 0.18);
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1051;
+  }
+
+  .hk-sheet.is-open {
+    transform: translateY(0);
+  }
+
+  .hk-sheet__handle {
+    width: 42px;
+    height: 4px;
+    margin: 8px auto 14px;
+    border-radius: 4px;
+    background: #d6dbe1;
+    cursor: pointer;
+  }
+
+  .hk-sheet__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .hk-sheet__title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #384551;
+  }
+
+  .hk-sheet__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: #f5f6f8;
+    color: #6b7a8d;
+    font-size: 1.4rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hk-sheet__close:active {
+    background: #eceef1;
+  }
+
+  .hk-sheet__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .hk-sheet__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 88px;
+    padding: 14px 6px;
+    border-radius: 14px;
+    background: #f5f6f8;
+    color: #384551;
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.15s ease, transform 0.12s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hk-sheet__link:active {
+    transform: scale(0.96);
+    background: #eceef1;
+  }
+
+  .hk-sheet__link .mdi {
+    font-size: 1.65rem;
+    color: var(--hk-mnav-accent);
+  }
+
+  .hk-sheet__link.active {
+    background: rgba(27, 139, 90, 0.12);
+    color: var(--hk-mnav-accent);
+  }
+
+  /* Lock background scroll while the sheet is open */
+  body.hk-sheet-lock {
+    overflow: hidden;
+  }
+
+  /* ───────────────────────── Lightweight mobile top bar ───────────────────────── */
+  .hk-topbar-title {
+    display: inline-block;
+    max-width: 60vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .hk-topbar-badge {
+    position: absolute;
+    top: 6px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 1.5px solid var(--hk-navbar-bg, #1b8b5a);
+  }
+}
+
+/* Tiny phones: tighten the sheet grid to keep targets comfortable */
+@media (max-width: 359.98px) {
+  .hk-sheet__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
