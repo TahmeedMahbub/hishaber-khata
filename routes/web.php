@@ -54,6 +54,8 @@ Route::middleware(['auth', 'tenant'])->group(function () {
 
     Route::resource('categories', CategoryController::class)->except('show');
     Route::post('/products/quick', [ProductController::class, 'quickStore'])->name('products.quickStore');
+    Route::get('/products/import/template', [ProductController::class, 'template'])->name('products.import.template');
+    Route::post('/products/import', [ProductController::class, 'import'])->name('products.import');
     Route::resource('products', ProductController::class)->except('show');
     Route::resource('sales', SaleController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
     Route::resource('purchases', PurchaseController::class)->only(['index', 'create', 'store', 'show', 'destroy']);

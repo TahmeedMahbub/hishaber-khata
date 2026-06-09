@@ -7,14 +7,38 @@
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="fw-bold mb-0">পণ্য</h4>
-                <a href="{{ route('products.create') }}" class="btn btn-primary">
-                    <i class="mdi mdi-plus me-1"></i> নতুন পণ্য
-                </a>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-outline-success text-dark" data-bs-toggle="modal" data-bs-target="#importModal">
+                        <i class="mdi mdi-file-excel me-1"></i> Excel ইমপোর্ট
+                    </button>
+                    <a href="{{ route('products.create') }}" class="btn btn-primary">
+                        <i class="mdi mdi-plus me-1"></i> নতুন পণ্য
+                    </a>
+                </div>
             </div>
 
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible" role="alert">
                     {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+            @if (session('import_errors'))
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                    <strong>কিছু সারি বাদ পড়েছে:</strong>
+                    <ul class="mb-0 mt-1">
+                        @foreach (session('import_errors') as $err)
+                            <li>{{ $err }}</li>
+                        @endforeach
+                    </ul>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
@@ -109,6 +133,51 @@
                         {{ $products->links() }}
                     </div>
                 @endif
+            </div>
+        </div>
+    </div>
+
+    {{-- Excel import modal --}}
+    <div class="modal fade" id="importModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form method="POST" action="{{ route('products.import') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title">Excel দিয়ে পণ্য ইমপোর্ট</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ol class="ps-3 mb-3 small text-muted">
+                            <li>নিচের বাটন থেকে টেমপ্লেট ডাউনলোড করুন।</li>
+                            <li>প্রথম সারির শিরোনাম (কলামের নাম) <strong>অপরিবর্তিত</strong> রাখুন।</li>
+                            <li>দ্বিতীয় সারি থেকে পণ্যের তথ্য লিখুন ও আপলোড করুন।</li>
+                        </ol>
+
+                        <a href="{{ route('products.import.template') }}" class="btn btn-sm btn-outline-secondary mb-3">
+                            <i class="mdi mdi-download me-1"></i> টেমপ্লেট ডাউনলোড
+                        </a>
+
+                        <div class="mb-2">
+                            <label for="importFile" class="form-label">Excel / CSV ফাইল</label>
+                            <input type="file" name="file" id="importFile" class="form-control"
+                                accept=".xlsx,.xls,.csv" required>
+                            @error('file')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <p class="small text-muted mb-0">
+                            শিরোনাম ক্রম: পণ্যের নাম · ক্যাটাগরি · বারকোড · ক্রয়মূল্য · বিক্রয়মূল্য · একক · বর্তমান স্টক · কম স্টক সতর্কতা।
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">বাতিল</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="mdi mdi-upload me-1"></i> ইমপোর্ট করুন
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

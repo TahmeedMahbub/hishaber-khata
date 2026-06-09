@@ -5,12 +5,17 @@ namespace App\Domains\Product\Controllers;
 use App\Domains\Category\Models\Category;
 use App\Domains\Product\Models\Product;
 use App\Domains\Product\Requests\ProductRequest;
+use App\Domains\Product\Services\ProductImportException;
+use App\Domains\Product\Services\ProductImportService;
 use App\Domains\Product\Services\ProductService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ProductController extends Controller
 {
@@ -106,5 +111,68 @@ class ProductController extends Controller
     protected function categories()
     {
         return Category::where('status', 'active')->orderBy('name')->get();
+    }
+
+    /**
+     * Bulk-import products from an uploaded Excel/CSV file.
+     */
+    public function import(Request $request, ProductImportService $importer): RedirectResponse
+    {
+        $request->validate([
+            'file' => ['required', 'file', 'mimes:xlsx,xls,csv,txt', 'max:5120'],
+        ], [
+            'file.required' => 'একটি ফাইল নির্বাচন করুন।',
+            'file.mimes'    => 'শুধুমাত্র Excel (.xlsx, .xls) বা CSV ফাইল আপলোড করা যাবে।',
+            'file.max'      => 'ফাইলের আকার সর্বোচ্চ ৫ MB হতে পারে।',
+        ]);
+
+        try {
+            $result = $importer->import($request->file('file'));
+        } catch (ProductImportException $e) {
+            return redirect()->route('products.index')->with('error', $e->getMessage());
+        }
+
+        $message = "{$result['imported']} টি পণ্য সফলভাবে যোগ করা হয়েছে।";
+
+        if (! empty($result['errors'])) {
+            return redirect()->route('products.index')
+                ->with('success', $message)
+                ->with('import_errors', $result['errors']);
+        }
+
+        return redirect()->route('products.index')->with('success', $message);
+    }
+
+    /**
+     * Download a blank Excel template with the required column headers.
+     */
+    public function template(): StreamedResponse
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Products');
+
+        $headers = ProductImportService::HEADERS;
+        $sheet->fromArray($headers, null, 'A1');
+
+        // Sample row to guide the user.
+        $sheet->fromArray(
+            ['চাল (মিনিকেট)', 'মুদি', '8901234567890', 60, 72, 'kg', 100, 10],
+            null,
+            'A2'
+        );
+
+        foreach (range('A', 'H') as $col) {
+            $sheet->getColumnDimension($col)->setWidth(18);
+            $sheet->getStyle("{$col}1")->getFont()->setBold(true);
+        }
+
+        $fileName = 'product-import-template.xlsx';
+
+        return response()->streamDownload(function () use ($spreadsheet) {
+            (new Xlsx($spreadsheet))->save('php://output');
+        }, $fileName, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]);
     }
 }
