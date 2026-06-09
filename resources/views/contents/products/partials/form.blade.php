@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <label for="category_id" class="form-label">ক্যাটাগরি</label>
         <select id="category_id" name="category_id" class="form-select">
-            <option value="">— নেই —</option>
+            <option value="">— ঐচ্ছিক ক্যাটাগরি নির্বাচন করুন —</option>
             @foreach ($categories as $cat)
                 <option value="{{ $cat->id }}" {{ (string) $val('category_id') === (string) $cat->id ? 'selected' : '' }}>
                     {{ $cat->name }}
@@ -34,8 +34,13 @@
 
     <div class="col-md-4">
         <label for="unit" class="form-label">একক</label>
-        <input type="text" id="unit" name="unit" class="form-control"
-            value="{{ $val('unit', 'pcs') }}" placeholder="pcs, kg, litre" required>
+        <input type="text" id="unit" name="unit" class="form-control" list="unit-options"
+            value="{{ $val('unit') }}" placeholder="pcs, kg, litre" autocomplete="off" required>
+        <datalist id="unit-options">
+            @foreach (['pcs', 'kg', 'gm', 'ltr', 'ml', 'pkt', 'btl', 'box', 'doz', 'bag'] as $u)
+                <option value="{{ $u }}"></option>
+            @endforeach
+        </datalist>
     </div>
 
     <div class="col-md-6">
