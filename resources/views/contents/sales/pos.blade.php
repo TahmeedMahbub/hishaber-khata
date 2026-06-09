@@ -267,12 +267,31 @@
         document.getElementById('saveBtn').disabled = Object.keys(cart).length === 0;
     }
 
-    function hideResults() { resultsBox.style.display = 'none'; resultsBox.innerHTML = ''; }
+    function hideResults() { resultsBox.style.display = 'none'; resultsBox.innerHTML = ''; activeIndex = -1; }
+
+    // Currently highlighted result for keyboard navigation
+    var activeIndex = -1;
+
+    function resultItems() {
+        return resultsBox.querySelectorAll('.list-group-item-action');
+    }
+
+    function setActive(idx) {
+        var items = resultItems();
+        if (!items.length) { return; }
+        if (idx < 0) { idx = items.length - 1; }
+        if (idx >= items.length) { idx = 0; }
+        items.forEach(function (el) { el.classList.remove('active'); });
+        items[idx].classList.add('active');
+        items[idx].scrollIntoView({ block: 'nearest' });
+        activeIndex = idx;
+    }
 
     function showResults(matches) {
         if (!matches.length) {
             resultsBox.innerHTML = '<span class="list-group-item text-muted">কোনো পণ্য পাওয়া যায়নি</span>';
             resultsBox.style.display = '';
+            activeIndex = -1;
             return;
         }
         resultsBox.innerHTML = '';
@@ -282,6 +301,10 @@
             a.className = 'list-group-item list-group-item-action d-flex justify-content-between';
             a.innerHTML = '<span>' + p.name + (p.barcode ? ' <small class="text-muted">(' + p.barcode + ')</small>' : '') + '</span>' +
                           '<span class="text-muted">৳ ' + fmt(p.price) + '</span>';
+            a.addEventListener('mouseenter', function () {
+                var items = Array.prototype.slice.call(resultItems());
+                setActive(items.indexOf(a));
+            });
             a.addEventListener('click', function () {
                 addToCart(p);
                 searchInput.value = '';
@@ -291,6 +314,7 @@
             resultsBox.appendChild(a);
         });
         resultsBox.style.display = '';
+        activeIndex = -1;
     }
 
     searchInput.addEventListener('input', function () {
@@ -313,10 +337,31 @@
         showResults(matches);
     });
 
-    // Enter key: add exact barcode or first match
+    // Keyboard: arrows to navigate results, Enter to select
     searchInput.addEventListener('keydown', function (e) {
+        var open = resultsBox.style.display !== 'none' && resultItems().length;
+
+        if (e.key === 'ArrowDown') {
+            if (open) { e.preventDefault(); setActive(activeIndex + 1); }
+            return;
+        }
+        if (e.key === 'ArrowUp') {
+            if (open) { e.preventDefault(); setActive(activeIndex - 1); }
+            return;
+        }
+        if (e.key === 'Escape') {
+            hideResults();
+            return;
+        }
         if (e.key !== 'Enter') { return; }
         e.preventDefault();
+
+        // If an item is highlighted, pick it directly.
+        if (open && activeIndex > -1) {
+            resultItems()[activeIndex].click();
+            return;
+        }
+
         var q = this.value.trim().toLowerCase();
         if (!q) { return; }
         var exact = PRODUCTS.filter(function (p) { return p.barcode && p.barcode.toLowerCase() === q; });

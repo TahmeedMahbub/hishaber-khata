@@ -45,10 +45,16 @@
 
             <div class="card">
                 <div class="card-header">
-                    <form method="GET" action="{{ route('products.index') }}" class="row g-2">
+                    <form method="GET" action="{{ route('products.index') }}" class="row g-2" id="productSearchForm">
                         <div class="col-md-6">
-                            <input type="text" name="search" value="{{ $search ?? '' }}"
-                                class="form-control" placeholder="নাম বা বারকোড দিয়ে খুঁজুন...">
+                            <div class="input-group">
+                                <input type="text" name="search" id="productSearchInput" value="{{ $search ?? '' }}"
+                                    class="form-control" placeholder="নাম বা বারকোড দিয়ে খুঁজুন...">
+                                <button type="button" class="btn btn-outline-secondary" id="scanBtn"
+                                    data-bs-toggle="modal" data-bs-target="#barcodeScanModal" title="বারকোড স্ক্যান">
+                                    <i class="mdi mdi-barcode-scan"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <select name="category_id" class="form-select">
@@ -181,4 +187,61 @@
             </div>
         </div>
     </div>
+
+    {{-- Barcode scan modal --}}
+    <div class="modal fade" id="barcodeScanModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">বারকোড স্ক্যান</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="scanReader" style="width:100%"></div>
+                    <p class="text-muted small text-center mt-2 mb-0">ক্যামেরার সামনে বারকোড ধরুন</p>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('page-script')
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script>
+(function () {
+    var scanModalEl = document.getElementById('barcodeScanModal');
+    if (!scanModalEl) { return; }
+
+    var searchInput = document.getElementById('productSearchInput');
+    var searchForm = document.getElementById('productSearchForm');
+    var html5Qr = null;
+
+    function stopScanner() {
+        if (html5Qr) {
+            html5Qr.stop().then(function () { html5Qr.clear(); html5Qr = null; }).catch(function () { html5Qr = null; });
+        }
+    }
+
+    scanModalEl.addEventListener('shown.bs.modal', function () {
+        if (typeof Html5Qrcode === 'undefined') { return; }
+        html5Qr = new Html5Qrcode('scanReader');
+        html5Qr.start(
+            { facingMode: 'environment' },
+            { fps: 10, qrbox: { width: 250, height: 150 } },
+            function (decodedText) {
+                // Fill the search box with the scanned barcode and submit.
+                searchInput.value = String(decodedText).trim();
+                bootstrap.Modal.getInstance(scanModalEl).hide();
+                searchForm.submit();
+            },
+            function () {}
+        ).catch(function () {
+            document.getElementById('scanReader').innerHTML =
+                '<p class="text-danger text-center mb-0">ক্যামেরা চালু করা যায়নি। অনুমতি দিন।</p>';
+        });
+    });
+
+    scanModalEl.addEventListener('hidden.bs.modal', stopScanner);
+})();
+</script>
 @endsection
