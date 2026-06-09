@@ -9,7 +9,7 @@
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
             <i class="mdi mdi-close mdi-24px d-block d-xl-none"></i>
-            <i class="mdi mdi-radiobox-blank mdi-24px d-none d-xl-block"></i>
+            <i class="mdi mdi-chevron-double-left mdi-24px d-none d-xl-block"></i>
         </a>
     </div>
 
