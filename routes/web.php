@@ -75,5 +75,18 @@ Route::middleware(['auth', 'tenant'])->group(function () {
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
+    Route::prefix('reports')->name('reports.')->group(function () {
+        Route::get('/daily-sales', [ReportController::class, 'dailySales'])->name('daily-sales');
+        Route::get('/monthly-sales', [ReportController::class, 'monthlySales'])->name('monthly-sales');
+        Route::get('/purchases', [ReportController::class, 'purchases'])->name('purchases');
+        Route::get('/stock', [ReportController::class, 'stock'])->name('stock');
+        Route::get('/low-stock', [ReportController::class, 'lowStock'])->name('low-stock');
+        Route::get('/customer-due', [ReportController::class, 'customerDue'])->name('customer-due');
+        Route::get('/supplier-due', [ReportController::class, 'supplierDue'])->name('supplier-due');
+        Route::get('/expenses', [ReportController::class, 'expenses'])->name('expenses');
+        Route::get('/cash-book', [ReportController::class, 'cashBook'])->name('cash-book');
+        Route::get('/profit-loss', [ReportController::class, 'profitLoss'])->name('profit-loss');
+    });
+
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });

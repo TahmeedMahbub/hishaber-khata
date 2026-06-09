@@ -17,22 +17,24 @@
                 <div class="card-body">
                     <div class="row g-3">
                         @foreach ([
-                            ['ডেইলি সেলস রিপোর্ট', 'mdi-calendar-today'],
-                            ['মাসিক সেলস রিপোর্ট', 'mdi-calendar-month'],
-                            ['ক্রয় রিপোর্ট', 'mdi-cart-arrow-down'],
-                            ['বর্তমান স্টক রিপোর্ট', 'mdi-package-variant-closed'],
-                            ['কম স্টক রিপোর্ট', 'mdi-package-variant-remove'],
-                            ['কাস্টমার বাকি রিপোর্ট', 'mdi-account-cash'],
-                            ['সরবরাহকারী বাকি রিপোর্ট', 'mdi-truck-cargo-container'],
-                            ['খরচ রিপোর্ট', 'mdi-cash-minus'],
-                            ['ক্যাশ বুক রিপোর্ট', 'mdi-book-open-variant'],
-                            ['লাভ ও ক্ষতি রিপোর্ট', 'mdi-chart-line'],
+                            ['ডেইলি সেলস রিপোর্ট', 'mdi-calendar-today', 'reports.daily-sales'],
+                            ['মাসিক সেলস রিপোর্ট', 'mdi-calendar-month', 'reports.monthly-sales'],
+                            ['ক্রয় রিপোর্ট', 'mdi-cart-arrow-down', 'reports.purchases'],
+                            ['বর্তমান স্টক রিপোর্ট', 'mdi-package-variant-closed', 'reports.stock'],
+                            ['কম স্টক রিপোর্ট', 'mdi-package-variant-remove', 'reports.low-stock'],
+                            ['কাস্টমার বাকি রিপোর্ট', 'mdi-account-cash', 'reports.customer-due'],
+                            ['সরবরাহকারী বাকি রিপোর্ট', 'mdi-truck-cargo-container', 'reports.supplier-due'],
+                            ['খরচ রিপোর্ট', 'mdi-cash-minus', 'reports.expenses'],
+                            ['ক্যাশ বুক রিপোর্ট', 'mdi-book-open-variant', 'reports.cash-book'],
+                            ['লাভ ও ক্ষতি রিপোর্ট', 'mdi-chart-line', 'reports.profit-loss'],
                         ] as $report)
                             <div class="col-md-6 col-lg-4">
-                                <div class="border rounded p-3 h-100 d-flex align-items-center">
+                                <a href="{{ route($report[2]) }}"
+                                    class="border rounded p-3 h-100 d-flex align-items-center text-body text-decoration-none report-link">
                                     <i class="mdi {{ $report[1] }} mdi-24px text-primary me-3"></i>
                                     <span class="fw-medium">{{ $report[0] }}</span>
-                                </div>
+                                    <i class="mdi mdi-chevron-right ms-auto text-muted"></i>
+                                </a>
                             </div>
                         @endforeach
                     </div>
