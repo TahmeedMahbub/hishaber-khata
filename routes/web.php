@@ -3,6 +3,7 @@
 use App\Domains\Auth\Controllers\LoginController;
 use App\Domains\Auth\Controllers\RegisterController;
 use App\Domains\Category\Controllers\CategoryController;
+use App\Domains\Common\Controllers\FeedbackController;
 use App\Domains\Customer\Controllers\CustomerController;
 use App\Domains\Dashboard\Controllers\DashboardController;
 use App\Domains\Expense\Controllers\ExpenseController;
@@ -13,6 +14,7 @@ use App\Domains\Purchase\Controllers\PurchaseController;
 use App\Domains\Report\Controllers\ReportController;
 use App\Domains\Sales\Controllers\SaleController;
 use App\Domains\Supplier\Controllers\SupplierController;
+use App\Domains\Tenant\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +31,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('landing');
 })->name('home');
+
+// Public feedback (e.g. from the landing page) — no auth/tenant required.
+Route::post('/feedback', [FeedbackController::class, 'storePublic'])->name('feedback.public');
 
 /*
 | Guest routes: business registration & login
@@ -89,4 +94,14 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     });
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
+
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile');
+    Route::put('/settings/business', [SettingsController::class, 'updateBusiness'])->name('settings.business');
+    Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.password');
+
+    Route::get('/profile', [SettingsController::class, 'profile'])->name('profile');
+
+    Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
+    Route::post('/feedback/submit', [FeedbackController::class, 'store'])->name('feedback.store');
 });
