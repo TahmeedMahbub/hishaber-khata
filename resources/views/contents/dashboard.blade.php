@@ -2,15 +2,8 @@
 
 @section('title', 'Dashboard')
 
-@section('page-title', 'Dashboard')
-
 @section('content')
     <div class="dashboard-wrap" id="dashboard">
-        {{-- Greeting --}}
-        <div class="mb-3">
-            <h5 class="mb-0">স্বাগতম, {{ auth()->user()->name }}!</h5>
-            <small class="text-muted">আপনার ব্যবসার আজকের চিত্র</small>
-        </div>
 
         {{-- Stat cards (draggable, order persisted in localStorage) --}}
         <div class="row g-3 mb-4" id="dashboard-cards">
