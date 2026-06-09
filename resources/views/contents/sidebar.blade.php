@@ -58,7 +58,8 @@
             $moreActive = request()->is('purchases*') || request()->is('customers*')
                 || request()->is('suppliers*') || request()->is('expenses*')
                 || request()->is('due-payments*')
-                || request()->is('damages*') || request()->is('settings*');
+                || request()->is('damages*') || request()->is('settings*')
+                || request()->is('feedback*') || request()->is('profile*');
         @endphp
         <li class="menu-item {{ $moreActive ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -96,9 +97,14 @@
                         <div>ড্যামেজ / হারানো</div>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->is('settings*') ? 'active' : '' }}">
-                    <a href="{{ url('/settings') }}" class="menu-link">
+                <li class="menu-item {{ request()->is('settings*') || request()->is('profile*') ? 'active' : '' }}">
+                    <a href="{{ route('profile') }}" class="menu-link">
                         <div>সেটিংস</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('feedback*') ? 'active' : '' }}">
+                    <a href="{{ route('feedback.create') }}" class="menu-link">
+                        <div>মতামত</div>
                     </a>
                 </li>
             </ul>

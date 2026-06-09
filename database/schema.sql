@@ -13,6 +13,7 @@ SET NAMES utf8mb4;
 -- (Removes Laravel's default users/migration tables that lack tenant_id.)
 -- ---------------------------------------------------------------------
 DROP TABLE IF EXISTS `activity_logs`;
+DROP TABLE IF EXISTS `feedbacks`;
 DROP TABLE IF EXISTS `due_payments`;
 DROP TABLE IF EXISTS `cash_transactions`;
 DROP TABLE IF EXISTS `stock_movements`;
@@ -465,6 +466,32 @@ CREATE TABLE IF NOT EXISTS `due_payments` (
     CONSTRAINT `due_payments_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE,
     CONSTRAINT `due_payments_branch_id_foreign` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`) ON DELETE SET NULL,
     CONSTRAINT `due_payments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =====================================================================
+-- 21. feedbacks  (user/guest feedback; tenant_id & user_id nullable
+--                 because feedback may be submitted from the landing page)
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS `feedbacks` (
+    `id`         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `tenant_id`  BIGINT UNSIGNED NULL,
+    `user_id`    BIGINT UNSIGNED NULL,
+    `name`       VARCHAR(150) NULL,
+    `phone`      VARCHAR(20)  NULL,
+    `email`      VARCHAR(150) NULL,
+    `type`       ENUM('suggestion','bug','complaint','praise','other') NOT NULL DEFAULT 'suggestion',
+    `rating`     TINYINT UNSIGNED NULL,
+    `message`    TEXT NOT NULL,
+    `source`     ENUM('app','landing') NOT NULL DEFAULT 'app',
+    `status`     ENUM('new','reviewed','resolved') NOT NULL DEFAULT 'new',
+    `created_at` TIMESTAMP NULL DEFAULT NULL,
+    `updated_at` TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `feedbacks_tenant_id_index` (`tenant_id`),
+    KEY `feedbacks_user_id_index` (`user_id`),
+    KEY `feedbacks_status_index` (`status`),
+    CONSTRAINT `feedbacks_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE SET NULL,
+    CONSTRAINT `feedbacks_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;

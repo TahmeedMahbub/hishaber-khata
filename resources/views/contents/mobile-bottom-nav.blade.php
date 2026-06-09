@@ -10,7 +10,8 @@
     $isMore = request()->is('purchases*') || request()->is('customers*')
         || request()->is('suppliers*') || request()->is('expenses*')
         || request()->is('due-payments*') || request()->is('damages*')
-        || request()->is('settings*');
+        || request()->is('settings*') || request()->is('feedback*')
+        || request()->is('profile*');
 @endphp
 
 <nav class="hk-mnav" aria-label="মূল মেনু">
@@ -82,8 +83,11 @@
         <a href="{{ route('damages.index') }}" class="hk-sheet__link {{ request()->is('damages*') ? 'active' : '' }}">
             <i class="mdi mdi-package-variant-remove"></i><span>ড্যামেজ</span>
         </a>
-        <a href="{{ url('/settings') }}" class="hk-sheet__link {{ request()->is('settings*') ? 'active' : '' }}">
+        <a href="{{ route('profile') }}" class="hk-sheet__link {{ request()->is('settings*') || request()->is('profile*') ? 'active' : '' }}">
             <i class="mdi mdi-cog-outline"></i><span>সেটিংস</span>
+        </a>
+        <a href="{{ route('feedback.create') }}" class="hk-sheet__link {{ request()->is('feedback*') ? 'active' : '' }}">
+            <i class="mdi mdi-message-text-outline"></i><span>মতামত</span>
         </a>
     </div>
 </div>

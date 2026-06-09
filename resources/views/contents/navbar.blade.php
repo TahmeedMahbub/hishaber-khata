@@ -63,9 +63,9 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ url('/settings') }}">
-                            <i class="mdi mdi-cog-outline me-2"></i>
-                            <span class="align-middle">Settings</span>
+                        <a class="dropdown-item" href="{{ route('profile') }}">
+                            <i class="mdi mdi-account-outline me-2"></i>
+                            <span class="align-middle">প্রোফাইল ও সেটিংস</span>
                         </a>
                     </li>
                     <li>
