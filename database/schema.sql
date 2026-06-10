@@ -12,6 +12,7 @@ SET NAMES utf8mb4;
 -- Drop existing tables so this script is authoritative.
 -- (Removes Laravel's default users/migration tables that lack tenant_id.)
 -- ---------------------------------------------------------------------
+DROP TABLE IF EXISTS `notifications`;
 DROP TABLE IF EXISTS `activity_logs`;
 DROP TABLE IF EXISTS `feedbacks`;
 DROP TABLE IF EXISTS `due_payments`;
@@ -492,6 +493,32 @@ CREATE TABLE IF NOT EXISTS `feedbacks` (
     KEY `feedbacks_status_index` (`status`),
     CONSTRAINT `feedbacks_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE SET NULL,
     CONSTRAINT `feedbacks_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =====================================================================
+-- 22. notifications
+--   A notification targets either a whole tenant (tenant_id set =>
+--   shown to every user of that tenant) or a single user
+--   (tenant_id NULL => user_id required, shown only to that user).
+--   read_at NULL means the notification is still unread.
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS `notifications` (
+    `id`         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `tenant_id`  BIGINT UNSIGNED NULL,
+    `user_id`    BIGINT UNSIGNED NULL,
+    `type`       VARCHAR(50)  NOT NULL DEFAULT 'info',
+    `title`      VARCHAR(150) NOT NULL,
+    `message`    VARCHAR(500) NULL,
+    `url`        VARCHAR(255) NULL,
+    `read_at`    TIMESTAMP    NULL DEFAULT NULL,
+    `created_at` TIMESTAMP    NULL DEFAULT NULL,
+    `updated_at` TIMESTAMP    NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `notifications_tenant_id_index` (`tenant_id`),
+    KEY `notifications_user_id_index` (`user_id`),
+    KEY `notifications_visibility_index` (`tenant_id`, `user_id`, `read_at`),
+    CONSTRAINT `notifications_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `notifications_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;

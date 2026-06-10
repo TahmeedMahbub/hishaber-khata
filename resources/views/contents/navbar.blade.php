@@ -26,11 +26,70 @@
             </li>
             @endunless
             {{-- Notifications --}}
-            <li class="nav-item me-2 me-lg-3">
-                <a class="nav-link position-relative" href="javascript:void(0);" aria-label="নোটিফিকেশন">
+            <li class="nav-item navbar-dropdown dropdown-notifications me-2 me-lg-3 dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow position-relative" href="javascript:void(0);"
+                    data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-label="নোটিফিকেশন">
                     <i class="mdi mdi-bell-outline mdi-24px"></i>
-                    <span class="badge bg-danger rounded-pill hk-topbar-badge"></span>
+                    @if (($navUnreadCount ?? 0) > 0)
+                        <span class="position-absolute translate-middle bg-danger rounded-circle"
+                            style="top: 17px; right: 4px; width: 9px; height: 9px;">
+                            <span class="visually-hidden">অপঠিত নোটিফিকেশন</span>
+                        </span>
+                    @endif
                 </a>
+                <ul class="dropdown-menu dropdown-menu-end p-0 hk-notify-dropdown" style="width: 22rem; max-width: 22rem;">
+                    <li class="border-bottom">
+                        <div class="d-flex align-items-center justify-content-between px-3 py-3">
+                            <h6 class="mb-0 fw-bold">নোটিফিকেশন</h6>
+                            @if (($navUnreadCount ?? 0) > 0)
+                                <span class="badge bg-label-primary rounded-pill">নতুন</span>
+                            @endif
+                        </div>
+                    </li>
+                    <li>
+                        <ul class="list-group list-group-flush hk-notify-list" style="max-height: 22rem; overflow-y: auto;">
+                            @forelse (($navNotifications ?? collect()) as $notification)
+                                <li class="list-group-item p-0 {{ $notification->isUnread() ? 'bg-label-primary' : '' }}">
+                                    <form method="POST" action="{{ route('notifications.read', $notification) }}" class="m-0">
+                                        @csrf
+                                        <button type="submit"
+                                            class="btn btn-link text-start text-decoration-none w-100 d-flex align-items-start text-body px-3 py-2">
+                                            <span class="me-2 mt-1 flex-shrink-0">
+                                                <i class="mdi mdi-circle-medium {{ $notification->isUnread() ? 'text-primary' : 'text-muted' }}"></i>
+                                            </span>
+                                            <span class="flex-grow-1 text-wrap" style="min-width: 0;">
+                                                <span class="d-block fw-medium text-truncate">{{ $notification->title }}</span>
+                                                @if ($notification->message)
+                                                    <small class="d-block text-muted">{{ \Illuminate\Support\Str::limit($notification->message, 70) }}</small>
+                                                @endif
+                                                <small class="text-muted">{{ $notification->created_at?->diffForHumans() }}</small>
+                                            </span>
+                                        </button>
+                                    </form>
+                                </li>
+                            @empty
+                                <li class="list-group-item text-center text-muted py-4">কোনো নোটিফিকেশন নেই।</li>
+                            @endforelse
+                        </ul>
+                    </li>
+                    <li class="border-top">
+                        <div class="d-flex align-items-center justify-content-between px-3 py-2">
+                            @if (($navUnreadCount ?? 0) > 0)
+                                <form method="POST" action="{{ route('notifications.readAll') }}" class="m-0">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-link text-decoration-none p-0">
+                                        সব পঠিত করুন
+                                    </button>
+                                </form>
+                            @else
+                                <span></span>
+                            @endif
+                            <a href="{{ route('notifications.index') }}" class="btn btn-sm btn-link text-decoration-none p-0">
+                                সব দেখুন
+                            </a>
+                        </div>
+                    </li>
+                </ul>
             </li>
             {{-- User --}}
             <li class="nav-item navbar-dropdown dropdown-user dropdown">

@@ -8,6 +8,7 @@ use App\Domains\Customer\Controllers\CustomerController;
 use App\Domains\Dashboard\Controllers\DashboardController;
 use App\Domains\Expense\Controllers\ExpenseController;
 use App\Domains\Inventory\Controllers\DamageController;
+use App\Domains\Notification\Controllers\NotificationController;
 use App\Domains\Payment\Controllers\DuePaymentController;
 use App\Domains\Product\Controllers\ProductController;
 use App\Domains\Purchase\Controllers\PurchaseController;
@@ -77,6 +78,10 @@ Route::middleware(['auth', 'tenant'])->group(function () {
 
     Route::resource('expenses', ExpenseController::class)->except('show');
     Route::resource('damages', DamageController::class)->only(['index', 'create', 'store', 'destroy']);
+
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.readAll');
+    Route::post('/notifications/{notification}/read', [NotificationController::class, 'markRead'])->name('notifications.read');
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 

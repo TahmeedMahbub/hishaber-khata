@@ -269,6 +269,27 @@
     padding: 0;
     border: 1.5px solid var(--hk-navbar-bg, #1b8b5a);
   }
+
+  /* ───────────────────────── Notifications dropdown (mobile) ─────────────────────────
+     Bootstrap anchors the menu to the bell at the far right, which overflows the
+     viewport on phones. Pin it as a centred, full-width panel instead. */
+  .hk-notify-dropdown {
+    position: fixed !important;
+    inset: auto 0 0 0;
+    top: 64px !important;
+    left: 8px !important;
+    right: 8px !important;
+    transform: none !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.5rem 1.75rem rgba(0, 0, 0, 0.18);
+  }
+
+  .hk-notify-list {
+    max-height: 65vh !important;
+  }
 }
 
 /* Tiny phones: tighten the sheet grid to keep targets comfortable */

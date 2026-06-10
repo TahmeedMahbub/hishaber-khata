@@ -642,4 +642,27 @@ INSERT INTO `users` (`id`, `tenant_id`, `branch_id`, `name`, `phone`, `email`, `
 (4,	4,	4,	'Tahmeed',	'01633394589',	'tahmidmahbub168@gmail.com',	NULL,	'$2y$12$/yuhjOy0gH2GnJatkWgie.OvvW7RI1BsTY/p9SW.s9EVKoo385Xsa',	'owner',	'active',	'4eCgRvEqchY4Dx9buow9YbPDKbEUwloMKuaSdpqNKL8uKFk6pIl7xIaMs4Jc',	'2026-06-06 09:16:09',	'2026-06-06 09:16:09'),
 (5,	5,	5,	'Mudi bhai',	'01840208832',	'mudi@gmail.com',	NULL,	'$2y$12$j.PapJHpPqc1wHyPdZ1k5Oqlhyw.tEZw40eb.Jt9IVMjh1fP67/zS',	'owner',	'active',	NULL,	'2026-06-09 11:17:51',	'2026-06-09 11:17:51');
 
+
+
+CREATE TABLE IF NOT EXISTS `notifications` (
+    `id`         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `tenant_id`  BIGINT UNSIGNED NULL,
+    `user_id`    BIGINT UNSIGNED NULL,
+    `type`       VARCHAR(50)  NOT NULL DEFAULT 'info',
+    `title`      VARCHAR(150) NOT NULL,
+    `message`    VARCHAR(500) NULL,
+    `url`        VARCHAR(255) NULL,
+    `read_at`    TIMESTAMP    NULL DEFAULT NULL,
+    `created_at` TIMESTAMP    NULL DEFAULT NULL,
+    `updated_at` TIMESTAMP    NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `notifications_tenant_id_index` (`tenant_id`),
+    KEY `notifications_user_id_index` (`user_id`),
+    KEY `notifications_visibility_index` (`tenant_id`, `user_id`, `read_at`),
+    CONSTRAINT `notifications_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `notifications_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 -- 2026-06-09 19:00:56 UTC
+
