@@ -124,7 +124,7 @@
                     <li>
                         <a class="dropdown-item" href="{{ route('profile') }}">
                             <i class="mdi mdi-account-outline me-2"></i>
-                            <span class="align-middle">প্রোফাইল ও সেটিংস</span>
+                            <span class="align-middle">প্রোফাইল তথ্য পরিবর্তন</span>
                         </a>
                     </li>
                     <li>

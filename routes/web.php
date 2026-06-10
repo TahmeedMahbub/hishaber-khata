@@ -102,8 +102,8 @@ Route::middleware(['auth', 'tenant'])->group(function () {
 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile');
-    Route::put('/settings/business', [SettingsController::class, 'updateBusiness'])->name('settings.business');
     Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.password');
+    Route::post('/settings/employees', [SettingsController::class, 'storeEmployee'])->name('settings.employees.store');
 
     Route::get('/profile', [SettingsController::class, 'profile'])->name('profile');
 
