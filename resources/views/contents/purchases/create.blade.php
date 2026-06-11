@@ -1,6 +1,6 @@
 @extends('contents.body')
 
-@section('title', 'New Purchase')
+@section('title', t('dashboard.new_purchase'))
 
 @section('content')
     @if ($errors->any())
@@ -20,21 +20,21 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">নতুন ক্রয়</h5>
-                        <a href="{{ route('purchases.index') }}" class="btn btn-sm btn-outline-secondary">তালিকা</a>
+                        <h5 class="mb-0">{{ t('dashboard.new_purchase') }}</h5>
+                        <a href="{{ route('purchases.index') }}" class="btn btn-sm btn-outline-secondary">{{ t('purchase.list') }}</a>
                     </div>
                     <div class="card-body">
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <label class="form-label mb-0">সরবরাহকারী <span class="text-muted">(ঐচ্ছিক)</span></label>
+                                    <label class="form-label mb-0">{{ t('nav.suppliers') }} <span class="text-muted">({{ t('common.optional') }})</span></label>
                                     <button type="button" class="btn btn-sm btn-text-primary p-0"
                                         data-bs-toggle="modal" data-bs-target="#newSupplierModal">
-                                        <i class="mdi mdi-plus"></i> নতুন সরবরাহকারী
+                                        <i class="mdi mdi-plus"></i> {{ t('supplier.new') }}
                                     </button>
                                 </div>
                                 <select name="supplier_id" id="supplierSelect" class="form-select">
-                                    <option value="">নগদ ক্রয়</option>
+                                    <option value="">{{ t('purchase.cash_purchase') }}</option>
                                     @foreach ($suppliers as $s)
                                         <option value="{{ $s->id }}" {{ (string) old('supplier_id') === (string) $s->id ? 'selected' : '' }}>
                                             {{ $s->name }}{{ $s->phone ? ' — '.$s->phone : '' }}
@@ -43,7 +43,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">ক্রয়ের তারিখ</label>
+                                <label class="form-label">{{ t('purchase.purchase_date') }}</label>
                                 <input type="date" name="purchase_date" class="form-control"
                                     value="{{ old('purchase_date', now()->toDateString()) }}">
                             </div>
@@ -52,11 +52,11 @@
                         @if ($employees->count() > 1)
                             <div class="row g-3 mb-3">
                                 <div class="col-md-6">
-                                    <label class="form-label">দায়িত্বপ্রাপ্ত কর্মী</label>
+                                    <label class="form-label">{{ t('purchase.assigned_staff') }}</label>
                                     <select name="user_id" class="form-select">
                                         @foreach ($employees as $emp)
                                             <option value="{{ $emp->id }}" {{ (string) old('user_id', auth()->id()) === (string) $emp->id ? 'selected' : '' }}>
-                                                {{ $emp->name }}{{ $emp->id === auth()->id() ? ' (আপনি)' : '' }}
+                                                {{ $emp->name }}{{ $emp->id === auth()->id() ? ' ('.t('sale.you').')' : '' }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -67,17 +67,17 @@
                         {{-- Product picker --}}
                         <div class="mb-3 position-relative">
                             <div class="d-flex justify-content-between align-items-center mb-1">
-                                <label class="form-label mb-0">পণ্য যোগ করুন</label>
+                                <label class="form-label mb-0">{{ t('purchase.add_product') }}</label>
                                 <button type="button" class="btn btn-sm btn-text-primary p-0"
                                     data-bs-toggle="modal" data-bs-target="#newProductModal">
-                                    <i class="mdi mdi-plus"></i> নতুন পণ্য
+                                    <i class="mdi mdi-plus"></i> {{ t('product.new') }}
                                 </button>
                             </div>
                             <div class="input-group">
                                 <input type="text" id="productSearch" class="form-control" autocomplete="off"
-                                    placeholder="পণ্যের নাম বা বারকোড লিখুন...">
+                                    placeholder="{{ t('purchase.product_search_ph') }}">
                                 <button type="button" class="btn btn-outline-secondary" id="scanBtn"
-                                    data-bs-toggle="modal" data-bs-target="#barcodeScanModal" title="বারকোড স্ক্যান">
+                                    data-bs-toggle="modal" data-bs-target="#barcodeScanModal" title="{{ t('product.barcode_scan') }}">
                                     <i class="mdi mdi-barcode-scan"></i>
                                 </button>
                             </div>
@@ -87,34 +87,34 @@
 
                         {{-- Items --}}
                         <div id="itemsBody">
-                            <div id="itemsEmpty" class="text-center text-muted py-3 border rounded">কোনো পণ্য যোগ করা হয়নি</div>
+                            <div id="itemsEmpty" class="text-center text-muted py-3 border rounded">{{ t('purchase.no_items') }}</div>
                         </div>
 
                         <hr class="my-2">
                         <div class="d-flex justify-content-between mb-2 fw-bold">
-                            <span>মোট</span>
+                            <span>{{ t('common.total') }}</span>
                             <span>৳ <span id="totalText">0.00</span></span>
                         </div>
                         <div class="row g-2 mb-3 align-items-center">
-                            <div class="col-6">পরিশোধ (৳)</div>
+                            <div class="col-6">{{ t('purchase.paid_amount') }}</div>
                             <div class="col-6">
                                 <input type="number" step="0.01" min="0" name="paid" id="paid"
                                     onfocus="this.select()"
-                                    class="form-control form-control-sm text-end" placeholder="পূর্ণ">
+                                    class="form-control form-control-sm text-end" placeholder="{{ t('purchase.full_ph') }}">
                             </div>
                         </div>
                         <div class="d-flex justify-content-between mb-3">
-                            <span>বাকি</span>
+                            <span>{{ t('purchase.due') }}</span>
                             <span class="text-danger">৳ <span id="dueText">0.00</span></span>
                         </div>
 
                         <div class="mb-3">
                             <input type="text" name="note" class="form-control form-control-sm"
-                                value="{{ old('note') }}" placeholder="নোট (ঐচ্ছিক)">
+                                value="{{ old('note') }}" placeholder="{{ t('purchase.note_ph') }}">
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100" id="saveBtn" disabled>
-                            <i class="mdi mdi-content-save me-1"></i> ক্রয় সংরক্ষণ করুন
+                            <i class="mdi mdi-content-save me-1"></i> {{ t('purchase.save') }}
                         </button>
                     </div>
                 </div>
@@ -127,39 +127,39 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">নতুন পণ্য</h5>
+                    <h5 class="modal-title">{{ t('product.new') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div id="productError" class="alert alert-danger d-none mb-3"></div>
                     <div class="mb-3">
-                        <label class="form-label">পণ্যের নাম <span class="text-danger">*</span></label>
-                        <input type="text" id="newProductName" class="form-control" placeholder="যেমন: মিনিকেট চাল">
+                        <label class="form-label">{{ t('product.name_label') }} <span class="text-danger">*</span></label>
+                        <input type="text" id="newProductName" class="form-control" placeholder="{{ t('product.name_ph') }}">
                     </div>
                     <div class="row g-2 mb-3">
                         <div class="col-6">
-                            <label class="form-label">ক্রয়মূল্য (৳)</label>
+                            <label class="form-label">{{ t('product.purchase_price_label') }}</label>
                             <input type="number" step="0.01" min="0" id="newProductPurchase" class="form-control" value="0">
                         </div>
                         <div class="col-6">
-                            <label class="form-label">বিক্রয়মূল্য (৳)</label>
+                            <label class="form-label">{{ t('product.sale_price_label') }}</label>
                             <input type="number" step="0.01" min="0" id="newProductSale" class="form-control" value="0">
                         </div>
                     </div>
                     <div class="row g-2 mb-0">
                         <div class="col-5">
-                            <label class="form-label">একক</label>
+                            <label class="form-label">{{ t('product.unit') }}</label>
                             <input type="text" id="newProductUnit" class="form-control" value="pcs" placeholder="pcs, kg">
                         </div>
                         <div class="col-7">
-                            <label class="form-label">বারকোড <span class="text-muted">(ঐচ্ছিক)</span></label>
+                            <label class="form-label">{{ t('product.barcode') }} <span class="text-muted">({{ t('common.optional') }})</span></label>
                             <input type="text" id="newProductBarcode" class="form-control">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">বাতিল</button>
-                    <button type="button" class="btn btn-primary" id="saveProductBtn">সংরক্ষণ ও যোগ করুন</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{{ t('common.cancel') }}</button>
+                    <button type="button" class="btn btn-primary" id="saveProductBtn">{{ t('purchase.save_and_add') }}</button>
                 </div>
             </div>
         </div>
@@ -170,27 +170,27 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">নতুন সরবরাহকারী</h5>
+                    <h5 class="modal-title">{{ t('supplier.new') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div id="supplierError" class="alert alert-danger d-none mb-3"></div>
                     <div class="mb-3">
-                        <label class="form-label">নাম <span class="text-danger">*</span></label>
-                        <input type="text" id="newSupplierName" class="form-control" placeholder="সরবরাহকারীর নাম">
+                        <label class="form-label">{{ t('common.name') }} <span class="text-danger">*</span></label>
+                        <input type="text" id="newSupplierName" class="form-control" placeholder="{{ t('supplier.name_label') }}">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">মোবাইল <span class="text-muted">(ঐচ্ছিক)</span></label>
+                        <label class="form-label">{{ t('supplier.mobile') }} <span class="text-muted">({{ t('common.optional') }})</span></label>
                         <input type="text" id="newSupplierPhone" class="form-control" placeholder="01XXXXXXXXX">
                     </div>
                     <div class="mb-0">
-                        <label class="form-label">ঠিকানা <span class="text-muted">(ঐচ্ছিক)</span></label>
+                        <label class="form-label">{{ t('common.address') }} <span class="text-muted">({{ t('common.optional') }})</span></label>
                         <input type="text" id="newSupplierAddress" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">বাতিল</button>
-                    <button type="button" class="btn btn-primary" id="saveSupplierBtn">সংরক্ষণ ও নির্বাচন</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{{ t('common.cancel') }}</button>
+                    <button type="button" class="btn btn-primary" id="saveSupplierBtn">{{ t('purchase.save_and_select') }}</button>
                 </div>
             </div>
         </div>
@@ -201,12 +201,12 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">বারকোড স্ক্যান</h5>
+                    <h5 class="modal-title">{{ t('product.barcode_scan') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div id="scanReader" style="width:100%"></div>
-                    <p class="text-muted small text-center mt-2 mb-0">ক্যামেরার সামনে বারকোড ধরুন</p>
+                    <p class="text-muted small text-center mt-2 mb-0">{{ t('product.hold_barcode') }}</p>
                 </div>
             </div>
         </div>
@@ -266,18 +266,18 @@
                 '</div>' +
                 '<div class="row g-2 align-items-end">' +
                     '<div class="col-4">' +
-                        '<label class="form-label small text-muted mb-1">পরিমাণ' +
+                        '<label class="form-label small text-muted mb-1">{{ t('common.quantity') }}' +
                             (it.unit ? ' <span class="text-body">(' + it.unit + ')</span>' : '') + '</label>' +
                         '<input type="number" step="any" min="0.01" name="items[' + i + '][qty]" value="' + it.qty +
                             '" onfocus="this.select()" class="form-control form-control-sm qty-in">' +
                     '</div>' +
                     '<div class="col-4">' +
-                        '<label class="form-label small text-muted mb-1">ক্রয়মূল্য</label>' +
+                        '<label class="form-label small text-muted mb-1">{{ t('product.purchase_price') }}</label>' +
                         '<input type="number" step="0.01" min="0" name="items[' + i + '][unit_price]" value="' + it.price +
                             '" onfocus="this.select()" class="form-control form-control-sm price-in">' +
                     '</div>' +
                     '<div class="col-4 text-end">' +
-                        '<label class="form-label small text-muted mb-1 d-block">মোট</label>' +
+                        '<label class="form-label small text-muted mb-1 d-block">{{ t('common.total') }}</label>' +
                         '<span class="line-total fw-medium">' + fmt(it.qty * it.price) + '</span>' +
                     '</div>' +
                 '</div>';
@@ -381,7 +381,7 @@
         .then(function (r) {
             saveProductBtn.disabled = false;
             if (!r.ok) {
-                var msg = r.d.message || 'পণ্য যোগ করা যায়নি।';
+                var msg = r.d.message || "{{ t('purchase.product_add_failed') }}";
                 if (r.d.errors) { msg = Object.values(r.d.errors).flat().join(' '); }
                 errBox.textContent = msg;
                 errBox.classList.remove('d-none');
@@ -400,7 +400,7 @@
         })
         .catch(function () {
             saveProductBtn.disabled = false;
-            errBox.textContent = 'সার্ভার ত্রুটি। আবার চেষ্টা করুন।';
+            errBox.textContent = "{{ t('purchase.server_error') }}";
             errBox.classList.remove('d-none');
         });
     });
@@ -445,7 +445,7 @@
         .then(function (r) {
             saveSupplierBtn.disabled = false;
             if (!r.ok) {
-                var msg = r.d.message || 'সরবরাহকারী যোগ করা যায়নি।';
+                var msg = r.d.message || "{{ t('purchase.supplier_add_failed') }}";
                 if (r.d.errors) { msg = Object.values(r.d.errors).flat().join(' '); }
                 errBox.textContent = msg;
                 errBox.classList.remove('d-none');
@@ -463,7 +463,7 @@
         })
         .catch(function () {
             saveSupplierBtn.disabled = false;
-            errBox.textContent = 'সার্ভার ত্রুটি। আবার চেষ্টা করুন।';
+            errBox.textContent = "{{ t('purchase.server_error') }}";
             errBox.classList.remove('d-none');
         });
     });
@@ -499,7 +499,7 @@
             function () {}
         ).catch(function () {
             document.getElementById('scanReader').innerHTML =
-                '<p class="text-danger text-center mb-0">ক্যামেরা চালু করা যায়নি। অনুমতি দিন।</p>';
+                '<p class="text-danger text-center mb-0">{{ t('product.camera_failed') }}</p>';
         });
     });
 

@@ -10,6 +10,6 @@
         <h4 class="fw-bold mb-0">{{ $title }}</h4>
     </div>
     <button type="button" class="btn btn-sm btn-outline-primary d-print-none" onclick="window.print()">
-        <i class="mdi mdi-printer me-1"></i> প্রিন্ট
+        <i class="mdi mdi-printer me-1"></i> {{ t('common.print') }}
     </button>
 </div>

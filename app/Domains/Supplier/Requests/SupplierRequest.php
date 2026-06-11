@@ -48,8 +48,8 @@ class SupplierRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'সরবরাহকারীর নাম দিন।',
-            'phone.unique'  => 'এই মোবাইল নম্বরে আগে থেকেই একজন সরবরাহকারী আছে।',
+            'name.required' => t('valid.supplier_name_required'),
+            'phone.unique'  => t('valid.supplier_phone_unique'),
         ];
     }
 }

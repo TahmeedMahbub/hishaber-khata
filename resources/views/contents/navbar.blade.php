@@ -21,28 +21,28 @@
             @unless (request()->routeIs('sales.create'))
             <li class="nav-item me-3 d-none d-lg-block">
                 <a href="{{ route('sales.create') }}" class="btn btn-primary btn-sm">
-                    <i class="mdi mdi-cash-register me-1"></i> বিক্রয় করুন
+                    <i class="mdi mdi-cash-register me-1"></i> {{ t('nav.sell') }}
                 </a>
             </li>
             @endunless
             {{-- Notifications --}}
             <li class="nav-item navbar-dropdown dropdown-notifications me-2 me-lg-3 dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow position-relative" href="javascript:void(0);"
-                    data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-label="নোটিফিকেশন">
+                    data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-label="{{ t('nav.notifications') }}">
                     <i class="mdi mdi-bell-outline mdi-24px"></i>
                     @if (($navUnreadCount ?? 0) > 0)
                         <span class="position-absolute translate-middle bg-danger rounded-circle"
                             style="top: 17px; right: 4px; width: 9px; height: 9px;">
-                            <span class="visually-hidden">অপঠিত নোটিফিকেশন</span>
+                            <span class="visually-hidden">{{ t('nav.notifications_unread') }}</span>
                         </span>
                     @endif
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end p-0 hk-notify-dropdown" style="width: 22rem; max-width: 22rem;">
                     <li class="border-bottom">
                         <div class="d-flex align-items-center justify-content-between px-3 py-3">
-                            <h6 class="mb-0 fw-bold">নোটিফিকেশন</h6>
+                            <h6 class="mb-0 fw-bold">{{ t('nav.notifications') }}</h6>
                             @if (($navUnreadCount ?? 0) > 0)
-                                <span class="badge bg-label-primary rounded-pill">নতুন</span>
+                                <span class="badge bg-label-primary rounded-pill">{{ t('nav.notifications_new') }}</span>
                             @endif
                         </div>
                     </li>
@@ -68,7 +68,7 @@
                                     </form>
                                 </li>
                             @empty
-                                <li class="list-group-item text-center text-muted py-4">কোনো নোটিফিকেশন নেই।</li>
+                                <li class="list-group-item text-center text-muted py-4">{{ t('nav.notifications_empty') }}</li>
                             @endforelse
                         </ul>
                     </li>
@@ -78,14 +78,14 @@
                                 <form method="POST" action="{{ route('notifications.readAll') }}" class="m-0">
                                     @csrf
                                     <button type="submit" class="btn btn-sm btn-link text-decoration-none p-0">
-                                        সব পঠিত করুন
+                                        {{ t('nav.mark_all_read') }}
                                     </button>
                                 </form>
                             @else
                                 <span></span>
                             @endif
                             <a href="{{ route('notifications.index') }}" class="btn btn-sm btn-link text-decoration-none p-0">
-                                সব দেখুন
+                                {{ t('common.view_all') }}
                             </a>
                         </div>
                     </li>
@@ -124,7 +124,7 @@
                     <li>
                         <a class="dropdown-item" href="{{ route('profile') }}">
                             <i class="mdi mdi-account-outline me-2"></i>
-                            <span class="align-middle">প্রোফাইল তথ্য পরিবর্তন</span>
+                            <span class="align-middle">{{ t('nav.profile_edit') }}</span>
                         </a>
                     </li>
                     <li>
@@ -140,7 +140,7 @@
                         <li>
                             <a class="dropdown-item" href="{{ route('settings.index') }}">
                                 <i class="mdi mdi-cog-outline me-2"></i>
-                                <span class="align-middle">সেটিংস</span>
+                                <span class="align-middle">{{ t('nav.settings') }}</span>
                             </a>
                         </li>
                     @endif
@@ -152,7 +152,7 @@
                             @csrf
                             <button type="submit" class="dropdown-item">
                                 <i class="mdi mdi-logout me-2"></i>
-                                <span class="align-middle">Log Out</span>
+                                <span class="align-middle">{{ t('nav.logout') }}</span>
                             </button>
                         </form>
                     </li>

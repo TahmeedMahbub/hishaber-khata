@@ -44,7 +44,7 @@ class PurchaseController extends Controller
         $purchase = $this->service->create($request->validated());
 
         return redirect()->route('purchases.show', $purchase)
-            ->with('success', 'ক্রয় সম্পন্ন হয়েছে।');
+            ->with('success', t('msg.purchase_created'));
     }
 
     public function show(Purchase $purchase): View
@@ -59,6 +59,6 @@ class PurchaseController extends Controller
         $this->service->delete($purchase);
 
         return redirect()->route('purchases.index')
-            ->with('success', 'ক্রয় মুছে ফেলা হয়েছে।');
+            ->with('success', t('msg.purchase_deleted'));
     }
 }

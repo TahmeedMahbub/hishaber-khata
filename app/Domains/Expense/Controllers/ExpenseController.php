@@ -34,7 +34,7 @@ class ExpenseController extends Controller
         $this->service->create($request->validated());
 
         return redirect()->route('expenses.index')
-            ->with('success', 'খরচ যোগ করা হয়েছে।');
+            ->with('success', t('msg.expense_created'));
     }
 
     public function edit(Expense $expense): View
@@ -47,7 +47,7 @@ class ExpenseController extends Controller
         $this->service->update($expense, $request->validated());
 
         return redirect()->route('expenses.index')
-            ->with('success', 'খরচ আপডেট করা হয়েছে।');
+            ->with('success', t('msg.expense_updated'));
     }
 
     public function destroy(Expense $expense): RedirectResponse
@@ -55,6 +55,6 @@ class ExpenseController extends Controller
         $this->service->delete($expense);
 
         return redirect()->route('expenses.index')
-            ->with('success', 'খরচ মুছে ফেলা হয়েছে।');
+            ->with('success', t('msg.expense_deleted'));
     }
 }

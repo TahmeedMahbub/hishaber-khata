@@ -37,7 +37,7 @@ class DamageController extends Controller
         $this->service->create($request->validated());
 
         return redirect()->route('damages.index')
-            ->with('success', 'ড্যামেজ/হারানো রেকর্ড সংরক্ষণ করা হয়েছে।');
+            ->with('success', t('msg.damage_created'));
     }
 
     public function destroy(Damage $damage): RedirectResponse
@@ -45,6 +45,6 @@ class DamageController extends Controller
         $this->service->delete($damage);
 
         return redirect()->route('damages.index')
-            ->with('success', 'রেকর্ড মুছে ফেলা হয়েছে। স্টক ফিরিয়ে দেওয়া হয়েছে।');
+            ->with('success', t('msg.damage_deleted'));
     }
 }

@@ -33,8 +33,8 @@ class RegisterBusinessRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'phone.unique' => 'This mobile number is already registered.',
-            'email.unique' => 'This email is already registered.',
+            'phone.unique' => t('valid.register_phone_unique'),
+            'email.unique' => t('valid.register_email_unique'),
         ];
     }
 }

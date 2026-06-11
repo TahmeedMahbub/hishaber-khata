@@ -28,21 +28,22 @@ class TranslationService
     /**
      * Translate a key into the current language.
      *
-     * Returns the key itself when the key (or its value for the current
-     * language) does not exist.
+     * Supports dot-notation for grouped keys (e.g. "nav.dashboard"). Returns
+     * the key itself when the key (or its value for the current language)
+     * does not exist.
      */
     public function get(string $key): string
     {
-        $translations = $this->all();
+        $entry = data_get($this->all(), $key);
 
-        if (! isset($translations[$key])) {
+        if (! is_array($entry)) {
             return $key;
         }
 
         $lang = $this->currentLanguage();
 
-        return $translations[$key][$lang]
-            ?? $translations[$key][self::FALLBACK]
+        return $entry[$lang]
+            ?? $entry[self::FALLBACK]
             ?? $key;
     }
 

@@ -38,8 +38,8 @@ class DamageRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'product_id.required' => 'পণ্য নির্বাচন করুন।',
-            'qty.required'        => 'পরিমাণ দিন।',
+            'product_id.required' => t('valid.damage_product_required'),
+            'qty.required'        => t('valid.qty_required'),
         ];
     }
 }

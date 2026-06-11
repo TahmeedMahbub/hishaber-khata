@@ -72,16 +72,16 @@ class SettingsController extends Controller
         ];
 
         $messages = [
-            'name.required' => 'নাম দিন।',
-            'phone.unique'  => 'এই ফোন নম্বর আগে থেকে ব্যবহৃত হচ্ছে।',
-            'email.unique'  => 'এই ইমেইল আগে থেকে ব্যবহৃত হচ্ছে।',
+            'name.required' => t('valid.name_required'),
+            'phone.unique'  => t('valid.phone_in_use'),
+            'email.unique'  => t('valid.email_in_use'),
         ];
 
         // Owners edit their business info in the same form.
         if ($user->isOwner() && $user->tenant) {
             $rules['business_name'] = ['required', 'string', 'max:150'];
             $rules['business_type'] = ['required', Rule::in(array_keys(config('business_types.types', [])))];
-            $messages['business_name.required'] = 'ব্যবসার নাম দিন।';
+            $messages['business_name.required'] = t('valid.business_name_required');
         }
 
         $data = $request->validate($rules, $messages);
@@ -106,7 +106,7 @@ class SettingsController extends Controller
         }
 
         return redirect()->route('profile')
-            ->with('success', 'প্রোফাইল আপডেট করা হয়েছে।');
+            ->with('success', t('msg.profile_updated'));
     }
 
     public function updatePassword(Request $request): RedirectResponse
@@ -117,11 +117,11 @@ class SettingsController extends Controller
             'current_password' => ['required', 'current_password'],
             'password'         => ['required', 'string', 'min:6', 'confirmed'],
         ], [
-            'current_password.required'     => 'বর্তমান পাসওয়ার্ড দিন।',
-            'current_password.current_password' => 'বর্তমান পাসওয়ার্ড সঠিক নয়।',
-            'password.required'             => 'নতুন পাসওয়ার্ড দিন।',
-            'password.min'                  => 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।',
-            'password.confirmed'            => 'পাসওয়ার্ড মিলছে না।',
+            'current_password.required'     => t('valid.current_password_required'),
+            'current_password.current_password' => t('valid.current_password_wrong'),
+            'password.required'             => t('valid.password_required'),
+            'password.min'                  => t('valid.password_min'),
+            'password.confirmed'            => t('valid.password_confirmed'),
         ]);
 
         $validator->validateWithBag('password');
@@ -129,7 +129,7 @@ class SettingsController extends Controller
         $user->update(['password' => Hash::make($request->input('password'))]);
 
         return redirect()->route('profile')
-            ->with('success', 'পাসওয়ার্ড পরিবর্তন করা হয়েছে।');
+            ->with('success', t('msg.password_changed'));
     }
 
     public function updatePreferences(Request $request): RedirectResponse
@@ -139,11 +139,9 @@ class SettingsController extends Controller
         abort_unless($user->isOwner() && $user->tenant, 403);
 
         $data = $request->validate([
-            'language'             => ['required', Rule::in(['bn', 'en'])],
             'currency'             => ['required', 'string', 'max:10'],
             'currency_symbol'      => ['required', 'string', 'max:10'],
             'date_format'          => ['required', 'string', 'max:20'],
-            'timezone'             => ['required', 'string', 'max:50'],
             'invoice_prefix'       => ['nullable', 'string', 'max:20'],
             'track_stock'          => ['nullable', 'boolean'],
             'low_stock_alert'      => ['nullable', 'boolean'],
@@ -154,11 +152,9 @@ class SettingsController extends Controller
         ]);
 
         $user->tenant->settingsOrCreate()->update([
-            'language'             => $data['language'],
             'currency'             => $data['currency'],
             'currency_symbol'      => $data['currency_symbol'],
             'date_format'          => $data['date_format'],
-            'timezone'             => $data['timezone'],
             'invoice_prefix'       => $data['invoice_prefix'] ?? 'INV-',
             'track_stock'          => $request->boolean('track_stock'),
             'low_stock_alert'      => $request->boolean('low_stock_alert'),
@@ -169,7 +165,7 @@ class SettingsController extends Controller
         ]);
 
         return redirect()->route('settings.index')
-            ->with('success', 'সেটিংস আপডেট করা হয়েছে।');
+            ->with('success', t('msg.settings_updated'));
     }
 
     public function storeEmployee(Request $request): RedirectResponse
@@ -185,13 +181,13 @@ class SettingsController extends Controller
             'role'     => ['required', Rule::in(['manager', 'staff'])],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ], [
-            'name.required'     => 'কর্মচারীর নাম দিন।',
-            'phone.unique'      => 'এই ফোন নম্বর আগে থেকে ব্যবহৃত হচ্ছে।',
-            'email.unique'      => 'এই ইমেইল আগে থেকে ব্যবহৃত হচ্ছে।',
-            'role.required'     => 'ভূমিকা নির্বাচন করুন।',
-            'password.required' => 'পাসওয়ার্ড দিন।',
-            'password.min'      => 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।',
-            'password.confirmed' => 'পাসওয়ার্ড মিলছে না।',
+            'name.required'     => t('valid.employee_name_required'),
+            'phone.unique'      => t('valid.phone_in_use'),
+            'email.unique'      => t('valid.email_in_use'),
+            'role.required'     => t('valid.role_required'),
+            'password.required' => t('valid.employee_password_required'),
+            'password.min'      => t('valid.password_min'),
+            'password.confirmed' => t('valid.password_confirmed'),
         ]);
 
         $data = $validator->validateWithBag('employee');
@@ -208,6 +204,6 @@ class SettingsController extends Controller
         ]);
 
         return redirect()->route('employees.index')
-            ->with('success', 'নতুন কর্মচারী যোগ করা হয়েছে।');
+            ->with('success', t('msg.employee_created'));
     }
 }

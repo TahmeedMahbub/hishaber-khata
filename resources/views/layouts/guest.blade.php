@@ -142,7 +142,7 @@
                         <img src="{{ asset('assets/img/project/logo.png') }}" alt="logo"
                             onerror="this.style.display='none';this.parentNode.innerHTML='<i class=&quot;mdi mdi-notebook-outline&quot;></i>';">
                     </span>
-                    <span class="hk-auth-brand-text">হিসাবের খাতা</span>
+                    <span class="hk-auth-brand-text">{{ t('brand.name') }}</span>
                 </a>
             </div>
 

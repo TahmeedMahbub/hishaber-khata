@@ -43,7 +43,7 @@ class FeedbackController extends Controller
         ]);
 
         return redirect()->route('feedback.create')
-            ->with('success', 'আপনার মতামতের জন্য ধন্যবাদ!');
+            ->with('success', t('msg.feedback_thanks'));
     }
 
     /**
@@ -66,7 +66,7 @@ class FeedbackController extends Controller
             'status'    => 'new',
         ]);
 
-        return back()->with('feedback_success', 'আপনার মতামতের জন্য ধন্যবাদ!');
+        return back()->with('feedback_success', t('msg.feedback_thanks'));
     }
 
     /**
@@ -82,8 +82,8 @@ class FeedbackController extends Controller
             'rating'  => ['nullable', 'integer', 'min:1', 'max:5'],
             'message' => ['required', 'string', 'max:2000'],
         ], [
-            'type.required'    => 'ধরন নির্বাচন করুন।',
-            'message.required' => 'আপনার মতামত লিখুন।',
+            'type.required'    => t('valid.feedback_type_required'),
+            'message.required' => t('valid.feedback_message_required'),
         ]);
     }
 
@@ -93,11 +93,11 @@ class FeedbackController extends Controller
     protected function types(): array
     {
         return [
-            'suggestion' => 'পরামর্শ',
-            'bug'        => 'সমস্যা / বাগ',
-            'complaint'  => 'অভিযোগ',
-            'praise'     => 'প্রশংসা',
-            'other'      => 'অন্যান্য',
+            'suggestion' => t('feedback.type_suggestion'),
+            'bug'        => t('feedback.type_bug'),
+            'complaint'  => t('feedback.type_complaint'),
+            'praise'     => t('feedback.type_praise'),
+            'other'      => t('feedback.type_other'),
         ];
     }
 }

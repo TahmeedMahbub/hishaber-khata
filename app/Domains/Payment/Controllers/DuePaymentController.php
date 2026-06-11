@@ -74,10 +74,12 @@ class DuePaymentController extends Controller
     {
         $this->service->create($request->validated());
 
-        $label = $request->input('party_type') === 'supplier' ? 'বাকি পরিশোধ' : 'বাকি আদায়';
+        $message = $request->input('party_type') === 'supplier'
+            ? t('msg.duepay_paid')
+            : t('msg.duepay_collect');
 
         return redirect()->route('due-payments.index')
-            ->with('success', $label . ' সফলভাবে রেকর্ড করা হয়েছে।');
+            ->with('success', $message);
     }
 
     public function destroy(DuePayment $duePayment): RedirectResponse
@@ -85,7 +87,7 @@ class DuePaymentController extends Controller
         $this->service->delete($duePayment);
 
         return redirect()->route('due-payments.history')
-            ->with('success', 'লেনদেন মুছে ফেলা হয়েছে এবং বাকি পুনরায় যোগ হয়েছে।');
+            ->with('success', t('msg.duepay_deleted'));
     }
 
     private function normalizeType(?string $type): ?string

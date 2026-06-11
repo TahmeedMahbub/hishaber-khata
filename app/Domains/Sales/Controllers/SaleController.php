@@ -44,7 +44,7 @@ class SaleController extends Controller
         $sale = $this->service->create($request->validated());
 
         return redirect()->route('sales.show', $sale)
-            ->with('success', 'বিক্রয় সম্পন্ন হয়েছে।');
+            ->with('success', t('msg.sale_created'));
     }
 
     public function show(Sale $sale): View
@@ -59,6 +59,6 @@ class SaleController extends Controller
         $this->service->delete($sale);
 
         return redirect()->route('sales.index')
-            ->with('success', 'বিক্রয় মুছে ফেলা হয়েছে।');
+            ->with('success', t('msg.sale_deleted'));
     }
 }

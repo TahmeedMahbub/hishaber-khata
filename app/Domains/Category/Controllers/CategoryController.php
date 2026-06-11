@@ -36,7 +36,7 @@ class CategoryController extends Controller
         $this->service->create($request->validated());
 
         return redirect()->route('categories.index')
-            ->with('success', 'ক্যাটাগরি যোগ করা হয়েছে।');
+            ->with('success', t('msg.category_created'));
     }
 
     public function edit(Category $category): View
@@ -49,7 +49,7 @@ class CategoryController extends Controller
         $this->service->update($category, $request->validated());
 
         return redirect()->route('categories.index')
-            ->with('success', 'ক্যাটাগরি আপডেট করা হয়েছে।');
+            ->with('success', t('msg.category_updated'));
     }
 
     public function destroy(Category $category): RedirectResponse
@@ -57,6 +57,6 @@ class CategoryController extends Controller
         $this->service->delete($category);
 
         return redirect()->route('categories.index')
-            ->with('success', 'ক্যাটাগরি মুছে ফেলা হয়েছে।');
+            ->with('success', t('msg.category_deleted'));
     }
 }

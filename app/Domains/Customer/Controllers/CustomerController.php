@@ -37,7 +37,7 @@ class CustomerController extends Controller
         $this->service->create($request->validated());
 
         return redirect()->route('customers.index')
-            ->with('success', 'কাস্টমার যোগ করা হয়েছে।');
+            ->with('success', t('msg.customer_created'));
     }
 
     public function edit(Customer $customer): View
@@ -50,7 +50,7 @@ class CustomerController extends Controller
         $this->service->update($customer, $request->validated());
 
         return redirect()->route('customers.index')
-            ->with('success', 'কাস্টমার আপডেট করা হয়েছে।');
+            ->with('success', t('msg.customer_updated'));
     }
 
     public function destroy(Customer $customer): RedirectResponse
@@ -58,7 +58,7 @@ class CustomerController extends Controller
         $this->service->delete($customer);
 
         return redirect()->route('customers.index')
-            ->with('success', 'কাস্টমার মুছে ফেলা হয়েছে।');
+            ->with('success', t('msg.customer_deleted'));
     }
 
     /**
@@ -77,8 +77,8 @@ class CustomerController extends Controller
                 Rule::unique('customers', 'phone')->where(fn ($q) => $q->where('tenant_id', $tenantId)),
             ],
         ], [
-            'name.required'  => 'কাস্টমারের নাম দিন।',
-            'phone.unique'   => 'এই মোবাইল নম্বরে আগে থেকেই একজন কাস্টমার আছে।',
+            'name.required'  => t('valid.customer_name_required'),
+            'phone.unique'   => t('valid.customer_phone_unique'),
         ]);
 
         $customer = Customer::create($data);

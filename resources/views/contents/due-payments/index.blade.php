@@ -1,6 +1,6 @@
 @extends('contents.body')
 
-@section('title', 'Due List')
+@section('title', t('duepay.title'))
 
 @section('content')
     @php
@@ -29,13 +29,13 @@
     <div class="row gy-4">
         <div class="col-12">
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-                <h4 class="fw-bold mb-0">বাকির খাতা</h4>
+                <h4 class="fw-bold mb-0">{{ t('duepay.title') }}</h4>
                 <div class="d-flex gap-2">
                     <a href="{{ route('due-payments.history') }}" class="btn btn-outline-secondary">
-                        <i class="mdi mdi-history me-1"></i> লেনদেন ইতিহাস
+                        <i class="mdi mdi-history me-1"></i> {{ t('duepay.history') }}
                     </a>
                     <a href="{{ route('due-payments.create') }}" class="btn btn-primary">
-                        <i class="mdi mdi-cash-plus me-1"></i> আদায় / পরিশোধ
+                        <i class="mdi mdi-cash-plus me-1"></i> {{ t('duepay.collect_pay') }}
                     </a>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                                 <i class="mdi mdi-account-arrow-down mdi-24px"></i>
                             </span>
                             <div>
-                                <small class="text-muted d-block">কাস্টমারের কাছে পাওনা</small>
+                                <small class="text-muted d-block">{{ t('duepay.receivable') }}</small>
                                 <h5 class="mb-0">৳ {{ number_format($customerDueTotal, 2) }}</h5>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                                 <i class="mdi mdi-account-arrow-up mdi-24px"></i>
                             </span>
                             <div>
-                                <small class="text-muted d-block">সরবরাহকারীকে দেনা</small>
+                                <small class="text-muted d-block">{{ t('duepay.payable') }}</small>
                                 <h5 class="mb-0">৳ {{ number_format($supplierDueTotal, 2) }}</h5>
                             </div>
                         </div>
@@ -79,25 +79,25 @@
 
             <div class="card">
                 <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-                    <h5 class="mb-0">বাকি তালিকা</h5>
+                    <h5 class="mb-0">{{ t('duepay.due_list') }}</h5>
                     <div class="btn-group btn-group-sm" role="group">
                         <a href="{{ route('due-payments.index') }}"
-                            class="btn {{ !$type ? 'btn-primary' : 'btn-outline-primary' }}">সব</a>
+                            class="btn {{ !$type ? 'btn-primary' : 'btn-outline-primary' }}">{{ t('common.all') }}</a>
                         <a href="{{ route('due-payments.index', ['type' => 'customer']) }}"
-                            class="btn {{ $type === 'customer' ? 'btn-primary' : 'btn-outline-primary' }}">কাস্টমার</a>
+                            class="btn {{ $type === 'customer' ? 'btn-primary' : 'btn-outline-primary' }}">{{ t('nav.customers') }}</a>
                         <a href="{{ route('due-payments.index', ['type' => 'supplier']) }}"
-                            class="btn {{ $type === 'supplier' ? 'btn-primary' : 'btn-outline-primary' }}">সরবরাহকারী</a>
+                            class="btn {{ $type === 'supplier' ? 'btn-primary' : 'btn-outline-primary' }}">{{ t('nav.suppliers') }}</a>
                     </div>
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>নাম</th>
-                                <th>মোবাইল</th>
-                                <th>ধরন</th>
-                                <th class="text-end">বাকি</th>
-                                <th class="text-end">অ্যাকশন</th>
+                                <th>{{ t('common.name') }}</th>
+                                <th>{{ t('supplier.mobile') }}</th>
+                                <th>{{ t('duepay.type') }}</th>
+                                <th class="text-end">{{ t('duepay.due') }}</th>
+                                <th class="text-end">{{ t('common.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,9 +107,9 @@
                                     <td>{{ $row->phone ?: '—' }}</td>
                                     <td>
                                         @if ($row->party_type === 'customer')
-                                            <span class="badge bg-label-success">কাস্টমার</span>
+                                            <span class="badge bg-label-success">{{ t('nav.customers') }}</span>
                                         @else
-                                            <span class="badge bg-label-warning">সরবরাহকারী</span>
+                                            <span class="badge bg-label-warning">{{ t('nav.suppliers') }}</span>
                                         @endif
                                     </td>
                                     <td class="text-end fw-medium text-danger">৳ {{ number_format($row->due, 2) }}</td>
@@ -117,13 +117,13 @@
                                         <a href="{{ route('due-payments.create', ['party_type' => $row->party_type, 'party_id' => $row->id]) }}"
                                             class="btn btn-sm btn-primary">
                                             <i class="mdi mdi-cash"></i>
-                                            {{ $row->party_type === 'customer' ? 'আদায়' : 'পরিশোধ' }}
+                                            {{ $row->party_type === 'customer' ? t('duepay.collect') : t('duepay.pay') }}
                                         </a>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">কোনো বাকি নেই।</td>
+                                    <td colspan="5" class="text-center text-muted py-4">{{ t('duepay.empty') }}</td>
                                 </tr>
                             @endforelse
                         </tbody>

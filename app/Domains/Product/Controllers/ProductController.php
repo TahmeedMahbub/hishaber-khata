@@ -50,7 +50,7 @@ class ProductController extends Controller
         $this->service->create($request->validated());
 
         return redirect()->route('products.index')
-            ->with('success', 'পণ্য যোগ করা হয়েছে।');
+            ->with('success', t('msg.product_created'));
     }
 
     public function edit(Product $product): View
@@ -66,7 +66,7 @@ class ProductController extends Controller
         $this->service->update($product, $request->validated());
 
         return redirect()->route('products.index')
-            ->with('success', 'পণ্য আপডেট করা হয়েছে।');
+            ->with('success', t('msg.product_updated'));
     }
 
     public function destroy(Product $product): RedirectResponse
@@ -74,7 +74,7 @@ class ProductController extends Controller
         $this->service->delete($product);
 
         return redirect()->route('products.index')
-            ->with('success', 'পণ্য মুছে ফেলা হয়েছে।');
+            ->with('success', t('msg.product_deleted'));
     }
 
     /**
@@ -89,7 +89,7 @@ class ProductController extends Controller
             'purchase_price' => ['nullable', 'numeric', 'min:0'],
             'sale_price'     => ['nullable', 'numeric', 'min:0'],
         ], [
-            'name.required' => 'পণ্যের নাম দিন।',
+            'name.required' => t('valid.product_name_required'),
         ]);
 
         $product = $this->service->create($data);
@@ -121,9 +121,9 @@ class ProductController extends Controller
         $request->validate([
             'file' => ['required', 'file', 'mimes:xlsx,xls,csv,txt', 'max:5120'],
         ], [
-            'file.required' => 'একটি ফাইল নির্বাচন করুন।',
-            'file.mimes'    => 'শুধুমাত্র Excel (.xlsx, .xls) বা CSV ফাইল আপলোড করা যাবে।',
-            'file.max'      => 'ফাইলের আকার সর্বোচ্চ ৫ MB হতে পারে।',
+            'file.required' => t('valid.file_required'),
+            'file.mimes'    => t('valid.file_mimes'),
+            'file.max'      => t('valid.file_max'),
         ]);
 
         try {
@@ -132,7 +132,7 @@ class ProductController extends Controller
             return redirect()->route('products.index')->with('error', $e->getMessage());
         }
 
-        $message = "{$result['imported']} টি পণ্য সফলভাবে যোগ করা হয়েছে।";
+        $message = "{$result['imported']} " . t('msg.product_import_done');
 
         if (! empty($result['errors'])) {
             return redirect()->route('products.index')

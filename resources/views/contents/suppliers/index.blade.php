@@ -1,14 +1,14 @@
 @extends('contents.body')
 
-@section('title', 'Suppliers')
+@section('title', t('supplier.title'))
 
 @section('content')
     <div class="row gy-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="fw-bold mb-0">সরবরাহকারী</h4>
+                <h4 class="fw-bold mb-0">{{ t('supplier.title') }}</h4>
                 <a href="{{ route('suppliers.create') }}" class="btn btn-primary">
-                    <i class="mdi mdi-plus me-1"></i> নতুন সরবরাহকারী
+                    <i class="mdi mdi-plus me-1"></i> {{ t('supplier.new') }}
                 </a>
             </div>
 
@@ -24,11 +24,11 @@
                     <form method="GET" action="{{ route('suppliers.index') }}" class="row g-2">
                         <div class="col-md-10">
                             <input type="text" name="search" value="{{ $search ?? '' }}"
-                                class="form-control" placeholder="নাম বা মোবাইল দিয়ে খুঁজুন...">
+                                class="form-control" placeholder="{{ t('supplier.search_ph') }}">
                         </div>
                         <div class="col-md-2 d-grid">
                             <button type="submit" class="btn btn-outline-secondary">
-                                <i class="mdi mdi-magnify"></i> খুঁজুন
+                                <i class="mdi mdi-magnify"></i> {{ t('common.search') }}
                             </button>
                         </div>
                     </form>
@@ -37,12 +37,12 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>নাম</th>
-                                <th>মোবাইল</th>
-                                <th>ঠিকানা</th>
-                                <th class="text-center">ক্রয়</th>
-                                <th class="text-end">বাকি</th>
-                                <th class="text-end">অ্যাকশন</th>
+                                <th>{{ t('common.name') }}</th>
+                                <th>{{ t('supplier.mobile') }}</th>
+                                <th>{{ t('common.address') }}</th>
+                                <th class="text-center">{{ t('supplier.purchases') }}</th>
+                                <th class="text-end">{{ t('supplier.due') }}</th>
+                                <th class="text-end">{{ t('common.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,7 +65,7 @@
                                             <i class="mdi mdi-pencil-outline"></i>
                                         </a>
                                         <form method="POST" action="{{ route('suppliers.destroy', $supplier) }}"
-                                            class="d-inline" data-confirm="আপনি কি নিশ্চিত?">
+                                            class="d-inline" data-confirm="{{ t('common.are_you_sure') }}">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-icon btn-text-danger">
@@ -76,7 +76,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center text-muted py-4">কোনো সরবরাহকারী নেই।</td>
+                                    <td colspan="6" class="text-center text-muted py-4">{{ t('supplier.empty') }}</td>
                                 </tr>
                             @endforelse
                         </tbody>

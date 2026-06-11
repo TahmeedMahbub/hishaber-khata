@@ -2,9 +2,9 @@
     <div class="app-brand demo">
         <a href="{{ route('dashboard') }}" class="app-brand-link">
             <span class="app-brand-logo demo">
-                <img src="{{ asset('assets/img/project/logo.png') }}" alt="হিসাবের খাতা" width="35" height="35" style="border-radius:8px;">
+                <img src="{{ asset('assets/img/project/logo.png') }}" alt="{{ t('brand.name') }}" width="35" height="35" style="border-radius:8px;">
             </span>
-            <span class="app-brand-text demo menu-text fw-bold ms-2">হিসাবের খাতা</span>
+            <span class="app-brand-text demo menu-text fw-bold ms-2">{{ t('brand.name') }}</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -20,7 +20,7 @@
         <li class="menu-item {{ request()->is('dashboard') ? 'active' : '' }}">
             <a href="{{ route('dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-view-dashboard-outline"></i>
-                <div>ড্যাশবোর্ড</div>
+                <div>{{ t('nav.dashboard') }}</div>
             </a>
         </li>
 
@@ -28,7 +28,7 @@
         <li class="menu-item {{ request()->is('sales*') ? 'active' : '' }}">
             <a href="{{ route('sales.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-cart-outline"></i>
-                <div>বিক্রয়</div>
+                <div>{{ t('nav.sales') }}</div>
             </a>
         </li>
 
@@ -37,17 +37,17 @@
         <li class="menu-item {{ $productsActive ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons mdi mdi-package-variant-closed"></i>
-                <div>পণ্য</div>
+                <div>{{ t('nav.products') }}</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->is('products*') ? 'active' : '' }}">
                     <a href="{{ url('/products') }}" class="menu-link">
-                        <div>সকল পণ্য</div>
+                        <div>{{ t('nav.all_products') }}</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('categories*') ? 'active' : '' }}">
                     <a href="{{ route('categories.index') }}" class="menu-link">
-                        <div>ক্যাটাগরি</div>
+                        <div>{{ t('nav.categories') }}</div>
                     </a>
                 </li>
             </ul>
@@ -64,43 +64,43 @@
         <li class="menu-item {{ $moreActive ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons mdi mdi-dots-horizontal"></i>
-                <div>আরও</div>
+                <div>{{ t('nav.more') }}</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->is('purchases*') ? 'active' : '' }}">
                     <a href="{{ url('/purchases') }}" class="menu-link">
-                        <div>ক্রয়</div>
+                        <div>{{ t('nav.purchases') }}</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('customers*') ? 'active' : '' }}">
                     <a href="{{ url('/customers') }}" class="menu-link">
-                        <div>কাস্টমার</div>
+                        <div>{{ t('nav.customers') }}</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('suppliers*') ? 'active' : '' }}">
                     <a href="{{ url('/suppliers') }}" class="menu-link">
-                        <div>সরবরাহকারী</div>
+                        <div>{{ t('nav.suppliers') }}</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('due-payments*') ? 'active' : '' }}">
                     <a href="{{ url('/due-payments') }}" class="menu-link">
-                        <div>বাকির হিসাব</div>
+                        <div>{{ t('nav.due_payments') }}</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('expenses*') ? 'active' : '' }}">
                     <a href="{{ url('/expenses') }}" class="menu-link">
-                        <div>খরচ</div>
+                        <div>{{ t('nav.expenses') }}</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('damages*') ? 'active' : '' }}">
                     <a href="{{ url('/damages') }}" class="menu-link">
-                        <div>ড্যামেজ / হারানো</div>
+                        <div>{{ t('nav.damages') }}</div>
                     </a>
                 </li>
                 @if (auth()->user()->isOwner() && auth()->user()->tenant)
                     <li class="menu-item {{ request()->is('employees*') ? 'active' : '' }}">
                         <a href="{{ route('employees.index') }}" class="menu-link">
-                            <div>কর্মচারী</div>
+                            <div>{{ t('nav.employees') }}</div>
                         </a>
                     </li>
                     {{-- <li class="menu-item {{ request()->is('settings*') ? 'active' : '' }}">
@@ -111,7 +111,7 @@
                 @endif
                 <li class="menu-item {{ request()->is('feedback*') ? 'active' : '' }}">
                     <a href="{{ route('feedback.create') }}" class="menu-link">
-                        <div>মতামত</div>
+                        <div>{{ t('nav.feedback') }}</div>
                     </a>
                 </li>
             </ul>
@@ -121,7 +121,7 @@
         <li class="menu-item {{ request()->is('reports*') ? 'active' : '' }}">
             <a href="{{ url('/reports') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-chart-box-outline"></i>
-                <div>রিপোর্ট</div>
+                <div>{{ t('nav.reports') }}</div>
             </a>
         </li>
     </ul>

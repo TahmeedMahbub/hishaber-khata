@@ -40,11 +40,11 @@ class DuePaymentRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'party_type.required' => 'কাস্টমার বা সরবরাহকারী নির্বাচন করুন।',
-            'party_id.required'   => 'নাম নির্বাচন করুন।',
-            'party_id.exists'     => 'নির্বাচিত ব্যক্তি খুঁজে পাওয়া যায়নি।',
-            'amount.required'     => 'টাকার পরিমাণ দিন।',
-            'amount.min'          => 'টাকার পরিমাণ ০ এর বেশি হতে হবে।',
+            'party_type.required' => t('valid.party_type_required'),
+            'party_id.required'   => t('valid.party_id_required'),
+            'party_id.exists'     => t('valid.party_id_exists'),
+            'amount.required'     => t('valid.amount_required'),
+            'amount.min'          => t('valid.amount_min'),
         ];
     }
 }

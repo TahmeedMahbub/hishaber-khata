@@ -35,7 +35,7 @@ class SupplierController extends Controller
         $this->service->create($request->validated());
 
         return redirect()->route('suppliers.index')
-            ->with('success', 'সরবরাহকারী যোগ করা হয়েছে।');
+            ->with('success', t('msg.supplier_created'));
     }
 
     public function edit(Supplier $supplier): View
@@ -48,7 +48,7 @@ class SupplierController extends Controller
         $this->service->update($supplier, $request->validated());
 
         return redirect()->route('suppliers.index')
-            ->with('success', 'সরবরাহকারী আপডেট করা হয়েছে।');
+            ->with('success', t('msg.supplier_updated'));
     }
 
     public function destroy(Supplier $supplier): RedirectResponse
@@ -56,7 +56,7 @@ class SupplierController extends Controller
         $this->service->delete($supplier);
 
         return redirect()->route('suppliers.index')
-            ->with('success', 'সরবরাহকারী মুছে ফেলা হয়েছে।');
+            ->with('success', t('msg.supplier_deleted'));
     }
 
     /**
@@ -69,7 +69,7 @@ class SupplierController extends Controller
             'phone'   => ['nullable', 'string', 'max:20'],
             'address' => ['nullable', 'string', 'max:255'],
         ], [
-            'name.required' => 'সরবরাহকারীর নাম দিন।',
+            'name.required' => t('valid.supplier_name_required'),
         ]);
 
         $supplier = $this->service->create($data);

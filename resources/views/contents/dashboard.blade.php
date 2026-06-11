@@ -29,12 +29,12 @@
         <div class="row g-3 mb-4" id="dashboard-cards">
             @php
                 $cards = [
-                    ['key' => 'today_sales',  'label' => 'আজকের বিক্রয়',   'icon' => 'mdi-cart-outline',          'color' => 'primary'],
-                    ['key' => 'today_profit', 'label' => 'আজকের লাভ',      'icon' => 'mdi-trending-up',            'color' => 'success'],
-                    ['key' => 'cash_balance', 'label' => 'নগদ ব্যালেন্স',   'icon' => 'mdi-cash-multiple',          'color' => 'info'],
-                    ['key' => 'customer_due', 'label' => 'কাস্টমার বাকি',   'icon' => 'mdi-account-arrow-left',     'color' => 'warning'],
-                    ['key' => 'supplier_due', 'label' => 'সরবরাহকারী বাকি', 'icon' => 'mdi-truck-outline',          'color' => 'danger'],
-                    ['key' => 'stock_value',  'label' => 'স্টক মূল্য',       'icon' => 'mdi-package-variant-closed', 'color' => 'secondary'],
+                    ['key' => 'today_sales',  'label' => t('dashboard.today_sales'),   'icon' => 'mdi-cart-outline',          'color' => 'primary'],
+                    ['key' => 'today_profit', 'label' => t('dashboard.today_profit'),      'icon' => 'mdi-trending-up',            'color' => 'success'],
+                    ['key' => 'cash_balance', 'label' => t('dashboard.cash_balance'),   'icon' => 'mdi-cash-multiple',          'color' => 'info'],
+                    ['key' => 'customer_due', 'label' => t('dashboard.customer_due'),   'icon' => 'mdi-account-arrow-left',     'color' => 'warning'],
+                    ['key' => 'supplier_due', 'label' => t('dashboard.supplier_due'), 'icon' => 'mdi-truck-outline',          'color' => 'danger'],
+                    ['key' => 'stock_value',  'label' => t('dashboard.stock_value'),       'icon' => 'mdi-package-variant-closed', 'color' => 'secondary'],
                 ];
             @endphp
             @foreach ($cards as $card)
@@ -60,10 +60,10 @@
         <div class="row g-3 mb-4">
             @php
                 $actions = [
-                    ['label' => 'নতুন বিক্রয়', 'icon' => 'mdi-cart-plus',   'color' => 'primary', 'url' => route('sales.create')],
-                    ['label' => 'নতুন ক্রয়',  'icon' => 'mdi-cart-arrow-down', 'color' => 'success', 'url' => route('purchases.create')],
-                    ['label' => 'পণ্য যোগ',   'icon' => 'mdi-plus-box',    'color' => 'info',    'url' => route('products.create')],
-                    ['label' => 'খরচ যোগ',    'icon' => 'mdi-cash-minus',  'color' => 'warning', 'url' => route('expenses.create')],
+                    ['label' => t('dashboard.new_sale'), 'icon' => 'mdi-cart-plus',   'color' => 'primary', 'url' => route('sales.create')],
+                    ['label' => t('dashboard.new_purchase'),  'icon' => 'mdi-cart-arrow-down', 'color' => 'success', 'url' => route('purchases.create')],
+                    ['label' => t('dashboard.add_product'),   'icon' => 'mdi-plus-box',    'color' => 'info',    'url' => route('products.create')],
+                    ['label' => t('dashboard.add_expense'),    'icon' => 'mdi-cash-minus',  'color' => 'warning', 'url' => route('expenses.create')],
                 ];
             @endphp
             @foreach ($actions as $action)
@@ -82,19 +82,19 @@
             <div class="col-12 col-md-4">
                 <div class="alert alert-warning d-flex align-items-center mb-0" role="alert">
                     <i class="mdi mdi-alert-outline me-2"></i>
-                    <span>কম স্টক: <strong class="alert-value" data-alert="low_stock_count">…</strong></span>
+                    <span>{{ t('dashboard.low_stock') }}: <strong class="alert-value" data-alert="low_stock_count">…</strong></span>
                 </div>
             </div>
             <div class="col-12 col-md-4">
                 <div class="alert alert-info d-flex align-items-center mb-0" role="alert">
                     <i class="mdi mdi-account-cash-outline me-2"></i>
-                    <span>কাস্টমার বাকি: <strong class="alert-value" data-alert="customer_due_count">…</strong> জন</span>
+                    <span>{{ t('dashboard.customer_due') }}: <strong class="alert-value" data-alert="customer_due_count">…</strong> {{ t('dashboard.persons') }}</span>
                 </div>
             </div>
             <div class="col-12 col-md-4">
                 <div class="alert alert-danger d-flex align-items-center mb-0" role="alert">
                     <i class="mdi mdi-truck-alert-outline me-2"></i>
-                    <span>সরবরাহকারী বাকি: <strong class="alert-value" data-alert="supplier_due_count">…</strong> জন</span>
+                    <span>{{ t('dashboard.supplier_due') }}: <strong class="alert-value" data-alert="supplier_due_count">…</strong> {{ t('dashboard.persons') }}</span>
                 </div>
             </div>
         </div>
@@ -104,16 +104,16 @@
             <div class="col-12 col-lg-7">
                 <div class="card h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="mb-0">সাম্প্রতিক বিক্রয়</h6>
-                        <a href="{{ route('sales.index') }}" class="btn btn-sm btn-text-primary p-0">সব দেখুন</a>
+                        <h6 class="mb-0">{{ t('dashboard.recent_sales') }}</h6>
+                        <a href="{{ route('sales.index') }}" class="btn btn-sm btn-text-primary p-0">{{ t('common.view_all') }}</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <thead>
                                 <tr>
-                                    <th>ইনভয়েস</th>
-                                    <th>কাস্টমার</th>
-                                    <th class="text-end">মোট</th>
+                                    <th>{{ t('dashboard.invoice') }}</th>
+                                    <th>{{ t('nav.customers') }}</th>
+                                    <th class="text-end">{{ t('common.total') }}</th>
                                 </tr>
                             </thead>
                             <tbody id="recent-sales-body">
@@ -134,7 +134,7 @@
             <div class="col-12 col-lg-5">
                 <div class="card h-100">
                     <div class="card-header">
-                        <h6 class="mb-0">টপ সেলিং পণ্য</h6>
+                        <h6 class="mb-0">{{ t('dashboard.top_products') }}</h6>
                     </div>
                     <ul class="list-group list-group-flush" id="top-products-list">
                         @for ($i = 0; $i < 5; $i++)

@@ -1,14 +1,14 @@
 @extends('contents.body')
 
-@section('title', 'Categories')
+@section('title', t('category.title'))
 
 @section('content')
     <div class="row gy-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="fw-bold mb-0">ক্যাটাগরি</h4>
+                <h4 class="fw-bold mb-0">{{ t('category.title') }}</h4>
                 <a href="{{ route('categories.create') }}" class="btn btn-primary">
-                    <i class="mdi mdi-plus me-1"></i> নতুন ক্যাটাগরি
+                    <i class="mdi mdi-plus me-1"></i> {{ t('category.new') }}
                 </a>
             </div>
 
@@ -23,7 +23,7 @@
                 <div class="card-header">
                     <form method="GET" action="{{ route('categories.index') }}" class="d-flex gap-2">
                         <input type="text" name="search" value="{{ $search ?? '' }}"
-                            class="form-control" placeholder="নাম দিয়ে খুঁজুন...">
+                            class="form-control" placeholder="{{ t('category.search_ph') }}">
                         <button type="submit" class="btn btn-outline-secondary">
                             <i class="mdi mdi-magnify"></i>
                         </button>
@@ -33,9 +33,9 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>নাম</th>
-                                <th>স্ট্যাটাস</th>
-                                <th class="text-end">অ্যাকশন</th>
+                                <th>{{ t('common.name') }}</th>
+                                <th>{{ t('common.status') }}</th>
+                                <th class="text-end">{{ t('common.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,9 +44,9 @@
                                     <td class="fw-medium">{{ $category->name }}</td>
                                     <td>
                                         @if ($category->status === 'active')
-                                            <span class="badge bg-label-success">সক্রিয়</span>
+                                            <span class="badge bg-label-success">{{ t('common.active') }}</span>
                                         @else
-                                            <span class="badge bg-label-secondary">নিষ্ক্রিয়</span>
+                                            <span class="badge bg-label-secondary">{{ t('common.inactive') }}</span>
                                         @endif
                                     </td>
                                     <td class="text-end">
@@ -55,7 +55,7 @@
                                             <i class="mdi mdi-pencil-outline"></i>
                                         </a>
                                         <form method="POST" action="{{ route('categories.destroy', $category) }}"
-                                            class="d-inline" data-confirm="আপনি কি নিশ্চিত?">
+                                            class="d-inline" data-confirm="{{ t('common.are_you_sure') }}">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-icon btn-text-danger">
@@ -67,7 +67,7 @@
                             @empty
                                 <tr>
                                     <td colspan="3" class="text-center text-muted py-4">
-                                        কোনো ক্যাটাগরি নেই।
+                                        {{ t('category.empty') }}
                                     </td>
                                 </tr>
                             @endforelse

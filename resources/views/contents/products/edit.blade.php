@@ -1,11 +1,11 @@
 @extends('contents.body')
 
-@section('title', 'Edit Product')
+@section('title', t('product.edit_title'))
 
 @section('content')
     <div class="row gy-4 justify-content-center">
         <div class="col-12">
-            <h4 class="fw-bold mb-3">পণ্য সম্পাদনা</h4>
+            <h4 class="fw-bold mb-3">{{ t('product.edit_title') }}</h4>
 
             <div class="card">
                 <div class="card-body">
@@ -17,8 +17,8 @@
                         @include('contents.products.partials.form', ['product' => $product])
 
                         <div class="d-flex gap-2 mt-3 align-items-center">
-                            <button type="submit" class="btn btn-primary">আপডেট করুন</button>
-                            <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">বাতিল</a>
+                            <button type="submit" class="btn btn-primary">{{ t('common.update') }}</button>
+                            <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">{{ t('common.cancel') }}</a>
                             @include('contents.partials.status-switch', ['model' => $product])
                         </div>
                     </form>

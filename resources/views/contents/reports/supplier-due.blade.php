@@ -1,22 +1,22 @@
 @extends('contents.body')
 
-@section('title', 'Supplier Due Report')
+@section('title', t('report.supplier_due'))
 
 @section('content')
     <div class="row gy-4">
         <div class="col-12">
-            @include('contents.reports.partials.header', ['title' => 'সরবরাহকারী বাকি রিপোর্ট'])
+            @include('contents.reports.partials.header', ['title' => t('report.supplier_due')])
 
             <div class="row g-3 mb-3">
                 <div class="col-6">
                     <div class="card"><div class="card-body p-3">
-                        <small class="text-muted d-block">মোট বাকি</small>
+                        <small class="text-muted d-block">{{ t('report.total_due') }}</small>
                         <h5 class="mb-0 text-danger">৳ {{ number_format($report['total'], 2) }}</h5>
                     </div></div>
                 </div>
                 <div class="col-6">
                     <div class="card"><div class="card-body p-3">
-                        <small class="text-muted d-block">বাকিদার সরবরাহকারী</small>
+                        <small class="text-muted d-block">{{ t('report.due_suppliers') }}</small>
                         <h5 class="mb-0">{{ $report['count'] }}</h5>
                     </div></div>
                 </div>
@@ -27,9 +27,9 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>সরবরাহকারী</th>
-                                <th>ফোন</th>
-                                <th class="text-end">বাকি</th>
+                                <th>{{ t('nav.suppliers') }}</th>
+                                <th>{{ t('common.phone') }}</th>
+                                <th class="text-end">{{ t('report.due') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,13 +40,13 @@
                                     <td class="text-end text-danger">৳ {{ number_format($s->due_balance, 2) }}</td>
                                 </tr>
                             @empty
-                                <tr><td colspan="3" class="text-center text-muted py-4">কোনো বাকি নেই।</td></tr>
+                                <tr><td colspan="3" class="text-center text-muted py-4">{{ t('report.no_due') }}</td></tr>
                             @endforelse
                         </tbody>
                         @if ($report['count'])
                             <tfoot>
                                 <tr class="fw-bold">
-                                    <td colspan="2">সর্বমোট</td>
+                                    <td colspan="2">{{ t('report.grand_total') }}</td>
                                     <td class="text-end text-danger">৳ {{ number_format($report['total'], 2) }}</td>
                                 </tr>
                             </tfoot>

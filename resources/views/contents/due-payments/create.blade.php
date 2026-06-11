@@ -1,16 +1,16 @@
 @extends('contents.body')
 
-@section('title', 'Record Payment')
+@section('title', t('duepay.collect_pay'))
 
 @section('content')
     @php
         $methodLabels = [
-            'cash'   => 'নগদ',
-            'bkash'  => 'বিকাশ',
-            'nagad'  => 'নগদ (Nagad)',
-            'rocket' => 'রকেট',
-            'bank'   => 'ব্যাংক',
-            'other'  => 'অন্যান্য',
+            'cash'   => t('duepay.method_cash'),
+            'bkash'  => t('duepay.method_bkash'),
+            'nagad'  => t('duepay.method_nagad'),
+            'rocket' => t('duepay.method_rocket'),
+            'bank'   => t('duepay.method_bank'),
+            'other'  => t('duepay.method_other'),
         ];
         $selectedType = old('party_type', $partyType);
     @endphp
@@ -18,9 +18,9 @@
     <div class="row gy-4 justify-content-center">
         <div class="col-12 col-lg-7">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="fw-bold mb-0">আদায় / পরিশোধ</h4>
+                <h4 class="fw-bold mb-0">{{ t('duepay.collect_pay') }}</h4>
                 <a href="{{ route('due-payments.index') }}" class="btn btn-outline-secondary">
-                    <i class="mdi mdi-arrow-left me-1"></i> ফিরে যান
+                    <i class="mdi mdi-arrow-left me-1"></i> {{ t('common.back') }}
                 </a>
             </div>
 
@@ -37,7 +37,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">নতুন লেনদেন</h5>
+                    <h5 class="mb-0">{{ t('duepay.new_transaction') }}</h5>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('due-payments.store') }}" id="duePaymentForm">
@@ -45,45 +45,45 @@
 
                         {{-- Customer / Supplier toggle --}}
                         <div class="mb-3">
-                            <label class="form-label d-block">ধরন</label>
+                            <label class="form-label d-block">{{ t('duepay.type') }}</label>
                             <div class="btn-group w-100" role="group">
                                 <input type="radio" class="btn-check" name="party_type" id="typeCustomer"
                                     value="customer" {{ $selectedType === 'customer' ? 'checked' : '' }}>
                                 <label class="btn btn-outline-primary" for="typeCustomer">
-                                    <i class="mdi mdi-account-arrow-down"></i> কাস্টমার বাকি আদায়
+                                    <i class="mdi mdi-account-arrow-down"></i> {{ t('duepay.collect_customer') }}
                                 </label>
 
                                 <input type="radio" class="btn-check" name="party_type" id="typeSupplier"
                                     value="supplier" {{ $selectedType === 'supplier' ? 'checked' : '' }}>
                                 <label class="btn btn-outline-primary" for="typeSupplier">
-                                    <i class="mdi mdi-account-arrow-up"></i> সরবরাহকারী পরিশোধ
+                                    <i class="mdi mdi-account-arrow-up"></i> {{ t('duepay.pay_supplier') }}
                                 </label>
                             </div>
                         </div>
 
                         {{-- Party (select2) --}}
                         <div class="mb-3">
-                            <label for="partySelect" class="form-label" id="partyLabel">কাস্টমার</label>
+                            <label for="partySelect" class="form-label" id="partyLabel">{{ t('nav.customers') }}</label>
                             <select name="party_id" id="partySelect" class="form-select" required>
-                                <option value="">— নির্বাচন করুন —</option>
+                                <option value="">{{ t('duepay.select_ph') }}</option>
                             </select>
                             <small class="text-muted" id="dueHint"></small>
                         </div>
 
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="amount" class="form-label">পরিমাণ (৳)</label>
+                                <label for="amount" class="form-label">{{ t('duepay.amount_tk') }}</label>
                                 <input type="number" step="0.01" min="0.01" name="amount" id="amount"
                                     onfocus="this.select()" class="form-control"
                                     value="{{ old('amount') }}" placeholder="0.00" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="payment_date" class="form-label">তারিখ</label>
+                                <label for="payment_date" class="form-label">{{ t('common.date') }}</label>
                                 <input type="date" name="payment_date" id="payment_date" class="form-control"
                                     value="{{ old('payment_date', now()->toDateString()) }}">
                             </div>
                             <div class="col-md-6">
-                                <label for="method" class="form-label">পেমেন্ট মাধ্যম</label>
+                                <label for="method" class="form-label">{{ t('duepay.method_label') }}</label>
                                 <select name="method" id="method" class="form-select">
                                     @foreach ($methodLabels as $key => $label)
                                         <option value="{{ $key }}" {{ old('method') === $key ? 'selected' : '' }}>
@@ -93,14 +93,14 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label for="note" class="form-label">নোট <span class="text-muted">(ঐচ্ছিক)</span></label>
+                                <label for="note" class="form-label">{{ t('common.note') }} <span class="text-muted">({{ t('common.optional') }})</span></label>
                                 <input type="text" name="note" id="note" class="form-control"
-                                    value="{{ old('note') }}" placeholder="যেমন: চেক নং">
+                                    value="{{ old('note') }}" placeholder="{{ t('duepay.note_ph') }}">
                             </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 mt-3" id="saveBtn">
-                            <i class="mdi mdi-content-save me-1"></i> সংরক্ষণ করুন
+                            <i class="mdi mdi-content-save me-1"></i> {{ t('common.save') }}
                         </button>
                     </form>
                 </div>
@@ -132,13 +132,13 @@
     function fillOptions(preserveId) {
         var type = currentType();
         var list = type === 'supplier' ? SUPPLIERS : CUSTOMERS;
-        partyLabel.textContent = type === 'supplier' ? 'সরবরাহকারী' : 'কাস্টমার';
+        partyLabel.textContent = type === 'supplier' ? "{{ t('nav.suppliers') }}" : "{{ t('nav.customers') }}";
 
-        partySelect.innerHTML = '<option value="">— নির্বাচন করুন —</option>';
+        partySelect.innerHTML = '<option value="">{{ t('duepay.select_ph') }}</option>';
         list.forEach(function (p) {
             var due = parseFloat(p.due_balance) || 0;
             var label = p.name + (p.phone ? ' — ' + p.phone : '') +
-                        (due > 0 ? '  (বাকিঃ ৳' + fmt(due) + ')' : '');
+                        (due > 0 ? '  (' + "{{ t('duepay.due_inline') }}" + ' ৳' + fmt(due) + ')' : '');
             var opt = new Option(label, p.id, false, false);
             opt.setAttribute('data-due', due);
             partySelect.appendChild(opt);
@@ -153,10 +153,10 @@
         var opt = partySelect.options[partySelect.selectedIndex];
         var due = opt ? parseFloat(opt.getAttribute('data-due')) || 0 : 0;
         if (partySelect.value && due > 0) {
-            dueHint.textContent = 'বর্তমান বাকিঃ ৳ ' + fmt(due);
+            dueHint.textContent = "{{ t('duepay.current_due') }}" + ' ৳ ' + fmt(due);
             dueHint.className = 'text-danger';
         } else if (partySelect.value) {
-            dueHint.textContent = 'কোনো বাকি নেই।';
+            dueHint.textContent = "{{ t('duepay.empty') }}";
             dueHint.className = 'text-muted';
         } else {
             dueHint.textContent = '';

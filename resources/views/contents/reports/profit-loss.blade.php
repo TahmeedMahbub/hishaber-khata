@@ -1,11 +1,11 @@
 @extends('contents.body')
 
-@section('title', 'Profit & Loss Report')
+@section('title', t('report.profit_loss'))
 
 @section('content')
     <div class="row gy-4">
         <div class="col-12">
-            @include('contents.reports.partials.header', ['title' => 'লাভ ও ক্ষতি রিপোর্ট'])
+            @include('contents.reports.partials.header', ['title' => t('report.profit_loss')])
             @include('contents.reports.partials.range-filter', [
                 'action' => route('reports.profit-loss'),
                 'from'   => $report['from'],
@@ -25,27 +25,27 @@
                             <table class="table mb-0">
                                 <tbody>
                                     <tr>
-                                        <td>মোট বিক্রয় (রাজস্ব)</td>
+                                        <td>{{ t('report.revenue') }}</td>
                                         <td class="text-end fw-medium">৳ {{ number_format($report['revenue'], 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-muted ps-4">এর মধ্যে ছাড়</td>
+                                        <td class="text-muted ps-4">{{ t('report.included_discount') }}</td>
                                         <td class="text-end text-muted">৳ {{ number_format($report['discount'], 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>বিক্রিত পণ্যের ক্রয়মূল্য (COGS)</td>
+                                        <td>{{ t('report.cogs') }}</td>
                                         <td class="text-end text-danger">− ৳ {{ number_format($report['cogs'], 2) }}</td>
                                     </tr>
                                     <tr class="table-active">
-                                        <td class="fw-bold">গ্রস লাভ</td>
+                                        <td class="fw-bold">{{ t('report.gross_profit') }}</td>
                                         <td class="text-end fw-bold">৳ {{ number_format($report['gross_profit'], 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>মোট খরচ</td>
+                                        <td>{{ t('report.total_expenses') }}</td>
                                         <td class="text-end text-danger">− ৳ {{ number_format($report['expenses'], 2) }}</td>
                                     </tr>
                                     <tr class="table-active">
-                                        <td class="fw-bold">নিট লাভ / ক্ষতি</td>
+                                        <td class="fw-bold">{{ t('report.net_profit') }}</td>
                                         <td class="text-end fw-bold {{ $report['net_profit'] >= 0 ? 'text-success' : 'text-danger' }}">
                                             ৳ {{ number_format($report['net_profit'], 2) }}
                                         </td>

@@ -41,7 +41,7 @@ class LoginController extends Controller
             return back()
                 ->withInput($request->only('phone'))
                 ->with('show_register_prompt', true)
-                ->withErrors(['phone' => 'এই মোবাইল নম্বরে কোনো অ্যাকাউন্ট নেই। প্রথমে রেজিস্টার করুন।']);
+                ->withErrors(['phone' => t('msg.no_account')]);
         }
 
         $request->session()->regenerate();

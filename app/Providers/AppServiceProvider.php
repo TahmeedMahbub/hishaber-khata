@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Domains\Common\Services\TranslationService;
 use App\Domains\Notification\Services\NotificationService;
 use App\Domains\Tenant\Services\TenantManager;
 use Illuminate\Pagination\Paginator;
@@ -17,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(TenantManager::class);
+        $this->app->singleton(TranslationService::class);
     }
 
     /**

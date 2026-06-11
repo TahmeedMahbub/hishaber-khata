@@ -38,7 +38,7 @@ class CategoryRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.unique' => 'এই নামে একটি ক্যাটাগরি ইতিমধ্যে আছে।',
+            'name.unique' => t('valid.category_name_unique'),
         ];
     }
 }

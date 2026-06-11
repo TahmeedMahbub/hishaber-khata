@@ -48,8 +48,8 @@ class CustomerRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'কাস্টমারের নাম দিন।',
-            'phone.unique'  => 'এই মোবাইল নম্বরে আগে থেকেই একজন কাস্টমার আছে।',
+            'name.required' => t('valid.customer_name_required'),
+            'phone.unique'  => t('valid.customer_phone_unique'),
         ];
     }
 }

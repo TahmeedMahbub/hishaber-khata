@@ -1,11 +1,11 @@
 @extends('contents.body')
 
-@section('title', 'New Damage/Lost')
+@section('title', t('damage.new_title'))
 
 @section('content')
     <div class="row gy-4 justify-content-center">
         <div class="col-12">
-            <h4 class="fw-bold mb-3">ড্যামেজ / হারানো পণ্য</h4>
+            <h4 class="fw-bold mb-3">{{ t('damage.new_title') }}</h4>
 
             <div class="card">
                 <div class="card-body">
@@ -23,11 +23,11 @@
                         @csrf
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="product_id" class="form-label">পণ্য</label>
+                                <label for="product_id" class="form-label">{{ t('nav.products') }}</label>
                                 <div class="d-flex gap-2">
                                     <div class="flex-grow-1">
                                         <select id="product_id" name="product_id" class="form-select" required>
-                                            <option value="">— পণ্য নির্বাচন করুন —</option>
+                                            <option value="">{{ t('damage.select_product') }}</option>
                                             @foreach ($products as $p)
                                                 <option value="{{ $p->id }}"
                                                     data-unit="{{ $p->unit }}"
@@ -39,49 +39,49 @@
                                         </select>
                                     </div>
                                     <button type="button" class="btn btn-outline-primary flex-shrink-0" id="scanBtn"
-                                        data-bs-toggle="modal" data-bs-target="#barcodeScanModal" title="বারকোড স্ক্যান">
+                                        data-bs-toggle="modal" data-bs-target="#barcodeScanModal" title="{{ t('product.barcode_scan') }}">
                                         <i class="mdi mdi-barcode-scan"></i>
                                     </button>
                                 </div>
                             </div>
 
                             <div class="col-md-3">
-                                <label for="type" class="form-label">ধরন</label>
+                                <label for="type" class="form-label">{{ t('damage.type') }}</label>
                                 <select id="type" name="type" class="form-select">
-                                    <option value="damage" {{ old('type') === 'damage' ? 'selected' : '' }}>ড্যামেজ</option>
-                                    <option value="lost" {{ old('type') === 'lost' ? 'selected' : '' }}>হারানো</option>
+                                    <option value="damage" {{ old('type') === 'damage' ? 'selected' : '' }}>{{ t('damage.damage') }}</option>
+                                    <option value="lost" {{ old('type') === 'lost' ? 'selected' : '' }}>{{ t('damage.lost') }}</option>
                                 </select>
                             </div>
 
                             <div class="col-md-3">
-                                <label for="qty" class="form-label">পরিমাণ</label>
+                                <label for="qty" class="form-label">{{ t('common.quantity') }}</label>
                                 <div class="input-group">
                                     <input type="number" step="0.01" min="0.01" id="qty" name="qty"
                                         class="form-control" value="{{ old('qty', '1') }}" required>
-                                    <span class="input-group-text" id="unitText">একক</span>
+                                    <span class="input-group-text" id="unitText">{{ t('product.unit') }}</span>
                                 </div>
                             </div>
 
                             <div class="col-md-4">
-                                <label for="damage_date" class="form-label">তারিখ</label>
+                                <label for="damage_date" class="form-label">{{ t('common.date') }}</label>
                                 <input type="date" id="damage_date" name="damage_date" class="form-control"
                                     value="{{ old('damage_date', now()->toDateString()) }}">
                             </div>
 
                             <div class="col-md-8">
-                                <label for="reason" class="form-label">কারণ <span class="text-muted">(ঐচ্ছিক)</span></label>
+                                <label for="reason" class="form-label">{{ t('damage.reason') }} <span class="text-muted">({{ t('common.optional') }})</span></label>
                                 <input type="text" id="reason" name="reason" class="form-control"
-                                    value="{{ old('reason') }}" placeholder="যেমন: মেয়াদ শেষ, ভেঙে গেছে">
+                                    value="{{ old('reason') }}" placeholder="{{ t('damage.reason_ph') }}">
                             </div>
                         </div>
 
                         <div class="alert alert-warning mt-3 mb-0 py-2 small">
-                            <i class="mdi mdi-information-outline me-1"></i> এই পরিমাণ স্টক থেকে কমে যাবে।
+                            <i class="mdi mdi-information-outline me-1"></i> {{ t('damage.stock_warning') }}
                         </div>
 
                         <div class="d-flex gap-2 mt-3">
-                            <button type="submit" class="btn btn-primary">সংরক্ষণ করুন</button>
-                            <a href="{{ route('damages.index') }}" class="btn btn-outline-secondary">বাতিল</a>
+                            <button type="submit" class="btn btn-primary">{{ t('common.save') }}</button>
+                            <a href="{{ route('damages.index') }}" class="btn btn-outline-secondary">{{ t('common.cancel') }}</a>
                         </div>
                     </form>
                 </div>
@@ -94,12 +94,12 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">বারকোড স্ক্যান</h5>
+                    <h5 class="modal-title">{{ t('product.barcode_scan') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div id="scanReader" style="width:100%"></div>
-                    <p class="text-muted small text-center mt-2 mb-0">ক্যামেরার সামনে বারকোড ধরুন</p>
+                    <p class="text-muted small text-center mt-2 mb-0">{{ t('product.hold_barcode') }}</p>
                 </div>
             </div>
         </div>
@@ -118,14 +118,14 @@
     function updateUnit() {
         var opt = productSelect.options[productSelect.selectedIndex];
         var unit = opt ? (opt.getAttribute('data-unit') || '') : '';
-        unitText.textContent = unit || 'একক';
+        unitText.textContent = unit || "{{ t('product.unit') }}";
     }
 
     // select2 searchable product dropdown
     if (window.jQuery && jQuery.fn.select2) {
         jQuery(productSelect).select2({
             width: '100%',
-            placeholder: '— পণ্য নির্বাচন করুন —',
+            placeholder: "{{ t('damage.select_product') }}",
             dropdownParent: jQuery(productSelect).parent(),
         }).on('select2:open', function () {
             setTimeout(function () {
@@ -178,7 +178,7 @@
             function () {}
         ).catch(function () {
             document.getElementById('scanReader').innerHTML =
-                '<p class="text-danger text-center mb-0">ক্যামেরা চালু করা যায়নি। অনুমতি দিন।</p>';
+                '<p class="text-danger text-center mb-0">' + "{{ t('product.camera_failed') }}" + '</p>';
         });
     });
 

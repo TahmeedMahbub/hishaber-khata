@@ -1,14 +1,14 @@
 @extends('contents.body')
 
-@section('title', 'Purchases')
+@section('title', t('purchase.title'))
 
 @section('content')
     <div class="row gy-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="fw-bold mb-0">ক্রয়</h4>
+                <h4 class="fw-bold mb-0">{{ t('purchase.title') }}</h4>
                 <a href="{{ route('purchases.create') }}" class="btn btn-primary">
-                    <i class="mdi mdi-plus me-1"></i> নতুন ক্রয়
+                    <i class="mdi mdi-plus me-1"></i> {{ t('dashboard.new_purchase') }}
                 </a>
             </div>
 
@@ -24,11 +24,11 @@
                     <form method="GET" action="{{ route('purchases.index') }}" class="row g-2">
                         <div class="col-md-10">
                             <input type="text" name="search" value="{{ $search ?? '' }}"
-                                class="form-control" placeholder="ইনভয়েস, সরবরাহকারীর নাম বা মোবাইল দিয়ে খুঁজুন...">
+                                class="form-control" placeholder="{{ t('purchase.search_ph') }}">
                         </div>
                         <div class="col-md-2 d-grid">
                             <button type="submit" class="btn btn-outline-secondary">
-                                <i class="mdi mdi-magnify"></i> খুঁজুন
+                                <i class="mdi mdi-magnify"></i> {{ t('common.search') }}
                             </button>
                         </div>
                     </form>
@@ -37,14 +37,14 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>ইনভয়েস</th>
-                                <th>সরবরাহকারী</th>
-                                <th>তারিখ</th>
-                                <th class="text-center">আইটেম</th>
-                                <th class="text-end">মোট</th>
-                                <th class="text-end">পরিশোধ</th>
-                                <th class="text-end">বাকি</th>
-                                <th class="text-end">অ্যাকশন</th>
+                                <th>{{ t('dashboard.invoice') }}</th>
+                                <th>{{ t('nav.suppliers') }}</th>
+                                <th>{{ t('common.date') }}</th>
+                                <th class="text-center">{{ t('purchase.items_col') }}</th>
+                                <th class="text-end">{{ t('common.total') }}</th>
+                                <th class="text-end">{{ t('purchase.paid') }}</th>
+                                <th class="text-end">{{ t('purchase.due') }}</th>
+                                <th class="text-end">{{ t('common.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,7 +52,7 @@
                                 <tr>
                                     <td class="fw-medium">{{ $purchase->invoice_no }}</td>
                                     <td>
-                                        {{ $purchase->supplier->name ?? 'নগদ ক্রয়' }}
+                                        {{ $purchase->supplier->name ?? t('purchase.cash_purchase') }}
                                         @if ($purchase->supplier?->phone)
                                             <small class="text-muted d-block">{{ $purchase->supplier->phone }}</small>
                                         @endif
@@ -65,7 +65,7 @@
                                         @if ($purchase->due > 0)
                                             <span class="text-danger">৳ {{ number_format($purchase->due, 2) }}</span>
                                         @else
-                                            <span class="badge bg-label-success">পরিশোধিত</span>
+                                            <span class="badge bg-label-success">{{ t('purchase.paid_off') }}</span>
                                         @endif
                                     </td>
                                     <td class="text-end">
@@ -75,7 +75,7 @@
                                         </a>
                                         <form method="POST" action="{{ route('purchases.destroy', $purchase) }}"
                                             class="d-inline"
-                                            data-confirm="ইনভয়েস <strong>{{ $purchase->invoice_no }}</strong> মুছে ফেলা হবে এবং স্টক ফিরিয়ে নেওয়া হবে।">
+                                            data-confirm="{{ t('purchase.delete_confirm_pre') }} <strong>{{ $purchase->invoice_no }}</strong> {{ t('purchase.delete_confirm_post') }}">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-icon btn-text-danger">
@@ -86,7 +86,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center text-muted py-4">কোনো ক্রয় নেই।</td>
+                                    <td colspan="8" class="text-center text-muted py-4">{{ t('purchase.empty') }}</td>
                                 </tr>
                             @endforelse
                         </tbody>

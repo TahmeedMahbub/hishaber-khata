@@ -1,6 +1,6 @@
 @extends('contents.body')
 
-@section('title', 'Invoice')
+@section('title', t('dashboard.invoice'))
 
 @php
     $tenant = optional(auth()->user())->tenant;
@@ -11,9 +11,9 @@
     $totalQty = $sale->items->sum('qty');
     $subtotal = $sale->total + $sale->discount;
     $statusMap = [
-        'completed' => ['label' => 'পরিশোধিত', 'class' => 'inv-badge-success'],
-        'draft' => ['label' => 'খসড়া', 'class' => 'inv-badge-muted'],
-        'cancelled' => ['label' => 'বাতিল', 'class' => 'inv-badge-danger'],
+        'completed' => ['label' => t('sale.paid_off'), 'class' => 'inv-badge-success'],
+        'draft' => ['label' => t('sale.status_draft'), 'class' => 'inv-badge-muted'],
+        'cancelled' => ['label' => t('sale.status_cancelled'), 'class' => 'inv-badge-danger'],
     ];
     $status = $statusMap[$sale->status] ?? ['label' => $sale->status, 'class' => 'inv-badge-muted'];
 @endphp
@@ -32,7 +32,7 @@
 
             <div class="invoice-toolbar d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3 d-print-none">
                 <a href="{{ route('sales.index') }}" class="btn btn-outline-secondary">
-                    <i class="mdi mdi-arrow-left me-1"></i> <span class="btn-label">ফিরে যান</span>
+                    <i class="mdi mdi-arrow-left me-1"></i> <span class="btn-label">{{ t('common.back') }}</span>
                 </a>
                 <div class="d-flex flex-wrap gap-2">                    @php
                         $waPhone = preg_replace('/\D+/', '', optional($sale->customer)->phone ?? '');
@@ -63,13 +63,13 @@
                     @endphp
                     @if (!empty($waPhone))
                         <a href="{{ $waUrl }}" target="_blank" rel="noopener" class="btn btn-outline-success">
-                            <i class="mdi mdi-whatsapp me-1"></i> <span class="btn-label">হোয়াটসঅ্যাপ</span>
+                            <i class="mdi mdi-whatsapp me-1"></i> <span class="btn-label">{{ t('sale.whatsapp') }}</span>
                         </a>
                     @endif                    <a href="{{ route('sales.create') }}" class="btn btn-outline-primary">
-                        <i class="mdi mdi-plus me-1"></i> <span class="btn-label">নতুন বিক্রয়</span>
+                        <i class="mdi mdi-plus me-1"></i> <span class="btn-label">{{ t('dashboard.new_sale') }}</span>
                     </a>
                     <button type="button" class="btn btn-primary" onclick="window.print()">
-                        <i class="mdi mdi-printer me-1"></i> <span class="btn-label">প্রিন্ট</span>
+                        <i class="mdi mdi-printer me-1"></i> <span class="btn-label">{{ t('common.print') }}</span>
                     </button>
                 </div>
             </div>
@@ -88,7 +88,7 @@
                         </div>
                     </div>
                     <div class="invoice-title-box">
-                        <div class="invoice-title">ইনভয়েস</div>
+                        <div class="invoice-title">{{ t('dashboard.invoice') }}</div>
                         <div class="invoice-no"># {{ $sale->invoice_no }}</div>
                         <span class="inv-badge {{ $status['class'] }}">{{ $status['label'] }}</span>
                     </div>
@@ -96,8 +96,8 @@
 
                 <div class="invoice-meta">
                     <div class="invoice-meta-block">
-                        <span class="invoice-meta-label">গ্রাহক</span>
-                        <span class="invoice-meta-name">{{ $sale->customer->name ?? 'ওয়াক-ইন কাস্টমার' }}</span>
+                        <span class="invoice-meta-label">{{ t('sale.customer_label') }}</span>
+                        <span class="invoice-meta-name">{{ $sale->customer->name ?? t('sale.walkin') }}</span>
                         @if (optional($sale->customer)->phone)
                             <span class="invoice-meta-sub">{{ $sale->customer->phone }}</span>
                         @endif
@@ -106,9 +106,9 @@
                         @endif
                     </div>
                     <div class="invoice-meta-block text-md-end">
-                        <div><span class="invoice-meta-label">তারিখ:</span> {{ $sale->sale_date->format('d M Y') }}</div>
+                        <div><span class="invoice-meta-label">{{ t('common.date') }}:</span> {{ $sale->sale_date->format('d M Y') }}</div>
                         @if ($sale->user)
-                            <div><span class="invoice-meta-label">বিক্রয়কর্মী:</span> {{ $sale->user->name }}</div>
+                            <div><span class="invoice-meta-label">{{ t('sale.salesperson') }}:</span> {{ $sale->user->name }}</div>
                         @endif
                     </div>
                 </div>
@@ -118,10 +118,10 @@
                         <thead>
                             <tr>
                                 <th class="col-sl">#</th>
-                                <th>পণ্য</th>
-                                <th class="text-end">পরিমাণ</th>
-                                <th class="text-end">দাম</th>
-                                <th class="text-end">মোট</th>
+                                <th>{{ t('nav.products') }}</th>
+                                <th class="text-end">{{ t('common.quantity') }}</th>
+                                <th class="text-end">{{ t('sale.price_col') }}</th>
+                                <th class="text-end">{{ t('common.total') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -140,31 +140,31 @@
 
                 <div class="invoice-summary">
                     <div class="invoice-summary-left">
-                        <span>{{ $itemCount }} টি পণ্য</span>
-                        <span>মোট পরিমাণ: {{ rtrim(rtrim(number_format($totalQty, 2), '0'), '.') }}</span>
+                        <span>{{ $itemCount }} {{ t('sale.items_suffix') }}</span>
+                        <span>{{ t('sale.total_qty') }}: {{ rtrim(rtrim(number_format($totalQty, 2), '0'), '.') }}</span>
                     </div>
                     <div class="invoice-totals">
                         <div class="invoice-total-row">
-                            <span>সাবটোটাল</span>
+                            <span>{{ t('sale.subtotal') }}</span>
                             <span>৳ {{ number_format($subtotal, 2) }}</span>
                         </div>
                         @if ($sale->discount > 0)
                             <div class="invoice-total-row">
-                                <span>ছাড়</span>
+                                <span>{{ t('sale.discount') }}</span>
                                 <span>− ৳ {{ number_format($sale->discount, 2) }}</span>
                             </div>
                         @endif
                         <div class="invoice-total-row invoice-total-grand">
-                            <span>সর্বমোট</span>
+                            <span>{{ t('sale.grand_total') }}</span>
                             <span>৳ {{ number_format($sale->total, 2) }}</span>
                         </div>
                         <div class="invoice-total-row">
-                            <span>পরিশোধ</span>
+                            <span>{{ t('sale.paid') }}</span>
                             <span>৳ {{ number_format($sale->paid, 2) }}</span>
                         </div>
                         @if ($sale->due > 0)
                             <div class="invoice-total-row invoice-total-due">
-                                <span>বাকি</span>
+                                <span>{{ t('sale.due') }}</span>
                                 <span>৳ {{ number_format($sale->due, 2) }}</span>
                             </div>
                         @endif
@@ -173,16 +173,16 @@
 
                 @if ($sale->note)
                     <div class="invoice-note">
-                        <strong>নোট:</strong> {{ $sale->note }}
+                        <strong>{{ t('common.note') }}:</strong> {{ $sale->note }}
                     </div>
                 @endif
 
                 <div class="invoice-foot">
                     <div class="invoice-sign">
                         <span class="invoice-sign-line"></span>
-                        <span class="invoice-sign-label">কর্তৃপক্ষের স্বাক্ষর</span>
+                        <span class="invoice-sign-label">{{ t('sale.authorized_sign') }}</span>
                     </div>
-                    <div class="invoice-thanks">কেনাকাটার জন্য ধন্যবাদ</div>
+                    <div class="invoice-thanks">{{ t('sale.thanks') }}</div>
                 </div>
             </div>
         </div>

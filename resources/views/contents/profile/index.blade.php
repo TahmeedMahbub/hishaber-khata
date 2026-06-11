@@ -1,6 +1,6 @@
 @extends('contents.body')
 
-@section('title', 'Profile')
+@section('title', t('nav.profile'))
 
 @section('content')
     @php
@@ -11,7 +11,7 @@
     @endphp
     <div class="row gy-4 justify-content-center">
         <div class="col-12 col-lg-10">
-            <h4 class="fw-bold mb-3">প্রোফাইল তথ্য পরিবর্তন</h4>
+            <h4 class="fw-bold mb-3">{{ t('nav.profile_edit') }}</h4>
 
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible" role="alert">
@@ -34,12 +34,12 @@
             <ul class="nav nav-tabs mb-3" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link {{ $activeTab === 'info' ? 'active' : '' }}" data-bs-toggle="tab" href="#tab-info" role="tab" aria-selected="{{ $activeTab === 'info' ? 'true' : 'false' }}">
-                        <i class="mdi mdi-account-outline me-1"></i> তথ্য আপডেট
+                        <i class="mdi mdi-account-outline me-1"></i> {{ t('profile.tab_info') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ $activeTab === 'password' ? 'active' : '' }}" data-bs-toggle="tab" href="#tab-password" role="tab" aria-selected="{{ $activeTab === 'password' ? 'true' : 'false' }}">
-                        <i class="mdi mdi-lock-outline me-1"></i> পাসওয়ার্ড আপডেট
+                        <i class="mdi mdi-lock-outline me-1"></i> {{ t('profile.tab_password') }}
                     </a>
                 </li>
             </ul>
@@ -49,7 +49,7 @@
                 <div class="tab-pane fade {{ $activeTab === 'info' ? 'show active' : '' }}" id="tab-info" role="tabpanel">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h6 class="mb-0"><i class="mdi mdi-account-outline me-1"></i> ব্যক্তিগত তথ্য</h6>
+                            <h6 class="mb-0"><i class="mdi mdi-account-outline me-1"></i> {{ t('profile.personal_info') }}</h6>
                         </div>
                         <div class="card-body">
                             <div class="d-flex align-items-center mb-4">
@@ -69,37 +69,37 @@
                                 @method('PUT')
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label for="name" class="form-label">নাম</label>
+                                        <label for="name" class="form-label">{{ t('common.name') }}</label>
                                         <input type="text" id="name" name="name" class="form-control"
                                             value="{{ old('name', $user->name) }}" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="phone" class="form-label">ফোন</label>
+                                        <label for="phone" class="form-label">{{ t('common.phone') }}</label>
                                         <input type="text" id="phone" name="phone" class="form-control"
                                             value="{{ old('phone', $user->phone) }}">
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="email" class="form-label">ইমেইল</label>
+                                        <label for="email" class="form-label">{{ t('common.email') }}</label>
                                         <input type="email" id="email" name="email" class="form-control"
                                             value="{{ old('email', $user->email) }}">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">ভূমিকা</label>
+                                        <label class="form-label">{{ t('common.role') }}</label>
                                         <input type="text" class="form-control" value="{{ ucfirst($user->role) }}" disabled>
                                     </div>
                                 </div>
 
                                 @if ($user->isOwner() && $tenant)
                                     <hr class="my-4">
-                                    <h6 class="mb-3"><i class="mdi mdi-store-outline me-1"></i> ব্যবসার তথ্য</h6>
+                                    <h6 class="mb-3"><i class="mdi mdi-store-outline me-1"></i> {{ t('profile.business_info') }}</h6>
                                     <div class="row g-3">
                                         <div class="col-md-6">
-                                            <label for="b_name" class="form-label">ব্যবসার নাম</label>
+                                            <label for="b_name" class="form-label">{{ t('profile.business_name') }}</label>
                                             <input type="text" id="b_name" name="business_name" class="form-control"
                                                 value="{{ old('business_name', $tenant->name) }}" required>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="b_type" class="form-label">ব্যবসার ধরন</label>
+                                            <label for="b_type" class="form-label">{{ t('profile.business_type') }}</label>
                                             <select id="b_type" name="business_type" class="form-select" required>
                                                 @foreach ($businessTypes as $key => $label)
                                                     <option value="{{ $key }}"
@@ -113,7 +113,7 @@
                                 @endif
 
                                 <div class="mt-4">
-                                    <button type="submit" class="btn btn-primary">সংরক্ষণ করুন</button>
+                                    <button type="submit" class="btn btn-primary">{{ t('common.save') }}</button>
                                 </div>
                             </form>
                         </div>
@@ -129,24 +129,24 @@
                                 @method('PUT')
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label for="current_password" class="form-label">বর্তমান পাসওয়ার্ড</label>
+                                        <label for="current_password" class="form-label">{{ t('profile.current_password') }}</label>
                                         <input type="password" id="current_password" name="current_password"
                                             class="form-control" autocomplete="current-password" required>
                                     </div>
                                     <div class="col-md-6 d-none d-md-block"></div>
                                     <div class="col-md-6">
-                                        <label for="password" class="form-label">নতুন পাসওয়ার্ড</label>
+                                        <label for="password" class="form-label">{{ t('profile.new_password') }}</label>
                                         <input type="password" id="password" name="password" class="form-control"
                                             autocomplete="new-password" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="password_confirmation" class="form-label">নতুন পাসওয়ার্ড (পুনরায়)</label>
+                                        <label for="password_confirmation" class="form-label">{{ t('profile.confirm_new_password') }}</label>
                                         <input type="password" id="password_confirmation" name="password_confirmation"
                                             class="form-control" autocomplete="new-password" required>
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <button type="submit" class="btn btn-primary">পাসওয়ার্ড পরিবর্তন করুন</button>
+                                    <button type="submit" class="btn btn-primary">{{ t('profile.change_password_btn') }}</button>
                                 </div>
                             </form>
                         </div>

@@ -30,8 +30,8 @@ class ExpenseRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.required'  => 'খরচের বিবরণ দিন।',
-            'amount.required' => 'টাকার পরিমাণ দিন।',
+            'title.required'  => t('valid.expense_title_required'),
+            'amount.required' => t('valid.amount_required'),
         ];
     }
 }

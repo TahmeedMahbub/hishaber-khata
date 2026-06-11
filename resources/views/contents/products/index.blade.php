@@ -1,18 +1,18 @@
 @extends('contents.body')
 
-@section('title', 'Products')
+@section('title', t('product.title'))
 
 @section('content')
     <div class="row gy-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="fw-bold mb-0">পণ্য</h4>
+                <h4 class="fw-bold mb-0">{{ t('product.title') }}</h4>
                 <div class="d-flex gap-2">
                     <button type="button" class="btn btn-outline-success text-dark" data-bs-toggle="modal" data-bs-target="#importModal">
-                        <i class="mdi mdi-file-excel me-1"></i> Excel ইমপোর্ট
+                        <i class="mdi mdi-file-excel me-1"></i> {{ t('product.excel_import') }}
                     </button>
                     <a href="{{ route('products.create') }}" class="btn btn-primary">
-                        <i class="mdi mdi-plus me-1"></i> নতুন পণ্য
+                        <i class="mdi mdi-plus me-1"></i> {{ t('product.new') }}
                     </a>
                 </div>
             </div>
@@ -33,7 +33,7 @@
 
             @if (session('import_errors'))
                 <div class="alert alert-warning alert-dismissible" role="alert">
-                    <strong>কিছু সারি বাদ পড়েছে:</strong>
+                    <strong>{{ t('product.some_rows_skipped') }}</strong>
                     <ul class="mb-0 mt-1">
                         @foreach (session('import_errors') as $err)
                             <li>{{ $err }}</li>
@@ -49,16 +49,16 @@
                         <div class="col-md-6">
                             <div class="input-group">
                                 <input type="text" name="search" id="productSearchInput" value="{{ $search ?? '' }}"
-                                    class="form-control" placeholder="নাম বা বারকোড দিয়ে খুঁজুন...">
+                                    class="form-control" placeholder="{{ t('product.search_ph') }}">
                                 <button type="button" class="btn btn-outline-secondary" id="scanBtn"
-                                    data-bs-toggle="modal" data-bs-target="#barcodeScanModal" title="বারকোড স্ক্যান">
+                                    data-bs-toggle="modal" data-bs-target="#barcodeScanModal" title="{{ t('product.barcode_scan') }}">
                                     <i class="mdi mdi-barcode-scan"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <select name="category_id" class="form-select">
-                                <option value="">সব ক্যাটাগরি</option>
+                                <option value="">{{ t('product.all_categories') }}</option>
                                 @foreach ($categories as $cat)
                                     <option value="{{ $cat->id }}" {{ (string) $categoryId === (string) $cat->id ? 'selected' : '' }}>
                                         {{ $cat->name }}
@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-md-2 d-grid">
                             <button type="submit" class="btn btn-outline-secondary">
-                                <i class="mdi mdi-magnify"></i> খুঁজুন
+                                <i class="mdi mdi-magnify"></i> {{ t('common.search') }}
                             </button>
                         </div>
                     </form>
@@ -77,13 +77,13 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>নাম</th>
-                                <th>ক্যাটাগরি</th>
-                                <th class="text-end">ক্রয়মূল্য</th>
-                                <th class="text-end">বিক্রয়মূল্য</th>
-                                <th class="text-end">স্টক</th>
-                                <th>স্ট্যাটাস</th>
-                                <th class="text-end">অ্যাকশন</th>
+                                <th>{{ t('common.name') }}</th>
+                                <th>{{ t('product.category') }}</th>
+                                <th class="text-end">{{ t('product.purchase_price') }}</th>
+                                <th class="text-end">{{ t('product.sale_price') }}</th>
+                                <th class="text-end">{{ t('product.stock') }}</th>
+                                <th>{{ t('common.status') }}</th>
+                                <th class="text-end">{{ t('common.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -101,14 +101,14 @@
                                     <td class="text-end">
                                         {{ rtrim(rtrim(number_format($product->stock_qty, 2), '0'), '.') }} {{ $product->unit }}
                                         @if ($product->isLowStock())
-                                            <span class="badge bg-label-warning ms-1">কম</span>
+                                            <span class="badge bg-label-warning ms-1">{{ t('product.low') }}</span>
                                         @endif
                                     </td>
                                     <td>
                                         @if ($product->status === 'active')
-                                            <span class="badge bg-label-success">সক্রিয়</span>
+                                            <span class="badge bg-label-success">{{ t('common.active') }}</span>
                                         @else
-                                            <span class="badge bg-label-secondary">নিষ্ক্রিয়</span>
+                                            <span class="badge bg-label-secondary">{{ t('common.inactive') }}</span>
                                         @endif
                                     </td>
                                     <td class="text-end">
@@ -117,7 +117,7 @@
                                             <i class="mdi mdi-pencil-outline"></i>
                                         </a>
                                         <form method="POST" action="{{ route('products.destroy', $product) }}"
-                                            class="d-inline" data-confirm="আপনি কি নিশ্চিত?">
+                                            class="d-inline" data-confirm="{{ t('common.are_you_sure') }}">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-icon btn-text-danger">
@@ -128,7 +128,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="text-center text-muted py-4">কোনো পণ্য নেই।</td>
+                                    <td colspan="7" class="text-center text-muted py-4">{{ t('product.empty') }}</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -150,22 +150,22 @@
                 <form method="POST" action="{{ route('products.import') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title">Excel দিয়ে পণ্য ইমপোর্ট</h5>
+                        <h5 class="modal-title">{{ t('product.import_title') }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <ol class="ps-3 mb-3 small text-muted">
-                            <li>নিচের বাটন থেকে টেমপ্লেট ডাউনলোড করুন।</li>
-                            <li>প্রথম সারির শিরোনাম (কলামের নাম) <strong>অপরিবর্তিত</strong> রাখুন।</li>
-                            <li>দ্বিতীয় সারি থেকে পণ্যের তথ্য লিখুন ও আপলোড করুন।</li>
+                            <li>{{ t('product.import_step1') }}</li>
+                            <li>{{ t('product.import_step2_pre') }} <strong>{{ t('product.import_step2_strong') }}</strong> {{ t('product.import_step2_post') }}</li>
+                            <li>{{ t('product.import_step3') }}</li>
                         </ol>
 
                         <a href="{{ route('products.import.template') }}" class="btn btn-sm btn-outline-secondary mb-3">
-                            <i class="mdi mdi-download me-1"></i> টেমপ্লেট ডাউনলোড
+                            <i class="mdi mdi-download me-1"></i> {{ t('product.template_download') }}
                         </a>
 
                         <div class="mb-2">
-                            <label for="importFile" class="form-label">Excel / CSV ফাইল</label>
+                            <label for="importFile" class="form-label">{{ t('product.excel_csv_file') }}</label>
                             <input type="file" name="file" id="importFile" class="form-control"
                                 accept=".xlsx,.xls,.csv" required>
                             @error('file')
@@ -174,13 +174,13 @@
                         </div>
 
                         <p class="small text-muted mb-0">
-                            শিরোনাম ক্রম: পণ্যের নাম · ক্যাটাগরি · বারকোড · ক্রয়মূল্য · বিক্রয়মূল্য · একক · বর্তমান স্টক · কম স্টক সতর্কতা।
+                            {{ t('product.header_order') }}
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">বাতিল</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{{ t('common.cancel') }}</button>
                         <button type="submit" class="btn btn-success">
-                            <i class="mdi mdi-upload me-1"></i> ইমপোর্ট করুন
+                            <i class="mdi mdi-upload me-1"></i> {{ t('product.import_btn') }}
                         </button>
                     </div>
                 </form>
@@ -193,12 +193,12 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">বারকোড স্ক্যান</h5>
+                    <h5 class="modal-title">{{ t('product.barcode_scan') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div id="scanReader" style="width:100%"></div>
-                    <p class="text-muted small text-center mt-2 mb-0">ক্যামেরার সামনে বারকোড ধরুন</p>
+                    <p class="text-muted small text-center mt-2 mb-0">{{ t('product.hold_barcode') }}</p>
                 </div>
             </div>
         </div>
@@ -237,7 +237,7 @@
             function () {}
         ).catch(function () {
             document.getElementById('scanReader').innerHTML =
-                '<p class="text-danger text-center mb-0">ক্যামেরা চালু করা যায়নি। অনুমতি দিন।</p>';
+                '<p class="text-danger text-center mb-0">{{ t('product.camera_failed') }}</p>';
         });
     });
 

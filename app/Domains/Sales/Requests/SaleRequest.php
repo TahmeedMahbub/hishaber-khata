@@ -48,8 +48,8 @@ class SaleRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'items.required' => 'অন্তত একটি পণ্য যোগ করুন।',
-            'items.min'      => 'অন্তত একটি পণ্য যোগ করুন।',
+            'items.required' => t('valid.items_required'),
+            'items.min'      => t('valid.items_required'),
         ];
     }
 }

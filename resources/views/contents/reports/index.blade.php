@@ -1,32 +1,32 @@
 @extends('contents.body')
 
-@section('title', 'Reports')
+@section('title', t('nav.reports'))
 
 @section('content')
     <div class="row gy-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="fw-bold mb-0">রিপোর্ট</h4>
+                <h4 class="fw-bold mb-0">{{ t('nav.reports') }}</h4>
             </div>
 
             {{-- Phase 1 --}}
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center">
-                    <h5 class="mb-0">ফেজ ১</h5>
+                    <h5 class="mb-0">{{ t('report.phase1') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="row g-3">
                         @foreach ([
-                            ['ডেইলি সেলস রিপোর্ট', 'mdi-calendar-today', 'reports.daily-sales'],
-                            ['মাসিক সেলস রিপোর্ট', 'mdi-calendar-month', 'reports.monthly-sales'],
-                            ['ক্রয় রিপোর্ট', 'mdi-cart-arrow-down', 'reports.purchases'],
-                            ['বর্তমান স্টক রিপোর্ট', 'mdi-package-variant-closed', 'reports.stock'],
-                            ['কম স্টক রিপোর্ট', 'mdi-package-variant-remove', 'reports.low-stock'],
-                            ['কাস্টমার বাকি রিপোর্ট', 'mdi-account-cash', 'reports.customer-due'],
-                            ['সরবরাহকারী বাকি রিপোর্ট', 'mdi-truck-cargo-container', 'reports.supplier-due'],
-                            ['খরচ রিপোর্ট', 'mdi-cash-minus', 'reports.expenses'],
-                            ['ক্যাশ বুক রিপোর্ট', 'mdi-book-open-variant', 'reports.cash-book'],
-                            ['লাভ ও ক্ষতি রিপোর্ট', 'mdi-chart-line', 'reports.profit-loss'],
+                            [t('report.daily_sales'), 'mdi-calendar-today', 'reports.daily-sales'],
+                            [t('report.monthly_sales'), 'mdi-calendar-month', 'reports.monthly-sales'],
+                            [t('report.purchase'), 'mdi-cart-arrow-down', 'reports.purchases'],
+                            [t('report.stock'), 'mdi-package-variant-closed', 'reports.stock'],
+                            [t('report.low_stock'), 'mdi-package-variant-remove', 'reports.low-stock'],
+                            [t('report.customer_due'), 'mdi-account-cash', 'reports.customer-due'],
+                            [t('report.supplier_due'), 'mdi-truck-cargo-container', 'reports.supplier-due'],
+                            [t('report.expense'), 'mdi-cash-minus', 'reports.expenses'],
+                            [t('report.cash_book'), 'mdi-book-open-variant', 'reports.cash-book'],
+                            [t('report.profit_loss'), 'mdi-chart-line', 'reports.profit-loss'],
                         ] as $report)
                             <div class="col-md-6 col-lg-4">
                                 <a href="{{ route($report[2]) }}"
@@ -44,16 +44,16 @@
             {{-- Phase 2 --}}
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center">
-                    <h5 class="mb-0">ফেজ ২</h5>
+                    <h5 class="mb-0">{{ t('report.phase2') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="row g-3">
                         @foreach ([
-                            ['পণ্য অনুযায়ী লাভ', 'mdi-tag-text-outline'],
-                            ['স্টক লেজার', 'mdi-clipboard-list-outline'],
-                            ['কাস্টমার লেজার', 'mdi-account-details'],
-                            ['সরবরাহকারী লেজার', 'mdi-account-tie'],
-                            ['টপ সেলিং পণ্য', 'mdi-trophy-outline'],
+                            [t('report.profit_by_product'), 'mdi-tag-text-outline'],
+                            [t('report.stock_ledger'), 'mdi-clipboard-list-outline'],
+                            [t('report.customer_ledger'), 'mdi-account-details'],
+                            [t('report.supplier_ledger'), 'mdi-account-tie'],
+                            [t('report.top_selling'), 'mdi-trophy-outline'],
                         ] as $report)
                             <div class="col-md-6 col-lg-4">
                                 <div class="border rounded p-3 h-100 d-flex align-items-center">
@@ -69,14 +69,14 @@
             {{-- Phase 3 --}}
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center">
-                    <h5 class="mb-0">ফেজ ৩</h5>
+                    <h5 class="mb-0">{{ t('report.phase3') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="row g-3">
                         @foreach ([
-                            ['বিজনেস হেলথ', 'mdi-heart-pulse'],
-                            ['এআই ইনসাইটস', 'mdi-robot-outline'],
-                            ['ফোরকাস্টিং', 'mdi-chart-timeline-variant'],
+                            [t('report.business_health'), 'mdi-heart-pulse'],
+                            [t('report.ai_insights'), 'mdi-robot-outline'],
+                            [t('report.forecasting'), 'mdi-chart-timeline-variant'],
                         ] as $report)
                             <div class="col-md-6 col-lg-4">
                                 <div class="border rounded p-3 h-100 d-flex align-items-center">

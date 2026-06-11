@@ -35,7 +35,7 @@ class NotificationController extends Controller
     {
         $this->service->markAllRead($request->user());
 
-        return redirect()->back()->with('success', 'সব নোটিফিকেশন পঠিত হিসেবে চিহ্নিত করা হয়েছে।');
+        return redirect()->back()->with('success', t('msg.notifications_all_read'));
     }
 
     /**
