@@ -25,6 +25,10 @@ class SaleRequest extends FormRequest
                 'nullable',
                 Rule::exists('customers', 'id')->where(fn ($q) => $q->where('tenant_id', $tenantId)),
             ],
+            'user_id' => [
+                'nullable',
+                Rule::exists('users', 'id')->where(fn ($q) => $q->where('tenant_id', $tenantId)),
+            ],
             'items'              => ['required', 'array', 'min:1'],
             'items.*.product_id' => [
                 'required',

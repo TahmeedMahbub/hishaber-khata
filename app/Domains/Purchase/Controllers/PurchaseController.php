@@ -28,9 +28,14 @@ class PurchaseController extends Controller
 
     public function create(): View
     {
+        $user = auth()->user();
+
         return view('contents.purchases.create', [
             'products'  => Product::where('status', 'active')->orderBy('name')->get(),
             'suppliers' => Supplier::orderBy('name')->get(),
+            'employees' => $user->tenant
+                ? $user->tenant->users()->where('status', 'active')->orderBy('name')->get()
+                : collect(),
         ]);
     }
 

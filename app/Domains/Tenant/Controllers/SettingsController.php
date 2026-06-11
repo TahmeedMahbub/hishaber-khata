@@ -13,9 +13,30 @@ use Illuminate\View\View;
 
 class SettingsController extends Controller
 {
-    public function index(): RedirectResponse
+    public function index(): View
     {
-        return redirect()->route('profile');
+        $user = auth()->user();
+
+        abort_unless($user->isOwner() && $user->tenant, 403);
+
+        return view('contents.settings.index', [
+            'user'      => $user,
+            'tenant'    => $user->tenant,
+            'settings'  => $user->tenant->settingsOrCreate(),
+        ]);
+    }
+
+    public function employees(): View
+    {
+        $user = auth()->user();
+
+        abort_unless($user->isOwner() && $user->tenant, 403);
+
+        return view('contents.employees.index', [
+            'user'      => $user,
+            'tenant'    => $user->tenant,
+            'employees' => $user->tenant->users()->where('id', '!=', $user->id)->orderBy('name')->get(),
+        ]);
     }
 
     public function profile(): View
@@ -26,10 +47,18 @@ class SettingsController extends Controller
             'user'          => $user,
             'tenant'        => $user->tenant,
             'businessTypes' => config('business_types.types', []),
-            'employees'     => $user->isOwner() && $user->tenant
-                ? $user->tenant->users()->where('id', '!=', $user->id)->orderBy('name')->get()
-                : collect(),
         ]);
+    }
+
+    public function switchLanguage(): RedirectResponse
+    {
+        $user = auth()->user();
+
+        $user->update([
+            'language' => $user->language === 'en' ? 'bn' : 'en',
+        ]);
+
+        return back();
     }
 
     public function updateProfile(Request $request): RedirectResponse
@@ -76,7 +105,7 @@ class SettingsController extends Controller
             ]);
         }
 
-        return redirect()->route('settings.index')
+        return redirect()->route('profile')
             ->with('success', 'প্রোফাইল আপডেট করা হয়েছে।');
     }
 
@@ -99,8 +128,48 @@ class SettingsController extends Controller
 
         $user->update(['password' => Hash::make($request->input('password'))]);
 
-        return redirect()->route('settings.index')
+        return redirect()->route('profile')
             ->with('success', 'পাসওয়ার্ড পরিবর্তন করা হয়েছে।');
+    }
+
+    public function updatePreferences(Request $request): RedirectResponse
+    {
+        $user = auth()->user();
+
+        abort_unless($user->isOwner() && $user->tenant, 403);
+
+        $data = $request->validate([
+            'language'             => ['required', Rule::in(['bn', 'en'])],
+            'currency'             => ['required', 'string', 'max:10'],
+            'currency_symbol'      => ['required', 'string', 'max:10'],
+            'date_format'          => ['required', 'string', 'max:20'],
+            'timezone'             => ['required', 'string', 'max:50'],
+            'invoice_prefix'       => ['nullable', 'string', 'max:20'],
+            'track_stock'          => ['nullable', 'boolean'],
+            'low_stock_alert'      => ['nullable', 'boolean'],
+            'allow_negative_stock' => ['nullable', 'boolean'],
+            'enable_barcode'       => ['nullable', 'boolean'],
+            'show_profit'          => ['nullable', 'boolean'],
+            'enable_due'           => ['nullable', 'boolean'],
+        ]);
+
+        $user->tenant->settingsOrCreate()->update([
+            'language'             => $data['language'],
+            'currency'             => $data['currency'],
+            'currency_symbol'      => $data['currency_symbol'],
+            'date_format'          => $data['date_format'],
+            'timezone'             => $data['timezone'],
+            'invoice_prefix'       => $data['invoice_prefix'] ?? 'INV-',
+            'track_stock'          => $request->boolean('track_stock'),
+            'low_stock_alert'      => $request->boolean('low_stock_alert'),
+            'allow_negative_stock' => $request->boolean('allow_negative_stock'),
+            'enable_barcode'       => $request->boolean('enable_barcode'),
+            'show_profit'          => $request->boolean('show_profit'),
+            'enable_due'           => $request->boolean('enable_due'),
+        ]);
+
+        return redirect()->route('settings.index')
+            ->with('success', 'সেটিংস আপডেট করা হয়েছে।');
     }
 
     public function storeEmployee(Request $request): RedirectResponse
@@ -138,7 +207,7 @@ class SettingsController extends Controller
             'status'    => 'active',
         ]);
 
-        return redirect()->route('settings.index')
+        return redirect()->route('employees.index')
             ->with('success', 'নতুন কর্মচারী যোগ করা হয়েছে।');
     }
 }

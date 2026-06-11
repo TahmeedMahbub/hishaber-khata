@@ -600,6 +600,7 @@ CREATE TABLE `tenants` (
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `business_type` enum('grocery','pharmacy','cosmetics','stationery','mobile_accessories','wholesale','other') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'other',
+  `settings` json DEFAULT NULL,
   `status` enum('active','suspended','pending') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,

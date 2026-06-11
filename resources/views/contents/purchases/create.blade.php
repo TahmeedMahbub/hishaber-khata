@@ -49,6 +49,21 @@
                             </div>
                         </div>
 
+                        @if ($employees->count() > 1)
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">দায়িত্বপ্রাপ্ত কর্মী</label>
+                                    <select name="user_id" class="form-select">
+                                        @foreach ($employees as $emp)
+                                            <option value="{{ $emp->id }}" {{ (string) old('user_id', auth()->id()) === (string) $emp->id ? 'selected' : '' }}>
+                                                {{ $emp->name }}{{ $emp->id === auth()->id() ? ' (আপনি)' : '' }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        @endif
+
                         {{-- Product picker --}}
                         <div class="mb-3 position-relative">
                             <div class="d-flex justify-content-between align-items-center mb-1">

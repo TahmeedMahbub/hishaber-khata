@@ -20,6 +20,36 @@ class Tenant extends Model
         'status',
     ];
 
+    /**
+     * The per-tenant business preferences (one row in the settings table).
+     */
+    public function settings(): HasOne
+    {
+        return $this->hasOne(Setting::class);
+    }
+
+    /**
+     * Return the tenant's settings row, creating it with defaults if missing.
+     */
+    public function settingsOrCreate(): Setting
+    {
+        return $this->settings()->firstOrCreate(['tenant_id' => $this->id]);
+    }
+
+    /**
+     * Get a single preference value, falling back to its default.
+     */
+    public function setting(string $key, mixed $default = null): mixed
+    {
+        $value = $this->settings?->getAttribute($key);
+
+        if ($value !== null) {
+            return $value;
+        }
+
+        return $default ?? Setting::DEFAULTS[$key] ?? null;
+    }
+
     public function branches(): HasMany
     {
         return $this->hasMany(Branch::class);

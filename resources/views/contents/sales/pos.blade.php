@@ -63,6 +63,20 @@
                             </select>
                         </div>
 
+                        {{-- Salesperson / employee --}}
+                        @if ($employees->count() > 1)
+                            <div class="mb-3">
+                                <label class="form-label">বিক্রয়কর্মী</label>
+                                <select name="user_id" class="form-select">
+                                    @foreach ($employees as $emp)
+                                        <option value="{{ $emp->id }}" {{ (string) old('user_id', auth()->id()) === (string) $emp->id ? 'selected' : '' }}>
+                                            {{ $emp->name }}{{ $emp->id === auth()->id() ? ' (আপনি)' : '' }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
+
                         <div class="d-flex justify-content-between mb-2">
                             <span>সাবটোটাল</span>
                             <span>৳ <span id="subtotalText">0.00</span></span>

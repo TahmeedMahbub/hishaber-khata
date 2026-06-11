@@ -13,6 +13,7 @@ SET NAMES utf8mb4;
 -- (Removes Laravel's default users/migration tables that lack tenant_id.)
 -- ---------------------------------------------------------------------
 DROP TABLE IF EXISTS `notifications`;
+DROP TABLE IF EXISTS `settings`;
 DROP TABLE IF EXISTS `activity_logs`;
 DROP TABLE IF EXISTS `feedbacks`;
 DROP TABLE IF EXISTS `due_payments`;
@@ -134,6 +135,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `password`          VARCHAR(255) NOT NULL,
     `role`              ENUM('owner','manager','staff') NOT NULL DEFAULT 'owner',
     `status`            ENUM('active','inactive') NOT NULL DEFAULT 'active',
+    `language`          ENUM('bn','en') NOT NULL DEFAULT 'bn',
     `remember_token`    VARCHAR(100) NULL,
     `created_at`        TIMESTAMP NULL DEFAULT NULL,
     `updated_at`        TIMESTAMP NULL DEFAULT NULL,
@@ -563,6 +565,33 @@ CREATE TABLE IF NOT EXISTS `notifications` (
     KEY `notifications_visibility_index` (`tenant_id`, `user_id`, `read_at`),
     CONSTRAINT `notifications_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE,
     CONSTRAINT `notifications_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =====================================================================
+-- 23. settings  (one row of business preferences per tenant)
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS `settings` (
+    `id`                   BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`            CHAR(8) NULL,
+    `tenant_id`            BIGINT UNSIGNED NOT NULL,
+    `language`             ENUM('bn','en') NOT NULL DEFAULT 'bn',
+    `currency`             VARCHAR(10)  NOT NULL DEFAULT 'BDT',
+    `currency_symbol`      VARCHAR(10)  NOT NULL DEFAULT '৳',
+    `date_format`          VARCHAR(20)  NOT NULL DEFAULT 'd/m/Y',
+    `timezone`             VARCHAR(50)  NOT NULL DEFAULT 'Asia/Dhaka',
+    `track_stock`          TINYINT(1)   NOT NULL DEFAULT 1,
+    `low_stock_alert`      TINYINT(1)   NOT NULL DEFAULT 1,
+    `allow_negative_stock` TINYINT(1)   NOT NULL DEFAULT 0,
+    `enable_barcode`       TINYINT(1)   NOT NULL DEFAULT 0,
+    `show_profit`          TINYINT(1)   NOT NULL DEFAULT 1,
+    `enable_due`           TINYINT(1)   NOT NULL DEFAULT 1,
+    `invoice_prefix`       VARCHAR(20)  NOT NULL DEFAULT 'INV-',
+    `created_at`           TIMESTAMP NULL DEFAULT NULL,
+    `updated_at`           TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `settings_public_id_unique` (`public_id`),
+    UNIQUE KEY `settings_tenant_id_unique` (`tenant_id`),
+    CONSTRAINT `settings_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;

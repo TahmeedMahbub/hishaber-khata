@@ -59,7 +59,7 @@ class PurchaseService extends BaseService
             $purchase = Purchase::create([
                 'branch_id'     => $user->branch_id ?? null,
                 'supplier_id'   => $data['supplier_id'] ?? null,
-                'user_id'       => $user->id ?? null,
+                'user_id'       => $data['user_id'] ?? $user->id ?? null,
                 'status'        => 'completed',
                 'total'         => $total,
                 'paid'          => $paid,

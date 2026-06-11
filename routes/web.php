@@ -103,9 +103,12 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile');
     Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.password');
+    Route::put('/settings/preferences', [SettingsController::class, 'updatePreferences'])->name('settings.preferences');
+    Route::get('/employees', [SettingsController::class, 'employees'])->name('employees.index');
     Route::post('/settings/employees', [SettingsController::class, 'storeEmployee'])->name('settings.employees.store');
 
     Route::get('/profile', [SettingsController::class, 'profile'])->name('profile');
+    Route::post('/language/switch', [SettingsController::class, 'switchLanguage'])->name('language.switch');
 
     Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
     Route::post('/feedback/submit', [FeedbackController::class, 'store'])->name('feedback.store');

@@ -62,7 +62,7 @@ class SaleService extends BaseService
             $sale = Sale::create([
                 'branch_id'   => $user->branch_id ?? null,
                 'customer_id' => $data['customer_id'] ?? null,
-                'user_id'     => $user->id ?? null,
+                'user_id'     => $data['user_id'] ?? $user->id ?? null,
                 'status'      => 'completed',
                 'total'       => $total,
                 'discount'    => $discount,

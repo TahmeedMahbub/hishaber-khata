@@ -128,6 +128,23 @@
                         </a>
                     </li>
                     <li>
+                        <form method="POST" action="{{ route('language.switch') }}" class="m-0">
+                            @csrf
+                            <button type="submit" class="dropdown-item">
+                                <i class="mdi mdi-translate me-2"></i>
+                                <span class="align-middle">{{ auth()->user()->language === 'en' ? 'বাংলা ভাষায় দেখুন' : 'See in English' }}</span>
+                            </button>
+                        </form>
+                    </li>
+                    @if (auth()->user()->isOwner() && auth()->user()->tenant)
+                        <li>
+                            <a class="dropdown-item" href="{{ route('settings.index') }}">
+                                <i class="mdi mdi-cog-outline me-2"></i>
+                                <span class="align-middle">সেটিংস</span>
+                            </a>
+                        </li>
+                    @endif
+                    <li>
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>

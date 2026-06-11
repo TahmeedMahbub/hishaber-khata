@@ -97,11 +97,18 @@
                         <div>ড্যামেজ / হারানো</div>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->is('settings*') || request()->is('profile*') ? 'active' : '' }}">
-                    <a href="{{ route('profile') }}" class="menu-link">
-                        <div>সেটিংস</div>
-                    </a>
-                </li>
+                @if (auth()->user()->isOwner() && auth()->user()->tenant)
+                    <li class="menu-item {{ request()->is('employees*') ? 'active' : '' }}">
+                        <a href="{{ route('employees.index') }}" class="menu-link">
+                            <div>কর্মচারী</div>
+                        </a>
+                    </li>
+                    {{-- <li class="menu-item {{ request()->is('settings*') ? 'active' : '' }}">
+                        <a href="{{ route('settings.index') }}" class="menu-link">
+                            <div>সেটিংস</div>
+                        </a>
+                    </li> --}}
+                @endif
                 <li class="menu-item {{ request()->is('feedback*') ? 'active' : '' }}">
                     <a href="{{ route('feedback.create') }}" class="menu-link">
                         <div>মতামত</div>
