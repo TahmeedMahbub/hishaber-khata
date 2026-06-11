@@ -99,13 +99,13 @@ class DashboardService
             ->limit(5)
             ->get()
             ->map(fn (Sale $sale) => [
-                'id'         => $sale->id,
+                'id'         => $sale->public_id,
                 'invoice_no' => $sale->invoice_no,
                 'customer'   => $sale->customer->name ?? 'ওয়াক-ইন',
                 'total'      => round((float) $sale->total, 2),
                 'due'        => round((float) $sale->due, 2),
                 'date'       => optional($sale->sale_date)->format('d M Y'),
-                'url'        => route('sales.show', $sale->id),
+                'url'        => route('sales.show', $sale),
             ])
             ->all();
     }

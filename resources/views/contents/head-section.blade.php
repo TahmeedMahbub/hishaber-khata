@@ -116,4 +116,80 @@
             padding-right: 0.7rem !important;
         }
     }
+
+    /* ---------------------------------------------------------------
+       Print: strip the application chrome so only page content prints.
+       Used by invoices (sales/purchase) and report pages.
+       --------------------------------------------------------------- */
+    @media print {
+        @page {
+            margin: 12mm;
+        }
+
+        #layout-menu,
+        #layout-navbar,
+        .content-footer,
+        .layout-overlay,
+        .content-backdrop,
+        .drag-target,
+        .hk-mnav,
+        .hk-sheet,
+        .hk-sheet-backdrop,
+        .d-print-none {
+            display: none !important;
+        }
+
+        html,
+        body {
+            background: #fff !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            height: auto !important;
+            min-height: 0 !important;
+        }
+
+        .layout-wrapper,
+        .layout-container,
+        .layout-page,
+        .content-wrapper,
+        .content-wrapper .container-xxl {
+            display: block !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            min-height: 0 !important;
+            height: auto !important;
+            box-shadow: none !important;
+            overflow: visible !important;
+        }
+
+        /* Override the runtime <style> the theme's helpers.js injects
+           (.layout-page { padding-top: navbarHeight } /
+            .content-wrapper { padding-bottom: footerHeight }).
+           Higher specificity beats it regardless of source order. */
+        html .layout-page,
+        html.layout-navbar-fixed .layout-page {
+            padding-top: 0 !important;
+        }
+
+        html .content-wrapper,
+        html.layout-footer-fixed .content-wrapper {
+            padding-bottom: 0 !important;
+        }
+
+        /* Drop Bootstrap row/column gutters that add stray top/side space */
+        .content-wrapper .row {
+            margin: 0 !important;
+        }
+
+        .content-wrapper [class*="col-"] {
+            padding: 0 !important;
+        }
+
+        a[href]::after {
+            content: none !important;
+        }
+    }
 </style>
+
