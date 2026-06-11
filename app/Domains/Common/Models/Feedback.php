@@ -2,6 +2,7 @@
 
 namespace App\Domains\Common\Models;
 
+use App\Domains\Common\Traits\HasPublicId;
 use App\Domains\Tenant\Models\Tenant;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Feedback extends Model
 {
+    use HasPublicId;
+
     protected $table = 'feedbacks';
 
     protected $fillable = [

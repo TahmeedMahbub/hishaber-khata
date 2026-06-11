@@ -2,12 +2,15 @@
 
 namespace App\Domains\Tenant\Models;
 
+use App\Domains\Common\Traits\HasPublicId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Tenant extends Model
 {
+    use HasPublicId;
+
     protected $fillable = [
         'name',
         'owner_name',

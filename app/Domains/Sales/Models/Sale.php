@@ -3,6 +3,7 @@
 namespace App\Domains\Sales\Models;
 
 use App\Domains\Common\Traits\BelongsToTenant;
+use App\Domains\Common\Traits\HasPublicId;
 use App\Domains\Customer\Models\Customer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Sale extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasPublicId;
 
     protected $fillable = [
         'tenant_id',

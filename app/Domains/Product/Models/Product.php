@@ -4,12 +4,13 @@ namespace App\Domains\Product\Models;
 
 use App\Domains\Category\Models\Category;
 use App\Domains\Common\Traits\BelongsToTenant;
+use App\Domains\Common\Traits\HasPublicId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Product extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasPublicId;
 
     protected $fillable = [
         'tenant_id',

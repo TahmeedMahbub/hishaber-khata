@@ -3,11 +3,12 @@
 namespace App\Domains\Expense\Models;
 
 use App\Domains\Common\Traits\BelongsToTenant;
+use App\Domains\Common\Traits\HasPublicId;
 use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasPublicId;
 
     protected $fillable = [
         'tenant_id',

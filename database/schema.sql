@@ -44,6 +44,7 @@ DROP TABLE IF EXISTS `failed_jobs`;
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `plans` (
     `id`             BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`      CHAR(8) NULL,
     `name`           VARCHAR(50)  NOT NULL,
     `slug`           VARCHAR(50)  NOT NULL,
     `price`          DECIMAL(10,2) NOT NULL DEFAULT 0.00,
@@ -54,6 +55,7 @@ CREATE TABLE IF NOT EXISTS `plans` (
     `created_at`     TIMESTAMP    NULL DEFAULT NULL,
     `updated_at`     TIMESTAMP    NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `plans_public_id_unique` (`public_id`),
     UNIQUE KEY `plans_slug_unique` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -62,6 +64,7 @@ CREATE TABLE IF NOT EXISTS `plans` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `tenants` (
     `id`            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`     CHAR(8) NULL,
     `name`          VARCHAR(150) NOT NULL,
     `owner_name`    VARCHAR(150) NOT NULL,
     `phone`         VARCHAR(20)  NOT NULL,
@@ -71,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `tenants` (
     `created_at`    TIMESTAMP    NULL DEFAULT NULL,
     `updated_at`    TIMESTAMP    NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `tenants_public_id_unique` (`public_id`),
     UNIQUE KEY `tenants_phone_unique` (`phone`),
     KEY `tenants_status_index` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -80,6 +84,7 @@ CREATE TABLE IF NOT EXISTS `tenants` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `subscriptions` (
     `id`         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`  CHAR(8) NULL,
     `tenant_id`  BIGINT UNSIGNED NOT NULL,
     `plan_id`    BIGINT UNSIGNED NOT NULL,
     `status`     ENUM('active','expired','cancelled') NOT NULL DEFAULT 'active',
@@ -88,6 +93,7 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
     `created_at` TIMESTAMP NULL DEFAULT NULL,
     `updated_at` TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `subscriptions_public_id_unique` (`public_id`),
     KEY `subscriptions_tenant_id_index` (`tenant_id`),
     KEY `subscriptions_plan_id_index` (`plan_id`),
     CONSTRAINT `subscriptions_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE,
@@ -99,6 +105,7 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `branches` (
     `id`         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`  CHAR(8) NULL,
     `tenant_id`  BIGINT UNSIGNED NOT NULL,
     `name`       VARCHAR(150) NOT NULL,
     `address`    VARCHAR(255) NULL,
@@ -107,6 +114,7 @@ CREATE TABLE IF NOT EXISTS `branches` (
     `created_at` TIMESTAMP NULL DEFAULT NULL,
     `updated_at` TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `branches_public_id_unique` (`public_id`),
     KEY `branches_tenant_id_index` (`tenant_id`),
     CONSTRAINT `branches_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -116,6 +124,7 @@ CREATE TABLE IF NOT EXISTS `branches` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `users` (
     `id`                BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`         CHAR(8) NULL,
     `tenant_id`         BIGINT UNSIGNED NULL,
     `branch_id`         BIGINT UNSIGNED NULL,
     `name`              VARCHAR(150) NOT NULL,
@@ -129,6 +138,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `created_at`        TIMESTAMP NULL DEFAULT NULL,
     `updated_at`        TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `users_public_id_unique` (`public_id`),
     UNIQUE KEY `users_email_unique` (`email`),
     UNIQUE KEY `users_phone_unique` (`phone`),
     KEY `users_tenant_id_index` (`tenant_id`),
@@ -142,12 +152,14 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `categories` (
     `id`         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`  CHAR(8) NULL,
     `tenant_id`  BIGINT UNSIGNED NOT NULL,
     `name`       VARCHAR(100) NOT NULL,
     `status`     ENUM('active','inactive') NOT NULL DEFAULT 'active',
     `created_at` TIMESTAMP NULL DEFAULT NULL,
     `updated_at` TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `categories_public_id_unique` (`public_id`),
     KEY `categories_tenant_id_index` (`tenant_id`),
     CONSTRAINT `categories_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -157,6 +169,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `products` (
     `id`              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`       CHAR(8) NULL,
     `tenant_id`       BIGINT UNSIGNED NOT NULL,
     `category_id`     BIGINT UNSIGNED NULL,
     `name`            VARCHAR(150) NOT NULL,
@@ -170,6 +183,7 @@ CREATE TABLE IF NOT EXISTS `products` (
     `created_at`      TIMESTAMP NULL DEFAULT NULL,
     `updated_at`      TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `products_public_id_unique` (`public_id`),
     KEY `products_tenant_id_index` (`tenant_id`),
     KEY `products_category_id_index` (`category_id`),
     KEY `products_tenant_barcode_index` (`tenant_id`, `barcode`),
@@ -182,6 +196,7 @@ CREATE TABLE IF NOT EXISTS `products` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `suppliers` (
     `id`          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`   CHAR(8) NULL,
     `tenant_id`   BIGINT UNSIGNED NOT NULL,
     `name`        VARCHAR(150) NOT NULL,
     `phone`       VARCHAR(20)  NULL,
@@ -190,6 +205,7 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
     `created_at`  TIMESTAMP NULL DEFAULT NULL,
     `updated_at`  TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `suppliers_public_id_unique` (`public_id`),
     KEY `suppliers_tenant_id_index` (`tenant_id`),
     CONSTRAINT `suppliers_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -199,6 +215,7 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `customers` (
     `id`          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`   CHAR(8) NULL,
     `tenant_id`   BIGINT UNSIGNED NOT NULL,
     `name`        VARCHAR(150) NOT NULL,
     `phone`       VARCHAR(20)  NULL,
@@ -207,6 +224,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
     `created_at`  TIMESTAMP NULL DEFAULT NULL,
     `updated_at`  TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `customers_public_id_unique` (`public_id`),
     KEY `customers_tenant_id_index` (`tenant_id`),
     KEY `customers_tenant_phone_index` (`tenant_id`, `phone`),
     CONSTRAINT `customers_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE
@@ -217,6 +235,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `purchases` (
     `id`            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`     CHAR(8) NULL,
     `tenant_id`     BIGINT UNSIGNED NOT NULL,
     `branch_id`     BIGINT UNSIGNED NULL,
     `supplier_id`   BIGINT UNSIGNED NULL,
@@ -231,6 +250,7 @@ CREATE TABLE IF NOT EXISTS `purchases` (
     `created_at`    TIMESTAMP NULL DEFAULT NULL,
     `updated_at`    TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `purchases_public_id_unique` (`public_id`),
     KEY `purchases_tenant_id_index` (`tenant_id`),
     KEY `purchases_branch_id_index` (`branch_id`),
     KEY `purchases_supplier_id_index` (`supplier_id`),
@@ -246,12 +266,14 @@ CREATE TABLE IF NOT EXISTS `purchases` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `purchase_items` (
     `id`          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`   CHAR(8) NULL,
     `purchase_id` BIGINT UNSIGNED NOT NULL,
     `product_id`  BIGINT UNSIGNED NOT NULL,
     `qty`         DECIMAL(12,2) NOT NULL DEFAULT 0.00,
     `unit_price`  DECIMAL(12,2) NOT NULL DEFAULT 0.00,
     `total`       DECIMAL(12,2) NOT NULL DEFAULT 0.00,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `purchase_items_public_id_unique` (`public_id`),
     KEY `purchase_items_purchase_id_index` (`purchase_id`),
     KEY `purchase_items_product_id_index` (`product_id`),
     CONSTRAINT `purchase_items_purchase_id_foreign` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`id`) ON DELETE CASCADE,
@@ -263,6 +285,7 @@ CREATE TABLE IF NOT EXISTS `purchase_items` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `sales` (
     `id`          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`   CHAR(8) NULL,
     `tenant_id`   BIGINT UNSIGNED NOT NULL,
     `branch_id`   BIGINT UNSIGNED NULL,
     `customer_id` BIGINT UNSIGNED NULL,
@@ -278,6 +301,7 @@ CREATE TABLE IF NOT EXISTS `sales` (
     `created_at`  TIMESTAMP NULL DEFAULT NULL,
     `updated_at`  TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `sales_public_id_unique` (`public_id`),
     KEY `sales_tenant_id_index` (`tenant_id`),
     KEY `sales_branch_id_index` (`branch_id`),
     KEY `sales_customer_id_index` (`customer_id`),
@@ -293,6 +317,7 @@ CREATE TABLE IF NOT EXISTS `sales` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `sale_items` (
     `id`         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`  CHAR(8) NULL,
     `sale_id`    BIGINT UNSIGNED NOT NULL,
     `product_id` BIGINT UNSIGNED NOT NULL,
     `qty`        DECIMAL(12,2) NOT NULL DEFAULT 0.00,
@@ -300,6 +325,7 @@ CREATE TABLE IF NOT EXISTS `sale_items` (
     `cost_price` DECIMAL(12,2) NOT NULL DEFAULT 0.00,
     `total`      DECIMAL(12,2) NOT NULL DEFAULT 0.00,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `sale_items_public_id_unique` (`public_id`),
     KEY `sale_items_sale_id_index` (`sale_id`),
     KEY `sale_items_product_id_index` (`product_id`),
     CONSTRAINT `sale_items_sale_id_foreign` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE,
@@ -311,12 +337,14 @@ CREATE TABLE IF NOT EXISTS `sale_items` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `expense_categories` (
     `id`         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`  CHAR(8) NULL,
     `tenant_id`  BIGINT UNSIGNED NOT NULL,
     `name`       VARCHAR(100) NOT NULL,
     `status`     ENUM('active','inactive') NOT NULL DEFAULT 'active',
     `created_at` TIMESTAMP NULL DEFAULT NULL,
     `updated_at` TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `expense_categories_public_id_unique` (`public_id`),
     UNIQUE KEY `expense_categories_tenant_name_unique` (`tenant_id`, `name`),
     KEY `expense_categories_tenant_id_index` (`tenant_id`),
     CONSTRAINT `expense_categories_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE
@@ -327,6 +355,7 @@ CREATE TABLE IF NOT EXISTS `expense_categories` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `expenses` (
     `id`                  BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`           CHAR(8) NULL,
     `tenant_id`           BIGINT UNSIGNED NOT NULL,
     `branch_id`           BIGINT UNSIGNED NULL,
     `expense_category_id` BIGINT UNSIGNED NULL,
@@ -337,6 +366,7 @@ CREATE TABLE IF NOT EXISTS `expenses` (
     `created_at`          TIMESTAMP NULL DEFAULT NULL,
     `updated_at`          TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `expenses_public_id_unique` (`public_id`),
     KEY `expenses_tenant_id_index` (`tenant_id`),
     KEY `expenses_branch_id_index` (`branch_id`),
     KEY `expenses_expense_category_id_index` (`expense_category_id`),
@@ -351,6 +381,7 @@ CREATE TABLE IF NOT EXISTS `expenses` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `stock_movements` (
     `id`             BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`      CHAR(8) NULL,
     `tenant_id`      BIGINT UNSIGNED NOT NULL,
     `branch_id`      BIGINT UNSIGNED NULL,
     `product_id`     BIGINT UNSIGNED NOT NULL,
@@ -365,6 +396,7 @@ CREATE TABLE IF NOT EXISTS `stock_movements` (
     `created_at`     TIMESTAMP NULL DEFAULT NULL,
     `updated_at`     TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `stock_movements_public_id_unique` (`public_id`),
     KEY `stock_movements_tenant_id_index` (`tenant_id`),
     KEY `stock_movements_product_id_index` (`product_id`),
     KEY `stock_movements_lookup_index` (`tenant_id`, `branch_id`, `product_id`, `movement_date`),
@@ -379,6 +411,7 @@ CREATE TABLE IF NOT EXISTS `stock_movements` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `cash_transactions` (
     `id`               BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`        CHAR(8) NULL,
     `tenant_id`        BIGINT UNSIGNED NOT NULL,
     `branch_id`        BIGINT UNSIGNED NULL,
     `type`             ENUM('cash_in','cash_out') NOT NULL,
@@ -390,6 +423,7 @@ CREATE TABLE IF NOT EXISTS `cash_transactions` (
     `created_at`       TIMESTAMP NULL DEFAULT NULL,
     `updated_at`       TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `cash_transactions_public_id_unique` (`public_id`),
     KEY `cash_transactions_tenant_id_index` (`tenant_id`),
     KEY `cash_transactions_branch_id_index` (`branch_id`),
     KEY `cash_transactions_date_index` (`tenant_id`, `transaction_date`),
@@ -403,6 +437,7 @@ CREATE TABLE IF NOT EXISTS `cash_transactions` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `damages` (
     `id`          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`   CHAR(8) NULL,
     `tenant_id`   BIGINT UNSIGNED NOT NULL,
     `branch_id`   BIGINT UNSIGNED NULL,
     `product_id`  BIGINT UNSIGNED NOT NULL,
@@ -414,6 +449,7 @@ CREATE TABLE IF NOT EXISTS `damages` (
     `created_at`  TIMESTAMP NULL DEFAULT NULL,
     `updated_at`  TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `damages_public_id_unique` (`public_id`),
     KEY `damages_tenant_id_index` (`tenant_id`),
     KEY `damages_product_id_index` (`product_id`),
     KEY `damages_tenant_date_index` (`tenant_id`, `damage_date`),
@@ -427,6 +463,7 @@ CREATE TABLE IF NOT EXISTS `damages` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `activity_logs` (
     `id`           BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`    CHAR(8) NULL,
     `tenant_id`    BIGINT UNSIGNED NOT NULL,
     `user_id`      BIGINT UNSIGNED NULL,
     `action`       VARCHAR(100) NOT NULL,
@@ -436,6 +473,7 @@ CREATE TABLE IF NOT EXISTS `activity_logs` (
     `ip_address`   VARCHAR(45) NULL,
     `created_at`   TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `activity_logs_public_id_unique` (`public_id`),
     KEY `activity_logs_tenant_id_index` (`tenant_id`),
     KEY `activity_logs_user_id_index` (`user_id`),
     KEY `activity_logs_subject_index` (`subject_type`, `subject_id`),
@@ -448,6 +486,7 @@ CREATE TABLE IF NOT EXISTS `activity_logs` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `due_payments` (
     `id`           BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`    CHAR(8) NULL,
     `tenant_id`    BIGINT UNSIGNED NOT NULL,
     `branch_id`    BIGINT UNSIGNED NULL,
     `user_id`      BIGINT UNSIGNED NULL,
@@ -460,6 +499,7 @@ CREATE TABLE IF NOT EXISTS `due_payments` (
     `created_at`   TIMESTAMP NULL DEFAULT NULL,
     `updated_at`   TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `due_payments_public_id_unique` (`public_id`),
     KEY `due_payments_tenant_id_index` (`tenant_id`),
     KEY `due_payments_branch_id_index` (`branch_id`),
     KEY `due_payments_party_index` (`party_type`, `party_id`),
@@ -475,6 +515,7 @@ CREATE TABLE IF NOT EXISTS `due_payments` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `feedbacks` (
     `id`         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`  CHAR(8) NULL,
     `tenant_id`  BIGINT UNSIGNED NULL,
     `user_id`    BIGINT UNSIGNED NULL,
     `name`       VARCHAR(150) NULL,
@@ -488,6 +529,7 @@ CREATE TABLE IF NOT EXISTS `feedbacks` (
     `created_at` TIMESTAMP NULL DEFAULT NULL,
     `updated_at` TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `feedbacks_public_id_unique` (`public_id`),
     KEY `feedbacks_tenant_id_index` (`tenant_id`),
     KEY `feedbacks_user_id_index` (`user_id`),
     KEY `feedbacks_status_index` (`status`),
@@ -504,6 +546,7 @@ CREATE TABLE IF NOT EXISTS `feedbacks` (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS `notifications` (
     `id`         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `public_id`  CHAR(8) NULL,
     `tenant_id`  BIGINT UNSIGNED NULL,
     `user_id`    BIGINT UNSIGNED NULL,
     `type`       VARCHAR(50)  NOT NULL DEFAULT 'info',
@@ -514,6 +557,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
     `created_at` TIMESTAMP    NULL DEFAULT NULL,
     `updated_at` TIMESTAMP    NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `notifications_public_id_unique` (`public_id`),
     KEY `notifications_tenant_id_index` (`tenant_id`),
     KEY `notifications_user_id_index` (`user_id`),
     KEY `notifications_visibility_index` (`tenant_id`, `user_id`, `read_at`),

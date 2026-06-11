@@ -3,12 +3,13 @@
 namespace App\Domains\Tenant\Models;
 
 use App\Domains\Common\Traits\BelongsToTenant;
+use App\Domains\Common\Traits\HasPublicId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Branch extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasPublicId;
 
     protected $fillable = [
         'tenant_id',

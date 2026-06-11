@@ -2,11 +2,14 @@
 
 namespace App\Domains\Tenant\Models;
 
+use App\Domains\Common\Traits\HasPublicId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Plan extends Model
 {
+    use HasPublicId;
+
     protected $fillable = [
         'name',
         'slug',

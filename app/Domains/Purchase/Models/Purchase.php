@@ -3,6 +3,7 @@
 namespace App\Domains\Purchase\Models;
 
 use App\Domains\Common\Traits\BelongsToTenant;
+use App\Domains\Common\Traits\HasPublicId;
 use App\Domains\Supplier\Models\Supplier;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Purchase extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasPublicId;
 
     protected $fillable = [
         'tenant_id',

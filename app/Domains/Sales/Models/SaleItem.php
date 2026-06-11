@@ -2,12 +2,15 @@
 
 namespace App\Domains\Sales\Models;
 
+use App\Domains\Common\Traits\HasPublicId;
 use App\Domains\Product\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SaleItem extends Model
 {
+    use HasPublicId;
+
     public $timestamps = false;
 
     protected $fillable = [

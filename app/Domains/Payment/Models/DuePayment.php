@@ -3,6 +3,7 @@
 namespace App\Domains\Payment\Models;
 
 use App\Domains\Common\Traits\BelongsToTenant;
+use App\Domains\Common\Traits\HasPublicId;
 use App\Domains\Customer\Models\Customer;
 use App\Domains\Supplier\Models\Supplier;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DuePayment extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasPublicId;
 
     protected $fillable = [
         'tenant_id',

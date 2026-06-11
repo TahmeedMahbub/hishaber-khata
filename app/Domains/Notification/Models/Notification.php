@@ -2,6 +2,7 @@
 
 namespace App\Domains\Notification\Models;
 
+use App\Domains\Common\Traits\HasPublicId;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Notification extends Model
 {
+    use HasPublicId;
+
     protected $fillable = [
         'tenant_id',
         'user_id',

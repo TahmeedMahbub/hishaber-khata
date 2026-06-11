@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Domains\Common\Traits\HasPublicId;
 use App\Domains\Tenant\Models\Branch;
 use App\Domains\Tenant\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, HasPublicId, Notifiable;
 
     /**
      * The attributes that are mass assignable.
