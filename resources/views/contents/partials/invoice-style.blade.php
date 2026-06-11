@@ -218,6 +218,28 @@
         color: #1B8B5A;
     }
 
+    @media (max-width: 575.98px) {
+        .invoice-toolbar {
+            flex-wrap: nowrap !important;
+            gap: .4rem !important;
+        }
+
+        .invoice-toolbar .btn {
+            padding: .35rem .55rem;
+            font-size: .8rem;
+            line-height: 1;
+        }
+
+        .invoice-toolbar .btn i {
+            margin: 0 !important;
+            font-size: 1rem;
+        }
+
+        .invoice-toolbar .btn .btn-label {
+            display: none;
+        }
+    }
+
     @media print {
         .invoice-sheet {
             border: none;

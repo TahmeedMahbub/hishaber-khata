@@ -30,11 +30,11 @@
                 </div>
             @endif
 
-            <div class="d-flex justify-content-between align-items-center mb-3 d-print-none">
+            <div class="invoice-toolbar d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3 d-print-none">
                 <a href="{{ route('sales.index') }}" class="btn btn-outline-secondary">
-                    <i class="mdi mdi-arrow-left me-1"></i> ফিরে যান
+                    <i class="mdi mdi-arrow-left me-1"></i> <span class="btn-label">ফিরে যান</span>
                 </a>
-                <div class="d-flex gap-2">                    @php
+                <div class="d-flex flex-wrap gap-2">                    @php
                         $waPhone = preg_replace('/\D+/', '', optional($sale->customer)->phone ?? '');
                         if ($waPhone !== '') {
                             $waPhone = '8801' . substr($waPhone, -9);
@@ -63,13 +63,13 @@
                     @endphp
                     @if (!empty($waPhone))
                         <a href="{{ $waUrl }}" target="_blank" rel="noopener" class="btn btn-outline-success">
-                            <i class="mdi mdi-whatsapp me-1"></i> হোয়াটসঅ্যাপ
+                            <i class="mdi mdi-whatsapp me-1"></i> <span class="btn-label">হোয়াটসঅ্যাপ</span>
                         </a>
                     @endif                    <a href="{{ route('sales.create') }}" class="btn btn-outline-primary">
-                        <i class="mdi mdi-plus me-1"></i> নতুন বিক্রয়
+                        <i class="mdi mdi-plus me-1"></i> <span class="btn-label">নতুন বিক্রয়</span>
                     </a>
                     <button type="button" class="btn btn-primary" onclick="window.print()">
-                        <i class="mdi mdi-printer me-1"></i> প্রিন্ট
+                        <i class="mdi mdi-printer me-1"></i> <span class="btn-label">প্রিন্ট</span>
                     </button>
                 </div>
             </div>
