@@ -34,8 +34,38 @@
                 <a href="{{ route('sales.index') }}" class="btn btn-outline-secondary">
                     <i class="mdi mdi-arrow-left me-1"></i> ফিরে যান
                 </a>
-                <div class="d-flex gap-2">
-                    <a href="{{ route('sales.create') }}" class="btn btn-outline-primary">
+                <div class="d-flex gap-2">                    @php
+                        $waPhone = preg_replace('/\D+/', '', optional($sale->customer)->phone ?? '');
+                        if ($waPhone !== '') {
+                            $waPhone = '8801' . substr($waPhone, -9);
+                            $waLines = [
+                                $businessName,
+                                'Invoice #' . $sale->invoice_no,
+                            ];
+                            foreach ($sale->items as $waIndex => $waItem) {
+                                $waQty = rtrim(rtrim(number_format($waItem->qty, 2), '0'), '.');
+                                $waUnit = optional($waItem->product)->unit;
+                                $waLines[] = ($waIndex + 1) . '. '
+                                    . ($waItem->product->name ?? '-')
+                                    . ' - ' . $waQty . ($waUnit ? $waUnit : '')
+                                    . ' -  Tk ' . number_format($waItem->total, 2);
+                            }
+                            if ($sale->discount > 0) {
+                                $waLines[] = 'Discount: Tk ' . number_format($sale->discount, 2);
+                            }
+                            $waLines[] = 'Total: Tk ' . number_format($sale->total, 2);
+                            if ($sale->due > 0) {
+                                $waLines[] = 'Due: Tk ' . number_format($sale->due, 2);
+                            }
+                            $waMessage = rawurlencode(implode("\n", $waLines));
+                            $waUrl = 'https://wa.me/' . $waPhone . '?text=' . $waMessage;
+                        }
+                    @endphp
+                    @if (!empty($waPhone))
+                        <a href="{{ $waUrl }}" target="_blank" rel="noopener" class="btn btn-outline-success">
+                            <i class="mdi mdi-whatsapp me-1"></i> হোয়াটসঅ্যাপ
+                        </a>
+                    @endif                    <a href="{{ route('sales.create') }}" class="btn btn-outline-primary">
                         <i class="mdi mdi-plus me-1"></i> নতুন বিক্রয়
                     </a>
                     <button type="button" class="btn btn-primary" onclick="window.print()">

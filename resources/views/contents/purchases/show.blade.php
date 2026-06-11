@@ -33,8 +33,28 @@
                 <a href="{{ route('purchases.index') }}" class="btn btn-outline-secondary">
                     <i class="mdi mdi-arrow-left me-1"></i> ফিরে যান
                 </a>
-                <div class="d-flex gap-2">
-                    <a href="{{ route('purchases.create') }}" class="btn btn-outline-primary">
+                <div class="d-flex gap-2">                    @php
+                        $waPhone = preg_replace('/\D+/', '', optional($purchase->supplier)->phone ?? '');
+                        if ($waPhone !== '') {
+                            $waPhone = '8801' . substr($waPhone, -9);
+                            $waLines = [
+                                $businessName,
+                                'ক্রয় ভাউচার #' . $purchase->invoice_no,
+                                'সর্বমোট: ৳ ' . number_format($purchase->total, 2),
+                            ];
+                            if ($purchase->due > 0) {
+                                $waLines[] = 'বাকি: ৳ ' . number_format($purchase->due, 2);
+                            }
+                            $waLines[] = route('purchases.show', $purchase);
+                            $waMessage = rawurlencode(implode("\n", $waLines));
+                            $waUrl = 'https://wa.me/' . $waPhone . '?text=' . $waMessage;
+                        }
+                    @endphp
+                    @if (!empty($waPhone))
+                        <a href="{{ $waUrl }}" target="_blank" rel="noopener" class="btn btn-outline-success">
+                            <i class="mdi mdi-whatsapp me-1"></i> হোয়াটসঅ্যাপ
+                        </a>
+                    @endif                    <a href="{{ route('purchases.create') }}" class="btn btn-outline-primary">
                         <i class="mdi mdi-plus me-1"></i> নতুন ক্রয়
                     </a>
                     <button type="button" class="btn btn-primary" onclick="window.print()">
