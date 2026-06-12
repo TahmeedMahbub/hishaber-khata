@@ -1023,4 +1023,27 @@ return [
         'footer_privacy' => ['bn' => 'গোপনীয়তা', 'en' => 'Privacy'],
         'footer_terms_short' => ['bn' => 'শর্তাবলী', 'en' => 'Terms'],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Error / status pages (404, 500, maintenance)
+    |--------------------------------------------------------------------------
+    */
+    'errors' => [
+        'home'                 => ['bn' => 'হোমে ফিরে যান', 'en' => 'Back to Home'],
+        'go_back'              => ['bn' => 'পূর্বের পৃষ্ঠায় যান', 'en' => 'Go Back'],
+
+        '404_code'             => ['bn' => '৪০৪', 'en' => '404'],
+        '404_title'            => ['bn' => 'পৃষ্ঠাটি খুঁজে পাওয়া যায়নি', 'en' => 'Page Not Found'],
+        '404_message'          => ['bn' => 'দুঃখিত, আপনি যে পৃষ্ঠাটি খুঁজছেন সেটি সরিয়ে ফেলা হয়েছে বা কখনো ছিল না।', 'en' => 'Sorry, the page you are looking for has been moved or never existed.'],
+
+        '500_code'             => ['bn' => '৫০০', 'en' => '500'],
+        '500_title'            => ['bn' => 'কিছু একটা সমস্যা হয়েছে', 'en' => 'Something Went Wrong'],
+        '500_message'          => ['bn' => 'আমাদের সার্ভারে একটি অপ্রত্যাশিত সমস্যা হয়েছে। আমরা বিষয়টি দেখছি, একটু পরে আবার চেষ্টা করুন।', 'en' => 'An unexpected error occurred on our server. We are looking into it, please try again shortly.'],
+
+        'maint_title'          => ['bn' => 'রক্ষণাবেক্ষণ চলছে', 'en' => 'Under Maintenance'],
+        'maint_message'        => ['bn' => 'আমরা সেবাটিকে আরও উন্নত করতে কিছু কাজ করছি। শীঘ্রই ফিরে আসছি — ধন্যবাদ আপনার ধৈর্যের জন্য।', 'en' => 'We are performing some upgrades to serve you better. We will be back shortly — thank you for your patience.'],
+        'maint_badge'          => ['bn' => 'শীঘ্রই ফিরছি', 'en' => 'Back Soon'],
+        'maint_refresh'        => ['bn' => 'আবার চেষ্টা করুন', 'en' => 'Try Again'],
+    ],
 ];
