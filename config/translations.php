@@ -35,7 +35,7 @@ return [
     */
     'nav' => [
         'dashboard'     => ['bn' => 'ড্যাশবোর্ড', 'en' => 'Dashboard'],
-        'sales'         => ['bn' => 'বিক্রয়', 'en' => 'Sales'],
+        'sales'         => ['bn' => 'বিক্রয়', 'en' => 'POS'],
         'sell'          => ['bn' => 'বিক্রয় করুন', 'en' => 'POS'],
         'products'      => ['bn' => 'পণ্য', 'en' => 'Products'],
         'all_products'  => ['bn' => 'সকল পণ্য', 'en' => 'All Products'],
