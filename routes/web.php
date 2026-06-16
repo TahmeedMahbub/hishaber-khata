@@ -45,6 +45,18 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/login', [LoginController::class, 'create'])->name('login');
     Route::post('/login', [LoginController::class, 'store']);
+
+    // Password reset (forgot password) — available to all users by email.
+    Route::get('/forgot-password', [\App\Domains\Auth\Controllers\PasswordResetController::class, 'request'])
+        ->name('password.request');
+    Route::post('/forgot-password', [\App\Domains\Auth\Controllers\PasswordResetController::class, 'email'])
+        ->middleware('throttle:6,1')
+        ->name('password.email');
+    Route::get('/reset-password/{token}', [\App\Domains\Auth\Controllers\PasswordResetController::class, 'reset'])
+        ->name('password.reset');
+    Route::post('/reset-password', [\App\Domains\Auth\Controllers\PasswordResetController::class, 'update'])
+        ->middleware('throttle:6,1')
+        ->name('password.update');
 });
 
 /*
