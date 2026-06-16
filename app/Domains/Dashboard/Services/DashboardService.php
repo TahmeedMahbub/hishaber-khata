@@ -101,7 +101,7 @@ class DashboardService
             ->map(fn (Sale $sale) => [
                 'id'         => $sale->public_id,
                 'invoice_no' => $sale->invoice_no,
-                'customer'   => $sale->customer->name ?? 'ওয়াক-ইন',
+                'customer'   => $sale->customer->name ?? t('sale.walkin_short'),
                 'total'      => round((float) $sale->total, 2),
                 'due'        => round((float) $sale->due, 2),
                 'date'       => optional($sale->sale_date)->format('d M Y'),

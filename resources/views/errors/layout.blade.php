@@ -59,8 +59,9 @@
         }
 
         .err-brand {
-            display: inline-flex;
+            display: flex;
             align-items: center;
+            justify-content: center;
             gap: .55rem;
             margin-bottom: 2rem;
             font-weight: 700;
@@ -76,7 +77,14 @@
             color: #fff;
             display: grid;
             place-items: center;
+            overflow: hidden;
             box-shadow: 0 6px 16px rgba(27, 139, 90, .35);
+        }
+
+        .err-brand .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .err-icon {
@@ -197,7 +205,7 @@
 <body>
     <div class="err-card">
         <div class="err-brand">
-            <span class="logo"><span class="material-icons-round">menu_book</span></span>
+            <span class="logo"><img src="{{ asset('assets/img/project/logo.png') }}" alt="{{ t('brand.name') }}"></span>
             <span>{{ t('brand.name') }}</span>
         </div>
 

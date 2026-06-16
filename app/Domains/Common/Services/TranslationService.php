@@ -19,6 +19,11 @@ class TranslationService
     public const FALLBACK = 'bn';
 
     /**
+     * Name of the (unencrypted) cookie that remembers the chosen language.
+     */
+    public const COOKIE = 'app_lang';
+
+    /**
      * In-memory cache of the loaded translation map for this request.
      *
      * @var array<string, array<string, string>>|null
@@ -48,11 +53,17 @@ class TranslationService
     }
 
     /**
-     * Resolve the active language from the authenticated user.
+     * Resolve the active language.
+     *
+     * Prefers the authenticated user's preference, then falls back to the
+     * language cookie (used on error pages such as 404/500/503 that render
+     * without the authenticated user), then the default language.
      */
     public function currentLanguage(): string
     {
-        $lang = Auth::user()->language ?? self::FALLBACK;
+        $lang = Auth::user()->language
+            ?? request()->cookie(self::COOKIE)
+            ?? self::FALLBACK;
 
         return in_array($lang, self::LANGUAGES, true) ? $lang : self::FALLBACK;
     }
