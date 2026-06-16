@@ -6,6 +6,7 @@ use App\Domains\Auth\Requests\RegisterBusinessRequest;
 use App\Domains\Auth\Services\AuthService;
 use App\Domains\Auth\Services\BusinessRegistrationService;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -34,10 +35,14 @@ class RegisterController extends Controller
     {
         $user = $this->registration->register($request->validated());
 
+        // Dispatch the Registered event so the owner receives a Brevo
+        // verification email (handled by SendEmailVerificationNotification).
+        event(new Registered($user));
+
         $this->auth->login($user);
 
         $request->session()->regenerate();
 
-        return redirect()->intended('/dashboard');
+        return redirect()->route('verification.notice');
     }
 }

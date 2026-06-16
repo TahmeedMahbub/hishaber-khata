@@ -38,9 +38,9 @@
         </div>
 
         <div class="mb-3">
-            <label for="email" class="form-label">{{ t('auth.email') }} <span class="text-muted">({{ t('common.optional') }})</span></label>
+            <label for="email" class="form-label">{{ t('auth.email') }}</label>
             <input type="email" id="email" name="email" class="form-control"
-                value="{{ old('email') }}" placeholder="email@example.com">
+                value="{{ old('email') }}" placeholder="email@example.com" required>
         </div>
 
         <div class="mb-3">

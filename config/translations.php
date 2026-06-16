@@ -749,6 +749,13 @@ return [
         'business_type_label'   => ['bn' => 'ব্যবসার ধরন', 'en' => 'Business Type'],
         'already_have_account'  => ['bn' => 'আগে থেকেই একাউন্ট আছে?', 'en' => 'Already have an account?'],
         'login_link'            => ['bn' => 'লগইন করুন', 'en' => 'Log In'],
+        'verify_title'          => ['bn' => 'ইমেইল যাচাই', 'en' => 'Verify Email'],
+        'verify_heading'        => ['bn' => 'আপনার ইমেইল যাচাই করুন', 'en' => 'Verify Your Email'],
+        'verify_subtitle'       => ['bn' => 'আমরা একটি যাচাইকরণ লিংক পাঠিয়েছি। অ্যাকাউন্ট সক্রিয় করতে লিংকে ক্লিক করুন।', 'en' => 'We have sent you a verification link. Click it to activate your account.'],
+        'verify_spam_note'      => ['bn' => 'ইমেইল না পেলে অনুগ্রহ করে স্প্যাম ফোল্ডার দেখুন।', 'en' => "Didn't get the email? Please check your spam folder."],
+        'verify_resend_btn'     => ['bn' => 'আবার লিংক পাঠান', 'en' => 'Resend Verification Link'],
+        'verify_resent'         => ['bn' => 'একটি নতুন যাচাইকরণ লিংক আপনার ইমেইলে পাঠানো হয়েছে।', 'en' => 'A new verification link has been sent to your email.'],
+        'verify_logout'         => ['bn' => 'লগ আউট', 'en' => 'Log Out'],
     ],
 
     /*

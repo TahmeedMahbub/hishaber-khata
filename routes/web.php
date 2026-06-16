@@ -48,9 +48,27 @@ Route::middleware('guest')->group(function () {
 });
 
 /*
+| Email verification (Brevo) — owner must be authenticated but not yet verified
+*/
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', [\App\Domains\Auth\Controllers\VerifyEmailController::class, 'notice'])
+        ->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', [\App\Domains\Auth\Controllers\VerifyEmailController::class, 'verify'])
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+    Route::post('/email/verification-notification', [\App\Domains\Auth\Controllers\VerifyEmailController::class, 'resend'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+
+    Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
+});
+
+/*
 | Authenticated + tenant-scoped routes
 */
-Route::middleware(['auth', 'tenant'])->group(function () {
+Route::middleware(['auth', 'verified.owner', 'tenant'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/dashboard/stats', [DashboardController::class, 'stats'])->name('dashboard.stats');
@@ -98,8 +116,6 @@ Route::middleware(['auth', 'tenant'])->group(function () {
         Route::get('/cash-book', [ReportController::class, 'cashBook'])->name('cash-book');
         Route::get('/profit-loss', [ReportController::class, 'profitLoss'])->name('profit-loss');
     });
-
-    Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile');
