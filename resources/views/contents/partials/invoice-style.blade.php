@@ -238,6 +238,66 @@
         .invoice-toolbar .btn .btn-label {
             display: none;
         }
+
+        .invoice-sheet {
+            padding: 1.1rem 1rem;
+            border-radius: 8px;
+        }
+
+        .invoice-head {
+            flex-direction: column;
+            gap: .75rem;
+            padding-bottom: 1rem;
+        }
+
+        .invoice-business {
+            font-size: 1.25rem;
+        }
+
+        .invoice-title-box {
+            text-align: left;
+        }
+
+        .invoice-meta {
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem 0;
+        }
+
+        .invoice-meta-block.text-md-end {
+            text-align: left !important;
+        }
+
+        .invoice-table {
+            font-size: .82rem;
+        }
+
+        .invoice-table thead th,
+        .invoice-table tbody td {
+            padding: .5rem .5rem;
+        }
+
+        .invoice-summary {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1rem;
+        }
+
+        .invoice-totals {
+            max-width: 100%;
+            margin-left: 0;
+        }
+
+        .invoice-foot {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1.25rem;
+            margin-top: 1.75rem;
+        }
+
+        .invoice-sign-line {
+            width: 100%;
+        }
     }
 
     @media print {
