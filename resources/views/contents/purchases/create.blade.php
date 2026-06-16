@@ -21,7 +21,7 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">{{ t('dashboard.new_purchase') }}</h5>
-                        <a href="{{ route('purchases.index') }}" class="btn btn-sm btn-outline-secondary">{{ t('purchase.list') }}</a>
+                        <a href="{{ route('purchases.index') }}" class="btn btn-sm btn-outline-secondary px-2"><i class="mdi mdi-format-list-bulleted me-1"></i> {{ t('purchase.list') }}</a>
                     </div>
                     <div class="card-body">
                         <div class="row g-3 mb-3">

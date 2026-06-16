@@ -348,6 +348,7 @@ return [
     'product' => [
         'title'                  => ['bn' => 'পণ্য', 'en' => 'Products'],
         'new'                    => ['bn' => 'নতুন পণ্য', 'en' => 'Create Product'],
+        'list'                   => ['bn' => 'পণ্য তালিকা', 'en' => 'Product List'],
         'edit_title'             => ['bn' => 'পণ্য সম্পাদনা', 'en' => 'Edit Product'],
         'empty'                  => ['bn' => 'কোনো পণ্য নেই।', 'en' => 'No products.'],
         'name_label'             => ['bn' => 'পণ্যের নাম', 'en' => 'Product Name'],
@@ -412,7 +413,7 @@ return [
     'sale' => [
         'title'               => ['bn' => 'বিক্রয়', 'en' => 'Sales'],
         'new_pos'             => ['bn' => 'নতুন বিক্রয় (POS)', 'en' => 'New Sale (POS)'],
-        'list'                => ['bn' => 'তালিকা', 'en' => 'List'],
+        'list'                => ['bn' => 'বিক্রয় তালিকা', 'en' => 'Sales List'],
         'search_ph'           => ['bn' => 'ইনভয়েস বা কাস্টমার দিয়ে খুঁজুন...', 'en' => 'Search by invoice or customer...'],
         'items_col'           => ['bn' => 'আইটেম', 'en' => 'Items'],
         'paid'                => ['bn' => 'পরিশোধ', 'en' => 'Paid'],
@@ -471,7 +472,7 @@ return [
         'delete_confirm_pre'  => ['bn' => 'ইনভয়েস', 'en' => 'Invoice'],
         'delete_confirm_post' => ['bn' => 'মুছে ফেলা হবে এবং স্টক ফিরিয়ে নেওয়া হবে।', 'en' => 'will be deleted and stock will be restored.'],
         'empty'               => ['bn' => 'কোনো ক্রয় নেই।', 'en' => 'No purchases.'],
-        'list'                => ['bn' => 'তালিকা', 'en' => 'List'],
+        'list'                => ['bn' => 'ক্রয় তালিকা', 'en' => 'Purchase List'],
         'purchase_date'       => ['bn' => 'ক্রয়ের তারিখ', 'en' => 'Purchase Date'],
         'assigned_staff'      => ['bn' => 'দায়িত্বপ্রাপ্ত কর্মী', 'en' => 'Assigned Staff'],
         'add_product'         => ['bn' => 'পণ্য যোগ করুন', 'en' => 'Add Product'],
