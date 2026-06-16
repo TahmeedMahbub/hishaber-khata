@@ -700,13 +700,19 @@ return [
     |--------------------------------------------------------------------------
     */
     'employee' => [
-        'add_new'          => ['bn' => 'নতুন কর্মচারী যোগ করুন', 'en' => 'Add New Employee'],
+        'add_new'          => ['bn' => 'নতুন কর্মচারী', 'en' => 'New Employee'],
         'role_staff'       => ['bn' => 'স্টাফ', 'en' => 'Staff'],
         'role_manager'     => ['bn' => 'ম্যানেজার', 'en' => 'Manager'],
         'confirm_password' => ['bn' => 'পাসওয়ার্ড (পুনরায়)', 'en' => 'Password (again)'],
         'add_btn'          => ['bn' => 'কর্মচারী যোগ করুন', 'en' => 'Add Employee'],
         'current'          => ['bn' => 'বর্তমান কর্মচারী', 'en' => 'Current Employees'],
         'empty'            => ['bn' => 'কোনো কর্মচারী নেই।', 'en' => 'No employees.'],
+        'activate'         => ['bn' => 'সক্রিয় করুন', 'en' => 'Activate'],
+        'deactivate'       => ['bn' => 'নিষ্ক্রিয় করুন', 'en' => 'Deactivate'],
+        'activated'        => ['bn' => 'কর্মচারী সক্রিয় করা হয়েছে।', 'en' => 'Employee activated.'],
+        'deactivated'      => ['bn' => 'কর্মচারী নিষ্ক্রিয় করা হয়েছে।', 'en' => 'Employee deactivated.'],
+        'activate_confirm'   => ['bn' => 'আপনি কি এই কর্মচারীকে সক্রিয় করতে চান? তিনি আবার লগইন করতে পারবেন।', 'en' => 'Activate this employee? They will be able to log in again.'],
+        'deactivate_confirm' => ['bn' => 'আপনি কি এই কর্মচারীকে নিষ্ক্রিয় করতে চান? তিনি আর লগইন করতে পারবেন না।', 'en' => 'Deactivate this employee? They will no longer be able to log in.'],
     ],
 
     /*

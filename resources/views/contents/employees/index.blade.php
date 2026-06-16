@@ -5,10 +5,16 @@
 @section('content')
     @php
         $allErrors = collect($errors->getBags())->flatMap(fn ($bag) => $bag->all());
+        $openModal = old('name') !== null || $errors->employee->isNotEmpty();
     @endphp
     <div class="row gy-4 justify-content-center">
         <div class="col-12 col-lg-10">
-            <h4 class="fw-bold mb-3">{{ t('nav.employees') }}</h4>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="fw-bold mb-0">{{ t('nav.employees') }}</h4>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                    <i class="mdi mdi-account-plus-outline me-1"></i> {{ t('employee.add_new') }}
+                </button>
+            </div>
 
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible" role="alert">
@@ -27,13 +33,93 @@
                 </div>
             @endif
 
-            <div class="card mb-4">
+            <div class="card">
                 <div class="card-header">
-                    <h6 class="mb-0"><i class="mdi mdi-account-plus-outline me-1"></i> {{ t('employee.add_new') }}</h6>
+                    <h6 class="mb-0"><i class="mdi mdi-account-group-outline me-1"></i> {{ t('employee.current') }}</h6>
                 </div>
-                <div class="card-body">
-                    <form method="POST" action="{{ route('settings.employees.store') }}">
-                        @csrf
+                <div class="table-responsive text-nowrap">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>{{ t('common.name') }}</th>
+                                <th>{{ t('common.role') }}</th>
+                                <th>{{ t('common.phone') }}</th>
+                                <th>{{ t('common.email') }}</th>
+                                <th>{{ t('common.status') }}</th>
+                                <th class="text-end">{{ t('common.actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($employees as $employee)
+                                <tr>
+                                    <td class="fw-medium">{{ $employee->name }}</td>
+                                    <td>{{ ucfirst($employee->role) }}</td>
+                                    <td>{{ $employee->phone ?? '—' }}</td>
+                                    <td>{{ $employee->email ?? '—' }}</td>
+                                    <td>
+                                        @if ($employee->status === 'active')
+                                            <span class="badge bg-label-success">{{ t('common.active') }}</span>
+                                        @else
+                                            <span class="badge bg-label-secondary">{{ t('common.inactive') }}</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-end">
+                                        @if ($employee->status === 'active')
+                                            <form method="POST" action="{{ route('settings.employees.toggle', $employee) }}"
+                                                class="d-inline"
+                                                data-confirm="{{ t('employee.deactivate_confirm') }}"
+                                                data-confirm-title="{{ t('employee.deactivate') }}"
+                                                data-confirm-icon="mdi mdi-account-off-outline"
+                                                data-confirm-variant="danger"
+                                                data-confirm-process="{{ t('employee.deactivate') }}"
+                                                data-confirm-process-class="btn-danger">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                    <i class="mdi mdi-account-off-outline me-1"></i> {{ t('employee.deactivate') }}
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form method="POST" action="{{ route('settings.employees.toggle', $employee) }}"
+                                                class="d-inline"
+                                                data-confirm="{{ t('employee.activate_confirm') }}"
+                                                data-confirm-title="{{ t('employee.activate') }}"
+                                                data-confirm-icon="mdi mdi-account-check-outline"
+                                                data-confirm-variant="success"
+                                                data-confirm-process="{{ t('employee.activate') }}"
+                                                data-confirm-process-class="btn-success">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-sm btn-outline-success">
+                                                    <i class="mdi mdi-account-check-outline me-1"></i> {{ t('employee.activate') }}
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">{{ t('employee.empty') }}</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Add employee modal --}}
+    <div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <form method="POST" action="{{ route('settings.employees.store') }}">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="mdi mdi-account-plus-outline me-1"></i> {{ t('employee.add_new') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="e_name" class="form-label">{{ t('common.name') }}</label>
@@ -68,44 +154,22 @@
                                     class="form-control" autocomplete="new-password" required>
                             </div>
                         </div>
-                        <div class="mt-4">
-                            <button type="submit" class="btn btn-primary">{{ t('employee.add_btn') }}</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="mb-0"><i class="mdi mdi-account-group-outline me-1"></i> {{ t('employee.current') }}</h6>
-                </div>
-                <div class="table-responsive text-nowrap">
-                    <table class="table mb-0">
-                        <thead>
-                            <tr>
-                                <th>{{ t('common.name') }}</th>
-                                <th>{{ t('common.role') }}</th>
-                                <th>{{ t('common.phone') }}</th>
-                                <th>{{ t('common.email') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($employees as $employee)
-                                <tr>
-                                    <td class="fw-medium">{{ $employee->name }}</td>
-                                    <td>{{ ucfirst($employee->role) }}</td>
-                                    <td>{{ $employee->phone ?? '—' }}</td>
-                                    <td>{{ $employee->email ?? '—' }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center text-muted py-4">{{ t('employee.empty') }}</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{{ t('common.cancel') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ t('employee.add_btn') }}</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
+    @if ($openModal)
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var modalEl = document.getElementById('addEmployeeModal');
+                if (modalEl) { new bootstrap.Modal(modalEl).show(); }
+            });
+        </script>
+    @endif
 @endsection

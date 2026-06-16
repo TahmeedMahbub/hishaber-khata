@@ -107,6 +107,7 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::put('/settings/preferences', [SettingsController::class, 'updatePreferences'])->name('settings.preferences');
     Route::get('/employees', [SettingsController::class, 'employees'])->name('employees.index');
     Route::post('/settings/employees', [SettingsController::class, 'storeEmployee'])->name('settings.employees.store');
+    Route::put('/settings/employees/{employee}/toggle', [SettingsController::class, 'toggleEmployee'])->name('settings.employees.toggle');
 
     Route::get('/profile', [SettingsController::class, 'profile'])->name('profile');
     Route::post('/language/switch', [SettingsController::class, 'switchLanguage'])->name('language.switch');

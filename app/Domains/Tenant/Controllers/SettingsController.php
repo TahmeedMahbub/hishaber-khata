@@ -39,6 +39,21 @@ class SettingsController extends Controller
         ]);
     }
 
+    public function toggleEmployee(User $employee): RedirectResponse
+    {
+        $user = auth()->user();
+
+        abort_unless($user->isOwner() && $user->tenant, 403);
+        abort_unless($employee->tenant_id === $user->tenant_id && $employee->id !== $user->id, 403);
+
+        $employee->update([
+            'status' => $employee->status === 'active' ? 'inactive' : 'active',
+        ]);
+
+        return redirect()->route('employees.index')
+            ->with('success', $employee->status === 'active' ? t('employee.activated') : t('employee.deactivated'));
+    }
+
     public function profile(): View
     {
         $user = auth()->user();
