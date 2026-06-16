@@ -63,8 +63,8 @@
                             </select>
                         </div>
 
-                        {{-- Salesperson / employee --}}
-                        @if ($employees->count() > 1 && auth()->user()->isOwner())
+                        {{-- Salesperson / employee; commented to controller too --}}
+                        {{-- @if ($employees->count() > 1 && auth()->user()->isOwner())
                             <div class="mb-3">
                                 <label class="form-label">{{ t('sale.salesperson') }}</label>
                                 <select name="user_id" class="form-select">
@@ -75,7 +75,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        @endif
+                        @endif --}}
 
                         <div class="d-flex justify-content-between mb-2">
                             <span>{{ t('sale.subtotal') }}</span>

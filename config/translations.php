@@ -482,7 +482,7 @@ return [
         'full_ph'             => ['bn' => 'পূর্ণ', 'en' => 'Full'],
         'note_ph'             => ['bn' => 'নোট (ঐচ্ছিক)', 'en' => 'Note (optional)'],
         'save'                => ['bn' => 'ক্রয় সংরক্ষণ করুন', 'en' => 'Save Purchase'],
-        'save_and_add'        => ['bn' => 'সংরক্ষণ ও যোগ করুন', 'en' => 'Save & Add'],
+        'save_and_add'        => ['bn' => 'সংরক্ষণ করুন', 'en' => 'Save'],
         'save_and_select'     => ['bn' => 'সংরক্ষণ ও নির্বাচন', 'en' => 'Save & Select'],
         'product_add_failed'  => ['bn' => 'পণ্য যোগ করা যায়নি।', 'en' => 'Could not add product.'],
         'supplier_add_failed' => ['bn' => 'সরবরাহকারী যোগ করা যায়নি।', 'en' => 'Could not add supplier.'],

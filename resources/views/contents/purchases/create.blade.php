@@ -49,7 +49,7 @@
                             </div>
                         </div>
 
-                        @if ($employees->count() > 1)
+                        {{-- @if ($employees->count() > 1)
                             <div class="row g-3 mb-3">
                                 <div class="col-md-6">
                                     <label class="form-label">{{ t('purchase.assigned_staff') }}</label>
@@ -62,7 +62,7 @@
                                     </select>
                                 </div>
                             </div>
-                        @endif
+                        @endif --}}
 
                         {{-- Product picker --}}
                         <div class="mb-3 position-relative">
@@ -153,7 +153,13 @@
                         </div>
                         <div class="col-7">
                             <label class="form-label">{{ t('product.barcode') }} <span class="text-muted">({{ t('common.optional') }})</span></label>
-                            <input type="text" id="newProductBarcode" class="form-control">
+                            <div class="input-group">
+                                <input type="text" id="newProductBarcode" class="form-control">
+                                <button type="button" class="btn btn-outline-secondary" id="scanNewProductBtn"
+                                    data-bs-toggle="modal" data-bs-target="#barcodeScanModal" title="{{ t('product.barcode_scan') }}">
+                                    <i class="mdi mdi-barcode-scan"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -471,12 +477,18 @@
     // Barcode scanner -> find product by barcode and add, else fill search
     var scanModalEl = document.getElementById('barcodeScanModal');
     var html5Qr = null;
+    var scanTarget = 'search';
 
     function stopScanner() {
         if (html5Qr) {
             html5Qr.stop().then(function () { html5Qr.clear(); html5Qr = null; }).catch(function () { html5Qr = null; });
         }
     }
+
+    scanModalEl.addEventListener('show.bs.modal', function (event) {
+        // Decide where the scanned code should go based on the trigger button
+        scanTarget = (event.relatedTarget && event.relatedTarget.id === 'scanNewProductBtn') ? 'newProduct' : 'search';
+    });
 
     scanModalEl.addEventListener('shown.bs.modal', function () {
         if (typeof Html5Qrcode === 'undefined') { return; }
@@ -485,10 +497,16 @@
             { facingMode: 'environment' },
             { fps: 10, qrbox: { width: 250, height: 150 } },
             function (decodedText) {
-                var code = String(decodedText).trim().toLowerCase();
-                var match = products.filter(function (p) { return p.barcode && p.barcode.toLowerCase() === code; })[0];
                 var sm = bootstrap.Modal.getInstance(scanModalEl);
                 if (sm) sm.hide();
+
+                if (scanTarget === 'newProduct') {
+                    document.getElementById('newProductBarcode').value = String(decodedText).trim();
+                    return;
+                }
+
+                var code = String(decodedText).trim().toLowerCase();
+                var match = products.filter(function (p) { return p.barcode && p.barcode.toLowerCase() === code; })[0];
                 if (match) {
                     addProduct(match);
                 } else {

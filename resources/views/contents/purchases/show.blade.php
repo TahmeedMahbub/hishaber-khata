@@ -39,13 +39,21 @@
                             $waPhone = '8801' . substr($waPhone, -9);
                             $waLines = [
                                 $businessName,
-                                t('purchase.voucher') . ' #' . $purchase->invoice_no,
-                                t('purchase.grand_total') . ': ৳ ' . number_format($purchase->total, 2),
+                                'Voucher #' . $purchase->invoice_no,
                             ];
-                            if ($purchase->due > 0) {
-                                $waLines[] = t('purchase.due') . ': ৳ ' . number_format($purchase->due, 2);
+                            foreach ($purchase->items as $waIndex => $waItem) {
+                                $waQty = rtrim(rtrim(number_format($waItem->qty, 2), '0'), '.');
+                                $waUnit = optional($waItem->product)->unit;
+                                $waLines[] = ($waIndex + 1) . '. '
+                                    . ($waItem->product->name ?? '-')
+                                    . ' - ' . $waQty . ($waUnit ? $waUnit : '')
+                                    . ' -  Tk ' . number_format($waItem->total, 2);
                             }
-                            $waLines[] = route('purchases.show', $purchase);
+                            $waLines[] = 'Total: Tk ' . number_format($purchase->total, 2);
+                            $waLines[] = 'Paid: Tk ' . number_format($purchase->paid, 2);
+                            if ($purchase->due > 0) {
+                                $waLines[] = 'Due: Tk ' . number_format($purchase->due, 2);
+                            }
                             $waMessage = rawurlencode(implode("\n", $waLines));
                             $waUrl = 'https://wa.me/' . $waPhone . '?text=' . $waMessage;
                         }

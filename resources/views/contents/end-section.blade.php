@@ -72,5 +72,41 @@
     })();
 </script>
 
+<!-- Submit modal on Enter (avoid triggering the underlying page form) -->
+<script>
+    (function () {
+        document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Enter' || e.shiftKey || e.defaultPrevented) {
+                return;
+            }
+
+            var target = e.target;
+            if (!target || !target.matches('input')) {
+                return;
+            }
+
+            // Skip inputs that intentionally use Enter (e.g. search/autocomplete fields)
+            if (target.tagName === 'TEXTAREA' || target.type === 'search') {
+                return;
+            }
+
+            var modal = target.closest('.modal.show');
+            if (!modal) {
+                return;
+            }
+
+            // Find the modal's primary action button.
+            var btn = modal.querySelector('.modal-footer .btn-primary')
+                || modal.querySelector('.btn-primary');
+            if (!btn || btn.disabled) {
+                return;
+            }
+
+            e.preventDefault();
+            btn.click();
+        });
+    })();
+</script>
+
 <!-- Page JS -->
 @yield('page-script')

@@ -33,9 +33,9 @@ class SaleController extends Controller
         return view('contents.sales.pos', [
             'products'  => Product::where('status', 'active')->orderBy('name')->get(),
             'customers' => Customer::orderBy('name')->get(),
-            'employees' => $user->tenant
-                ? $user->tenant->users()->where('status', 'active')->orderBy('name')->get()
-                : collect(),
+            // 'employees' => $user->tenant
+            //     ? $user->tenant->users()->where('status', 'active')->orderBy('name')->get()
+            //     : collect(),
         ]);
     }
 
