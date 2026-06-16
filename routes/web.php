@@ -58,6 +58,7 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('/dashboard/recent-sales', [DashboardController::class, 'recentSales'])->name('dashboard.recent-sales');
     Route::get('/dashboard/top-products', [DashboardController::class, 'topProducts'])->name('dashboard.top-products');
 
+    Route::post('/categories/quick', [CategoryController::class, 'quickStore'])->name('categories.quickStore');
     Route::resource('categories', CategoryController::class)->except('show');
     Route::post('/products/quick', [ProductController::class, 'quickStore'])->name('products.quickStore');
     Route::get('/products/import/template', [ProductController::class, 'template'])->name('products.import.template');

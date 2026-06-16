@@ -7,12 +7,16 @@
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="fw-bold mb-0">{{ t('product.title') }}</h4>
-                <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-outline-success text-dark" data-bs-toggle="modal" data-bs-target="#importModal">
-                        <i class="mdi mdi-file-excel me-1"></i> {{ t('product.excel_import') }}
+                <div class="d-flex gap-2 flex-nowrap">
+                    <button type="button" class="btn btn-outline-success text-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#importModal">
+                        <i class="mdi mdi-file-excel me-1"></i>
+                        <span class="d-none d-sm-inline">{{ t('product.excel_import') }}</span>
+                        <span class="d-inline d-sm-none">{{ \Illuminate\Support\Str::before(t('product.excel_import'), ' ') }}</span>
                     </button>
-                    <a href="{{ route('products.create') }}" class="btn btn-primary">
-                        <i class="mdi mdi-plus me-1"></i> {{ t('product.new') }}
+                    <a href="{{ route('products.create') }}" class="btn btn-primary text-nowrap">
+                        <i class="mdi mdi-plus me-1"></i>
+                        <span class="d-none d-sm-inline">{{ t('product.new') }}</span>
+                        <span class="d-inline d-sm-none">{{ \Illuminate\Support\Str::before(t('product.new'), ' ') }}</span>
                     </a>
                 </div>
             </div>

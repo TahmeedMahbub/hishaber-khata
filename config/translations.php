@@ -347,7 +347,7 @@ return [
     */
     'product' => [
         'title'                  => ['bn' => 'পণ্য', 'en' => 'Products'],
-        'new'                    => ['bn' => 'নতুন পণ্য', 'en' => 'New Product'],
+        'new'                    => ['bn' => 'নতুন পণ্য', 'en' => 'Create Product'],
         'edit_title'             => ['bn' => 'পণ্য সম্পাদনা', 'en' => 'Edit Product'],
         'empty'                  => ['bn' => 'কোনো পণ্য নেই।', 'en' => 'No products.'],
         'name_label'             => ['bn' => 'পণ্যের নাম', 'en' => 'Product Name'],
