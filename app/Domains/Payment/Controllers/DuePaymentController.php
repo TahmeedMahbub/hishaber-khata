@@ -28,13 +28,13 @@ class DuePaymentController extends Controller
         if ($type !== 'supplier') {
             $customers = Customer::where('due_balance', '>', 0)
                 ->orderByDesc('due_balance')
-                ->get(['id', 'name', 'phone', 'due_balance']);
+                ->get(['id', 'public_id', 'name', 'phone', 'due_balance']);
         }
 
         if ($type !== 'customer') {
             $suppliers = Supplier::where('due_balance', '>', 0)
                 ->orderByDesc('due_balance')
-                ->get(['id', 'name', 'phone', 'due_balance']);
+                ->get(['id', 'public_id', 'name', 'phone', 'due_balance']);
         }
 
         return view('contents.due-payments.index', [
@@ -48,13 +48,24 @@ class DuePaymentController extends Controller
 
     public function create(Request $request): View
     {
+        $partyType = $request->query('party_type') === 'supplier' ? 'supplier' : 'customer';
+
+        // The URL exposes the public_id; resolve it to the internal id so the
+        // form can preselect the party (the select options use internal ids).
+        $partyId = null;
+        if ($publicId = $request->query('party_id')) {
+            $partyModel = $partyType === 'supplier' ? Supplier::class : Customer::class;
+            $partyId = $partyModel::where('public_id', $publicId)->value('id');
+        }
+
         return view('contents.due-payments.create', [
-            'partyType' => $request->query('party_type') === 'supplier' ? 'supplier' : 'customer',
-            'partyId'   => $request->query('party_id'),
+            'partyType' => $partyType,
+            'partyId'   => $partyId,
+            'lockType'  => $request->query('party_type') !== null,
             'customers' => Customer::where('due_balance', '>', 0)
-                ->orderBy('name')->get(['id', 'name', 'phone', 'due_balance']),
+                ->orderBy('name')->get(['id', 'name', 'phone', 'due_balance'])->makeVisible('id'),
             'suppliers' => Supplier::where('due_balance', '>', 0)
-                ->orderBy('name')->get(['id', 'name', 'phone', 'due_balance']),
+                ->orderBy('name')->get(['id', 'name', 'phone', 'due_balance'])->makeVisible('id'),
         ]);
     }
 

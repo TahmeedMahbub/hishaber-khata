@@ -44,7 +44,7 @@
                         @csrf
 
                         {{-- Customer / Supplier toggle --}}
-                        <div class="mb-3">
+                        <div class="mb-3 {{ $lockType ? 'd-none' : '' }}">
                             <label class="form-label d-block">{{ t('duepay.type') }}</label>
                             <div class="btn-group w-100" role="group">
                                 <input type="radio" class="btn-check" name="party_type" id="typeCustomer"

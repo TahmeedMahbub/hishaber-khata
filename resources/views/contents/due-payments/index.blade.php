@@ -8,7 +8,7 @@
         foreach ($customers as $c) {
             $rows->push((object) [
                 'party_type' => 'customer',
-                'id'         => $c->id,
+                'id'         => $c->public_id,
                 'name'       => $c->name,
                 'phone'      => $c->phone,
                 'due'        => (float) $c->due_balance,
@@ -17,7 +17,7 @@
         foreach ($suppliers as $s) {
             $rows->push((object) [
                 'party_type' => 'supplier',
-                'id'         => $s->id,
+                'id'         => $s->public_id,
                 'name'       => $s->name,
                 'phone'      => $s->phone,
                 'due'        => (float) $s->due_balance,
