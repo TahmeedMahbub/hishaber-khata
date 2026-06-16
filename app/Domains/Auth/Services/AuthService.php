@@ -20,12 +20,14 @@ class AuthService
     }
 
     /**
-     * Attempt to authenticate a user by phone + password.
+     * Attempt to authenticate a user by phone or email + password.
      */
-    public function attempt(string $phone, string $password, bool $remember = false): bool
+    public function attempt(string $identifier, string $password, bool $remember = false): bool
     {
+        $field = filter_var($identifier, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+
         return Auth::attempt(
-            ['phone' => $phone, 'password' => $password, 'status' => 'active'],
+            [$field => $identifier, 'password' => $password, 'status' => 'active'],
             $remember
         );
     }

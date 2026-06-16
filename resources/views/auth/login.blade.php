@@ -27,9 +27,9 @@
         @csrf
 
         <div class="mb-3">
-            <label for="phone" class="form-label">{{ t('authpage.mobile_number') }}</label>
+            <label for="phone" class="form-label">{{ t('authpage.mobile_or_email') }}</label>
             <input type="text" id="phone" name="phone" class="form-control"
-                value="{{ old('phone') }}" placeholder="01XXXXXXXXX" autofocus required>
+                value="{{ old('phone') }}" placeholder="01XXXXXXXXX / you@example.com" autofocus required>
         </div>
 
         <div class="mb-3">

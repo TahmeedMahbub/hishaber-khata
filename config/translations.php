@@ -724,10 +724,11 @@ return [
     */
     'authpage' => [
         'login_heading'         => ['bn' => 'লগ-ইন করুন', 'en' => 'Log In'],
-        'login_subtitle'        => ['bn' => 'আপনার মোবাইল নম্বর ও পাসওয়ার্ড দিয়ে লগইন করুন।', 'en' => 'Log in with your mobile number and password.'],
+        'login_subtitle'        => ['bn' => 'আপনার মোবাইল বা ইমেইল এবং পাসওয়ার্ড দিয়ে লগইন করুন।', 'en' => 'Log in with your mobile / email and password.'],
         'login_register_prompt' => ['bn' => 'ভুল তথ্য! নতুন ব্যবহারকারী হলে অনুগ্রহ করে প্রথমে রেজিস্টার করুন।', 'en' => 'Invalid details! If you are a new user, please register first.'],
         'register_now'          => ['bn' => 'রেজিস্টার করুন', 'en' => 'Register'],
         'mobile_number'         => ['bn' => 'মোবাইল নম্বর', 'en' => 'Mobile Number'],
+        'mobile_or_email'       => ['bn' => 'মোবাইল নম্বর বা ইমেইল', 'en' => 'Mobile Number or Email'],
         'login_btn'             => ['bn' => 'লগইন', 'en' => 'Log In'],
         'new_user'              => ['bn' => 'নতুন ব্যবহারকারী?', 'en' => 'New user?'],
         'create_account'        => ['bn' => 'একাউন্ট তৈরি করুন', 'en' => 'Create Account'],
