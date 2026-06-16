@@ -26,5 +26,51 @@
 <!-- Mobile bottom navigation -->
 <script src="{{ asset('assets/js/mobile-bottom-nav.js')}} "></script>
 
+<!-- Password show/hide toggle -->
+<script>
+    (function () {
+        function buildToggle(input) {
+            if (input.dataset.pwToggleReady) {
+                return;
+            }
+            input.dataset.pwToggleReady = '1';
+
+            var wrapper = document.createElement('div');
+            wrapper.className = 'input-group';
+            input.parentNode.insertBefore(wrapper, input);
+            wrapper.appendChild(input);
+
+            var button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'input-group-text';
+            button.setAttribute('aria-label', 'Show password');
+            button.style.cursor = 'pointer';
+            button.innerHTML = '<i class="mdi mdi-eye-outline"></i>';
+            wrapper.appendChild(button);
+
+            button.addEventListener('click', function () {
+                var icon = button.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    button.setAttribute('aria-label', 'Hide password');
+                    if (icon) {
+                        icon.className = 'mdi mdi-eye-off-outline';
+                    }
+                } else {
+                    input.type = 'password';
+                    button.setAttribute('aria-label', 'Show password');
+                    if (icon) {
+                        icon.className = 'mdi mdi-eye-outline';
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('input[type="password"]').forEach(buildToggle);
+        });
+    })();
+</script>
+
 <!-- Page JS -->
 @yield('page-script')
