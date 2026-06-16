@@ -2,12 +2,14 @@
 
 namespace App\Domains\Tenant\Controllers;
 
+use App\Domains\Auth\Notifications\EmployeeInvitationNotification;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -52,6 +54,20 @@ class SettingsController extends Controller
 
         return redirect()->route('employees.index')
             ->with('success', $employee->status === 'active' ? t('employee.activated') : t('employee.deactivated'));
+    }
+
+    public function resendInvite(User $employee): RedirectResponse
+    {
+        $user = auth()->user();
+
+        abort_unless($user->isOwner() && $user->tenant, 403);
+        abort_unless($employee->tenant_id === $user->tenant_id && $employee->id !== $user->id, 403);
+        abort_unless(is_null($employee->email_verified_at), 403);
+
+        $employee->notify(new EmployeeInvitationNotification($user));
+
+        return redirect()->route('employees.index')
+            ->with('success', t('msg.employee_invited'));
     }
 
     public function profile(): View
@@ -192,33 +208,33 @@ class SettingsController extends Controller
         $validator = Validator::make($request->all(), [
             'name'     => ['required', 'string', 'max:150'],
             'phone'    => ['nullable', 'string', 'max:20', Rule::unique('users', 'phone')],
-            'email'    => ['nullable', 'email', 'max:150', Rule::unique('users', 'email')],
+            'email'    => ['required', 'email', 'max:150', Rule::unique('users', 'email')],
             'role'     => ['required', Rule::in(['manager', 'staff'])],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ], [
             'name.required'     => t('valid.employee_name_required'),
             'phone.unique'      => t('valid.phone_in_use'),
+            'email.required'    => t('valid.employee_email_required'),
             'email.unique'      => t('valid.email_in_use'),
             'role.required'     => t('valid.role_required'),
-            'password.required' => t('valid.employee_password_required'),
-            'password.min'      => t('valid.password_min'),
-            'password.confirmed' => t('valid.password_confirmed'),
         ]);
 
         $data = $validator->validateWithBag('employee');
 
-        User::create([
+        $employee = User::create([
             'tenant_id' => $user->tenant_id,
             'branch_id' => $user->branch_id,
             'name'      => $data['name'],
             'phone'     => $data['phone'] ?? null,
-            'email'     => $data['email'] ?? null,
-            'password'  => $data['password'],
+            'email'     => $data['email'],
+            'password'  => Str::random(40),
             'role'      => $data['role'],
-            'status'    => 'active',
+            'status'    => 'inactive',
         ]);
 
+        // Invite the employee to verify their email and set their own password.
+        $employee->notify(new EmployeeInvitationNotification($user));
+
         return redirect()->route('employees.index')
-            ->with('success', t('msg.employee_created'));
+            ->with('success', t('msg.employee_invited'));
     }
 }

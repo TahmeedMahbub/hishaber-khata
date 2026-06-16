@@ -57,14 +57,25 @@
                                     <td>{{ $employee->phone ?? '—' }}</td>
                                     <td>{{ $employee->email ?? '—' }}</td>
                                     <td>
-                                        @if ($employee->status === 'active')
+                                        @if (is_null($employee->email_verified_at))
+                                            <span class="badge bg-label-warning">{{ t('employee.pending') }}</span>
+                                        @elseif ($employee->status === 'active')
                                             <span class="badge bg-label-success">{{ t('common.active') }}</span>
                                         @else
                                             <span class="badge bg-label-secondary">{{ t('common.inactive') }}</span>
                                         @endif
                                     </td>
                                     <td class="text-end">
-                                        @if ($employee->status === 'active')
+                                        @if (is_null($employee->email_verified_at))
+                                            <form method="POST" action="{{ route('settings.employees.resend', $employee) }}"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-sm btn-outline-primary">
+                                                    <i class="mdi mdi-email-sync-outline me-1"></i> {{ t('employee.resend_invite') }}
+                                                </button>
+                                            </form>
+                                        @elseif ($employee->status === 'active')
                                             <form method="POST" action="{{ route('settings.employees.toggle', $employee) }}"
                                                 class="d-inline"
                                                 data-confirm="{{ t('employee.deactivate_confirm') }}"
@@ -141,18 +152,12 @@
                             <div class="col-md-6">
                                 <label for="e_email" class="form-label">{{ t('common.email') }}</label>
                                 <input type="email" id="e_email" name="email" class="form-control"
-                                    value="{{ old('email') }}">
+                                    value="{{ old('email') }}" required>
                             </div>
-                            <div class="col-md-6">
-                                <label for="e_password" class="form-label">{{ t('auth.password') }}</label>
-                                <input type="password" id="e_password" name="password" class="form-control"
-                                    autocomplete="new-password" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="e_password_confirmation" class="form-label">{{ t('employee.confirm_password') }}</label>
-                                <input type="password" id="e_password_confirmation" name="password_confirmation"
-                                    class="form-control" autocomplete="new-password" required>
-                            </div>
+                        </div>
+                        <div class="alert alert-info d-flex align-items-center mt-3 mb-0" role="alert">
+                            <i class="mdi mdi-email-fast-outline me-2"></i>
+                            <span>{{ t('employee.invite_note') }}</span>
                         </div>
                     </div>
                     <div class="modal-footer">

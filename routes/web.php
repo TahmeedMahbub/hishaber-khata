@@ -66,6 +66,17 @@ Route::middleware('auth')->group(function () {
 });
 
 /*
+| Employee invitation setup — opened from the email link (signed, no auth)
+*/
+Route::middleware('signed')->group(function () {
+    Route::get('/employee/setup/{id}/{hash}', [\App\Domains\Auth\Controllers\EmployeeSetupController::class, 'show'])
+        ->name('employee.setup');
+
+    Route::post('/employee/setup/{id}/{hash}', [\App\Domains\Auth\Controllers\EmployeeSetupController::class, 'store'])
+        ->name('employee.setup.store');
+});
+
+/*
 | Authenticated + tenant-scoped routes
 */
 Route::middleware(['auth', 'verified.owner', 'tenant'])->group(function () {
@@ -124,6 +135,7 @@ Route::middleware(['auth', 'verified.owner', 'tenant'])->group(function () {
     Route::get('/employees', [SettingsController::class, 'employees'])->name('employees.index');
     Route::post('/settings/employees', [SettingsController::class, 'storeEmployee'])->name('settings.employees.store');
     Route::put('/settings/employees/{employee}/toggle', [SettingsController::class, 'toggleEmployee'])->name('settings.employees.toggle');
+    Route::put('/settings/employees/{employee}/resend', [SettingsController::class, 'resendInvite'])->name('settings.employees.resend');
 
     Route::get('/profile', [SettingsController::class, 'profile'])->name('profile');
     Route::post('/language/switch', [SettingsController::class, 'switchLanguage'])->name('language.switch');
