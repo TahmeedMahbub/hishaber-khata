@@ -3,6 +3,19 @@
 @section('title', t('duepay.title'))
 
 @section('content')
+    <style>
+        @media (min-width: 992px) {
+            .duepay-search {
+                width: auto !important;
+                max-width: 360px;
+            }
+        }
+
+        .duepay-filter .btn {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+    </style>
     @php
         $rows = collect();
         foreach ($customers as $c) {
@@ -78,15 +91,38 @@
             </div>
 
             <div class="card">
-                <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-                    <h5 class="mb-0">{{ t('duepay.due_list') }}</h5>
-                    <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ route('due-payments.index') }}"
-                            class="btn {{ !$type ? 'btn-primary' : 'btn-outline-primary' }}">{{ t('common.all') }}</a>
-                        <a href="{{ route('due-payments.index', ['type' => 'customer']) }}"
-                            class="btn {{ $type === 'customer' ? 'btn-primary' : 'btn-outline-primary' }}">{{ t('nav.customers') }}</a>
-                        <a href="{{ route('due-payments.index', ['type' => 'supplier']) }}"
-                            class="btn {{ $type === 'supplier' ? 'btn-primary' : 'btn-outline-primary' }}">{{ t('nav.suppliers') }}</a>
+                <div class="card-header">
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <h5 class="mb-0 order-1">{{ t('duepay.due_list') }}</h5>
+
+                        <form method="GET" action="{{ route('due-payments.index') }}"
+                            class="duepay-search order-3 order-lg-2 w-100 ms-lg-auto" role="search">
+                            @if ($type)
+                                <input type="hidden" name="type" value="{{ $type }}">
+                            @endif
+                            <div class="input-group input-group-sm">
+                                <input type="text" name="q" class="form-control" value="{{ $search }}"
+                                    placeholder="{{ t('duepay.search_ph') }}" aria-label="{{ t('duepay.search_ph') }}">
+                                <button class="btn btn-outline-primary" type="submit">
+                                    <i class="mdi mdi-magnify"></i>
+                                </button>
+                                @if ($search !== '')
+                                    <a href="{{ route('due-payments.index', $type ? ['type' => $type] : []) }}"
+                                        class="btn btn-outline-secondary">
+                                        <i class="mdi mdi-close"></i>
+                                    </a>
+                                @endif
+                            </div>
+                        </form>
+
+                        <div class="btn-group btn-group-sm duepay-filter order-2 order-lg-3 ms-auto ms-lg-0" role="group">
+                            <a href="{{ route('due-payments.index', $search !== '' ? ['q' => $search] : []) }}"
+                                class="btn {{ !$type ? 'btn-primary' : 'btn-outline-primary' }}">{{ t('common.all') }}</a>
+                            <a href="{{ route('due-payments.index', array_filter(['type' => 'customer', 'q' => $search ?: null])) }}"
+                                class="btn {{ $type === 'customer' ? 'btn-primary' : 'btn-outline-primary' }}">{{ t('nav.customers') }}</a>
+                            <a href="{{ route('due-payments.index', array_filter(['type' => 'supplier', 'q' => $search ?: null])) }}"
+                                class="btn {{ $type === 'supplier' ? 'btn-primary' : 'btn-outline-primary' }}">{{ t('nav.suppliers') }}</a>
+                        </div>
                     </div>
                 </div>
                 <div class="table-responsive text-nowrap">

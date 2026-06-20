@@ -21,24 +21,38 @@ class DuePaymentController extends Controller
     public function index(Request $request): View
     {
         $type = $this->normalizeType($request->query('type'));
+        $search = trim((string) $request->query('q', ''));
 
         $customers = collect();
         $suppliers = collect();
 
         if ($type !== 'supplier') {
             $customers = Customer::where('due_balance', '>', 0)
+                ->when($search !== '', function ($query) use ($search) {
+                    $query->where(function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', $search);
+                    });
+                })
                 ->orderByDesc('due_balance')
                 ->get(['id', 'public_id', 'name', 'phone', 'due_balance']);
         }
 
         if ($type !== 'customer') {
             $suppliers = Supplier::where('due_balance', '>', 0)
+                ->when($search !== '', function ($query) use ($search) {
+                    $query->where(function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', $search);
+                    });
+                })
                 ->orderByDesc('due_balance')
                 ->get(['id', 'public_id', 'name', 'phone', 'due_balance']);
         }
 
         return view('contents.due-payments.index', [
             'type'             => $request->query('type'),
+            'search'           => $search,
             'customers'        => $customers,
             'suppliers'        => $suppliers,
             'customerDueTotal' => $customers->sum('due_balance'),

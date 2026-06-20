@@ -6,9 +6,9 @@
     @php
         $allErrors = collect($errors->getBags())->flatMap(fn ($bag) => $bag->all());
     @endphp
-    <div class="row gy-4 justify-content-center">
+    {{-- <div class="row gy-4 justify-content-center">
         <div class="col-12 col-lg-10">
-            <h4 class="fw-bold mb-3">{{ t('nav.settings') }}</h4>
+            <h4 class="fw-bold mb-3">{{ t('nav.settings') }}  (Coming Soon)</h4>
 
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible" role="alert">
@@ -37,18 +37,6 @@
                     </div>
                     <div class="card-body">
                         <div class="row g-3">
-                            {{-- <div class="col-md-6">
-                                <label for="language" class="form-label">ভাষা</label>
-                                <select id="language" name="language" class="form-select" required>
-                                    <option value="bn" {{ old('language', $settings->language) === 'bn' ? 'selected' : '' }}>বাংলা ভাষায় দেখুন</option>
-                                    <option value="en" {{ old('language', $settings->language) === 'en' ? 'selected' : '' }}>See in English</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="timezone" class="form-label">টাইমজোন</label>
-                                <input type="text" id="timezone" name="timezone" class="form-control"
-                                    value="{{ old('timezone', $settings->timezone) }}" required>
-                            </div> --}}
                             <div class="col-md-6">
                                 <label for="currency" class="form-label">{{ t('settings.currency') }}</label>
                                 <input type="text" id="currency" name="currency" class="form-control"
@@ -135,5 +123,9 @@
                 </div>
             </form>
         </div>
+    </div> --}}
+    <br><br><br><br><br><br><br><br>
+    <div class="row text-center">
+        <h4 class="fw-bold mb-3">{{ t('nav.settings') }} (Coming Soon)</h4>
     </div>
 @endsection

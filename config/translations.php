@@ -25,7 +25,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'brand' => [
-        'name' => ['bn' => 'হিসাবের খাতা', 'en' => 'Hishaber Khata'],
+        'name' => ['bn' => 'হিসাবীজ', 'en' => 'Hishabiz'],
     ],
 
     /*
@@ -48,7 +48,7 @@ return [
         'due_payments'  => ['bn' => 'বাকির হিসাব', 'en' => 'Due Accounts'],
         'expenses'      => ['bn' => 'খরচ', 'en' => 'Expenses'],
         'damages'       => ['bn' => 'ড্যামেজ / হারানো', 'en' => 'Damage / Loss'],
-        'damages_short' => ['bn' => 'ড্যামেজ', 'en' => 'Damage'],
+        'damages_short' => ['bn' => 'ড্যামেজ / লস', 'en' => 'Damage Loss'],
         'employees'     => ['bn' => 'কর্মচারী', 'en' => 'Employees'],
         'settings'      => ['bn' => 'সেটিংস', 'en' => 'Settings'],
         'profile'       => ['bn' => 'প্রোফাইল', 'en' => 'Profile'],
@@ -70,6 +70,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'footer' => [
+        'year'      => ['bn' => '২০২৬', 'en' => '2026'],
         'rights'    => ['bn' => 'সর্বস্বত্ব সংরক্ষিত।', 'en' => 'All rights reserved.'],
         'crafted_by' => ['bn' => 'তৈরি করেছেন', 'en' => 'Crafted by'],
     ],
@@ -515,6 +516,7 @@ return [
         'receivable'        => ['bn' => 'কাস্টমারের কাছে পাওনা', 'en' => 'Receivable from Customers'],
         'payable'           => ['bn' => 'সরবরাহকারীকে দেনা', 'en' => 'Payable to Suppliers'],
         'due_list'          => ['bn' => 'বাকি তালিকা', 'en' => 'Due List'],
+        'search_ph'         => ['bn' => 'নাম বা মোবাইল দিয়ে খুঁজুন', 'en' => 'Search by name or mobile'],
         'type'              => ['bn' => 'ধরন', 'en' => 'Type'],
         'due'               => ['bn' => 'বাকি', 'en' => 'Due'],
         'collect'           => ['bn' => 'আদায়', 'en' => 'Collect'],
@@ -549,6 +551,7 @@ return [
     'damage' => [
         'title'          => ['bn' => 'ড্যামেজ / হারানো', 'en' => 'Damage / Loss'],
         'new_record'     => ['bn' => 'নতুন রেকর্ড', 'en' => 'New Record'],
+        'list'           => ['bn' => 'তালিকা', 'en' => 'List'],
         'search_ph'      => ['bn' => 'পণ্য বা কারণ দিয়ে খুঁজুন...', 'en' => 'Search by product or reason...'],
         'type'           => ['bn' => 'ধরন', 'en' => 'Type'],
         'reason'         => ['bn' => 'কারণ', 'en' => 'Reason'],
@@ -720,7 +723,7 @@ return [
         'pending'          => ['bn' => 'অপেক্ষমাণ', 'en' => 'Pending'],
         'resend_invite'    => ['bn' => 'আবার আমন্ত্রণ পাঠান', 'en' => 'Resend Invite'],
         'invite_note'      => ['bn' => 'কর্মচারীর ইমেইলে একটি আমন্ত্রণ লিংক পাঠানো হবে। তিনি লিংকে ক্লিক করে নিজের পাসওয়ার্ড সেট করবেন।', 'en' => 'An invitation link will be sent to the employee\'s email. They will click it to set their own password.'],
-        'invite_subject'      => ['bn' => 'হিসাবের খাতা — আপনাকে আমন্ত্রণ জানানো হয়েছে', 'en' => 'Hishaber Khata — You have been invited'],
+        'invite_subject'      => ['bn' => 'হিসাবীজ — আপনাকে আমন্ত্রণ জানানো হয়েছে', 'en' => 'Hishabiz — You have been invited'],
         'invite_greeting'     => ['bn' => 'হ্যালো', 'en' => 'Hello'],
         'invite_intro'        => ['bn' => 'আপনাকে এই ব্যবসায় যোগ দিতে আমন্ত্রণ জানানো হয়েছে:', 'en' => 'You have been invited to join the business:'],
         'invite_action_line'  => ['bn' => 'অ্যাকাউন্ট সক্রিয় করতে এবং আপনার পাসওয়ার্ড সেট করতে নিচের বাটনে ক্লিক করুন।', 'en' => 'Click the button below to activate your account and set your password.'],
@@ -754,7 +757,7 @@ return [
         'new_user'              => ['bn' => 'নতুন ব্যবহারকারী?', 'en' => 'New user?'],
         'create_account'        => ['bn' => 'একাউন্ট তৈরি করুন', 'en' => 'Create Account'],
         'register_heading'      => ['bn' => 'ব্যবসা শুরু করুন', 'en' => 'Start Your Business'],
-        'register_subtitle'     => ['bn' => 'কয়েক সেকেন্ডে আপনার হিসাবের খাতা খুলুন।', 'en' => 'Open your Hishaber Khata in seconds.'],
+        'register_subtitle'     => ['bn' => 'কয়েক সেকেন্ডে আপনার "হিসাবীজ" একাউন্ট খুলুন।', 'en' => 'Open your "Hishabiz" account in seconds.'],
         'register_title'        => ['bn' => 'ব্যবসা নিবন্ধন', 'en' => 'Register Business'],
         'business_name_label'   => ['bn' => 'ব্যবসার নাম', 'en' => 'Business Name'],
         'business_name_ph'      => ['bn' => 'যেমন: রহিম স্টোর', 'en' => 'e.g. Rahim Store'],
@@ -797,9 +800,9 @@ return [
     */
     'landing' => [
         // Page + nav
-        'page_title'        => ['bn' => 'হিসাবের খাতা – ছোট ব্যবসার ডিজিটাল খাতা', 'en' => 'Hishaber Khata – Digital Ledger for Small Businesses'],
-        'logo_word1'        => ['bn' => 'হিসাবের', 'en' => 'Hishaber'],
-        'logo_word2'        => ['bn' => 'খাতা', 'en' => 'Khata'],
+        'page_title'        => ['bn' => 'হিসাবীজ – ছোট ব্যবসার ডিজিটাল খাতা', 'en' => 'Hishabiz – Digital Ledger for Small Businesses'],
+        'logo_word1'        => ['bn' => 'Hishabiz', 'en' => 'হিসাবীজ'],
+        'logo_word2'        => ['bn' => 'হিসাবীজ', 'en' => 'Hishabiz'],
         'nav_features'      => ['bn' => 'ফিচার', 'en' => 'Features'],
         'nav_how'           => ['bn' => 'কিভাবে কাজ করে', 'en' => 'How It Works'],
         'nav_plans'         => ['bn' => 'প্ল্যান', 'en' => 'Plans'],
@@ -811,8 +814,8 @@ return [
 
         // Hero
         'hero_badge'        => ['bn' => '৫০০+ উদ্দোক্তা বিশ্বাস করেন', 'en' => 'Trusted by 500+ entrepreneurs'],
-        'hero_title_1'      => ['bn' => 'প্রতিটি দোকানের জন্য', 'en' => 'For every shop,'],
-        'hero_title_2'      => ['bn' => 'সহজ ব্যবসা ব্যবস্থাপনা', 'en' => 'simple business management'],
+        'hero_title_1'      => ['bn' => 'প্রতিটি ব্যবসার জন্য', 'en' => 'For every business,'],
+        'hero_title_2'      => ['bn' => 'একটি সহজ ব্যবস্থাপনা', 'en' => 'a simple management system'],
         'hero_subtitle'     => ['bn' => 'মোবাইল থেকেই বিক্রয়, কেনাকাটা, স্টক, খরচ ও লাভ ট্র্যাক করুন। কোনো অ্যাকাউন্টিং জ্ঞান দরকার নেই।', 'en' => 'Track sales, purchases, stock, expenses and profit right from your mobile. No accounting knowledge needed.'],
         'trust_mobile'      => ['bn' => 'মোবাইল ফ্রেন্ডলি', 'en' => 'Mobile Friendly'],
         'trust_cloud'       => ['bn' => 'ক্লাউড ভিত্তিক', 'en' => 'Cloud Based'],
@@ -860,9 +863,9 @@ return [
 
         // Why / problems
         'why_tag'       => ['bn' => 'সমস্যা থেকে সমাধান', 'en' => 'From Problem to Solution'],
-        'why_title_1'   => ['bn' => 'দোকানদারদের প্রতিদিনের সমস্যাগুলো', 'en' => "Shopkeepers' everyday problems"],
+        'why_title_1'   => ['bn' => 'উদ্যোক্তাদের প্রতিদিনের সমস্যাগুলো', 'en' => "Entrepreneurs' everyday problems"],
         'why_title_2'   => ['bn' => 'আমরা বুঝি', 'en' => 'we understand'],
-        'why_subtitle'  => ['bn' => 'পুরনো পদ্ধতি আর নয়। হিসাবের খাতা আপনার ব্যবসাকে সহজ ও স্মার্ট করে তুলবে।', 'en' => 'No more old methods. Hishaber Khata makes your business simple and smart.'],
+        'why_subtitle'  => ['bn' => 'পুরনো পদ্ধতি আর নয়। "হিসাবীজ" আপনার ব্যবসাকে সহজ ও স্মার্ট করে তুলবে।', 'en' => 'No more old methods. "Hishabiz" makes your business simple and smart.'],
         'problem_1_before' => ['bn' => 'কাগজের খাতা হারিয়ে যায়', 'en' => 'Paper ledgers get lost'],
         'problem_1_after'  => ['bn' => 'ক্লাউডে সংরক্ষিত, কখনো হারাবে না', 'en' => 'Saved in the cloud, never lost'],
         'problem_2_before' => ['bn' => 'স্টক হিসাব করা কঠিন', 'en' => 'Stock counting is hard'],
@@ -878,7 +881,7 @@ return [
 
         // Features
         'features_tag'     => ['bn' => 'মূল ফিচারসমূহ', 'en' => 'Key Features'],
-        'features_title_1' => ['bn' => 'আপনার দোকানের জন্য দরকারি', 'en' => 'Everything your shop needs'],
+        'features_title_1' => ['bn' => 'আপনার ব্যবসার জন্য দরকারি', 'en' => 'Everything your business needs'],
         'features_title_2' => ['bn' => 'সব কিছু এক জায়গায়', 'en' => 'all in one place'],
         'feat_sales_title' => ['bn' => 'বিক্রয় ব্যবস্থাপনা', 'en' => 'Sales Management'],
         'feat_sales_1'     => ['bn' => 'দ্রুত বিক্রয় এন্ট্রি', 'en' => 'Quick sales entry'],
@@ -922,8 +925,8 @@ return [
         'feat_invoice_4'   => ['bn' => 'প্রিন্ট করুন সহজেই', 'en' => 'Print easily'],
 
         // Benefits
-        'benefits_tag'     => ['bn' => 'কেন দোকানদাররা ভালোবাসেন', 'en' => 'Why Shopkeepers Love It'],
-        'benefits_title_1' => ['bn' => 'হিসাবের খাতা ব্যবহার করলে', 'en' => 'When you use Hishaber Khata'],
+        'benefits_tag'     => ['bn' => 'কেন উদ্যোক্তারা ভালোবাসেন', 'en' => 'Why Entrepreneurs Love It'],
+        'benefits_title_1' => ['bn' => '"হিসাবীজ" ব্যবহার করলে', 'en' => 'When you use "Hishabiz"'],
         'benefits_title_2' => ['bn' => 'যা পাবেন', 'en' => "here's what you get"],
         'benefit_1_title'  => ['bn' => 'যেকোনো ডিভাইসে চলে', 'en' => 'Works on any device'],
         'benefit_1_desc'   => ['bn' => 'মোবাইল, ট্যাবলেট বা কম্পিউটার — সব জায়গায় ব্যবহার করুন', 'en' => 'Mobile, tablet or computer — use it everywhere'],
@@ -940,15 +943,20 @@ return [
         'benefit_7_title'  => ['bn' => '২৪/৭ সহজলভ্য', 'en' => 'Available 24/7'],
         'benefit_7_desc'   => ['bn' => 'যেকোনো সময়, যেকোনো জায়গা থেকে হিসাব দেখুন', 'en' => 'Check your accounts anytime, anywhere'],
         'benefit_8_title'  => ['bn' => 'বাংলায় সম্পূর্ণ', 'en' => 'Fully in Bangla'],
-        'benefit_8_desc'   => ['bn' => 'সম্পূর্ণ বাংলা ভাষায়, বাংলাদেশের দোকানদারদের জন্য', 'en' => 'Entirely in Bangla, made for Bangladeshi shopkeepers'],
+        'benefit_8_desc'   => ['bn' => 'সম্পূর্ণ বাংলা ভাষায়, বাংলাদেশের উদ্যোক্তাদের জন্য', 'en' => 'Entirely in Bangla, made for Bangladeshi entrepreneurs'],
 
         // How it works
         'how_title'    => ['bn' => 'মাত্র ৫টি ধাপে শুরু করুন', 'en' => 'Get started in just 5 steps'],
         'how_subtitle' => ['bn' => 'জটিল কিছু নেই। সহজ ধাপগুলো অনুসরণ করুন এবং আজই ব্যবসা ম্যানেজ শুরু করুন।', 'en' => 'Nothing complicated. Follow the simple steps and start managing your business today.'],
+        'step_1' => ['bn' => '১', 'en' => '1'],
+        'step_2' => ['bn' => '২', 'en' => '2'],
+        'step_3' => ['bn' => '৩', 'en' => '3'],
+        'step_4' => ['bn' => '৪', 'en' => '4'],
+        'step_5' => ['bn' => '৫', 'en' => '5'],
         'step_1_title' => ['bn' => 'ব্যবসা নিবন্ধন করুন', 'en' => 'Register your business'],
-        'step_1_desc'  => ['bn' => 'দোকানের নাম ও তথ্য দিয়ে বিনামূল্যে অ্যাকাউন্ট খুলুন', 'en' => 'Open a free account with your shop name and details'],
+        'step_1_desc'  => ['bn' => 'ব্যবসার নাম ও তথ্য দিয়ে বিনামূল্যে অ্যাকাউন্ট খুলুন', 'en' => 'Open a free account with your business name and details'],
         'step_2_title' => ['bn' => 'পণ্য যোগ করুন', 'en' => 'Add products'],
-        'step_2_desc'  => ['bn' => 'আপনার দোকানের পণ্যের তালিকা ও দাম সেট করুন', 'en' => 'Set up your shop\'s product list and prices'],
+        'step_2_desc'  => ['bn' => 'আপনার পণ্যের তালিকা ও দাম সেট করুন', 'en' => 'Set up your product list and prices'],
         'step_3_title' => ['bn' => 'কেনাকাটা রেকর্ড করুন', 'en' => 'Record purchases'],
         'step_3_desc'  => ['bn' => 'পাইকারি থেকে পণ্য কিনলে তা রেকর্ড করুন', 'en' => 'Record products bought from wholesale'],
         'step_4_title' => ['bn' => 'বিক্রয় রেকর্ড করুন', 'en' => 'Record sales'],
@@ -963,7 +971,7 @@ return [
         'plans_subtitle'   => ['bn' => 'বিনামূল্যে শুরু করুন, যখন প্রয়োজন আপগ্রেড করুন', 'en' => 'Start free, upgrade when you need to'],
         'per_month'        => ['bn' => '/ মাস', 'en' => '/ month'],
         'plan_free_name'   => ['bn' => 'ফ্রি', 'en' => 'Free'],
-        'plan_free_desc'   => ['bn' => 'নতুন দোকানদারদের জন্য শুরু করার সুযোগ', 'en' => 'A starting point for new shopkeepers'],
+        'plan_free_desc'   => ['bn' => 'নতুন উদ্যোক্তাদের জন্য শুরু করার সুযোগ', 'en' => 'A starting point for new entrepreneurs'],
         'plan_free_f1'     => ['bn' => '৫০টি পণ্য', 'en' => '50 products'],
         'plan_free_f2'     => ['bn' => 'মাসে ১০০টি বিক্রয়', 'en' => '100 sales per month'],
         'plan_free_f3'     => ['bn' => 'বেসিক রিপোর্ট', 'en' => 'Basic reports'],
@@ -975,7 +983,7 @@ return [
         'multi_user'       => ['bn' => 'একাধিক ব্যবহারকারী', 'en' => 'Multiple Users'],
         'multi_branch'     => ['bn' => 'একাধিক শাখা', 'en' => 'Multiple Branches'],
         'plan_starter_name' => ['bn' => 'স্টার্টার', 'en' => 'Starter'],
-        'plan_starter_desc' => ['bn' => 'ছোট দোকানের জন্য আদর্শ', 'en' => 'Ideal for small shops'],
+        'plan_starter_desc' => ['bn' => 'ছোট ব্যবসার জন্য আদর্শ', 'en' => 'Ideal for small businesses'],
         'plan_starter_f1'  => ['bn' => '৫০০টি পণ্য', 'en' => '500 products'],
         'unlimited_sales'  => ['bn' => 'সীমাহীন বিক্রয়', 'en' => 'Unlimited sales'],
         'start_btn'        => ['bn' => 'শুরু করুন', 'en' => 'Get Started'],
@@ -1035,7 +1043,7 @@ return [
         'faq_tag'   => ['bn' => 'প্রশ্ন ও উত্তর', 'en' => 'Questions & Answers'],
         'faq_title' => ['bn' => 'সাধারণ প্রশ্নসমূহ', 'en' => 'Frequently Asked Questions'],
         'faq_q1'    => ['bn' => 'কি টেকনিক্যাল জ্ঞান লাগবে?', 'en' => 'Do I need technical knowledge?'],
-        'faq_a1'    => ['bn' => 'না, একদমই না। হিসাবের খাতা সাধারণ দোকানদারদের কথা মাথায় রেখে তৈরি। মোবাইল চালাতে পারলেই ব্যবহার করতে পারবেন। আমাদের সহজ ইন্টারফেস যে কেউ শিখে নিতে পারবে।', 'en' => 'No, not at all. Hishaber Khata is built with ordinary shopkeepers in mind. If you can use a mobile phone, you can use it. Anyone can learn our simple interface.'],
+        'faq_a1'    => ['bn' => 'না, একদমই না। "হিসাবীজ" সাধারণ উদ্যোক্তাদের কথা মাথায় রেখে তৈরি। মোবাইল চালাতে পারলেই ব্যবহার করতে পারবেন। আমাদের সহজ ইন্টারফেস যে কেউ শিখে নিতে পারবে।', 'en' => 'No, not at all. "Hishabiz" is built with ordinary entrepreneurs in mind. If you can use a mobile phone, you can use it. Anyone can learn our simple interface.'],
         'faq_q2'    => ['bn' => 'মোবাইল থেকে ব্যবহার করা যাবে?', 'en' => 'Can I use it from a mobile?'],
         'faq_a2'    => ['bn' => 'হ্যাঁ, সম্পূর্ণভাবে। Android, iPhone, Tablet সব ডিভাইসে কাজ করে। আলাদা কোনো অ্যাপ ডাউনলোড করতে হবে না — ব্রাউজার থেকেই ব্যবহার করুন।', 'en' => 'Yes, completely. It works on Android, iPhone and Tablet — all devices. No separate app to download — just use it from your browser.'],
         'faq_q3'    => ['bn' => 'স্টক ট্র্যাক করা যাবে কি?', 'en' => 'Can I track stock?'],
@@ -1062,7 +1070,7 @@ return [
         'cta_note_3'     => ['bn' => 'যেকোনো সময় বাতিল করুন', 'en' => 'Cancel anytime'],
 
         // Footer
-        'footer_about'   => ['bn' => 'ছোট ব্যবসার জন্য ডিজিটাল হিসাব খাতা। বাংলাদেশের দোকানদারদের জন্য তৈরি।', 'en' => 'A digital ledger for small businesses. Made for Bangladeshi shopkeepers.'],
+        'footer_about'   => ['bn' => 'ছোট ব্যবসার জন্য ডিজিটাল হিসাব খাতা। বাংলাদেশের উদ্যোক্তাদের জন্য তৈরি।', 'en' => 'A digital ledger for small businesses. Made for Bangladeshi entrepreneurs.'],
         'footer_help'    => ['bn' => 'সাহায্য', 'en' => 'Help'],
         'footer_support_center' => ['bn' => 'সাপোর্ট সেন্টার', 'en' => 'Support Center'],
         'footer_privacy_policy' => ['bn' => 'গোপনীয়তা নীতি', 'en' => 'Privacy Policy'],

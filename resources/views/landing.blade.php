@@ -649,7 +649,8 @@ footer {
 
     <!-- Dashboard Preview -->
     <div class="hero-visual fade-up delay-2">
-      <div class="dashboard-preview">
+      <img src="{{ asset('assets/img/project/screenshot.jpg') }}" width="100%">
+      {{-- <div class="dashboard-preview">
         <div class="dash-header">
           <span class="dash-header-title">📒 {{ t('brand.name') }}</span>
           <span class="dash-header-date">{{ t('landing.demo_summary') }}</span>
@@ -710,7 +711,7 @@ footer {
           <div class="phone-sale-row"><span class="label">{{ t('landing.label_amount') }}</span><span class="val">{{ t('landing.qty_2') }}</span></div>
           <div class="phone-btn-mock">✅ {{ t('landing.save_btn') }}</div>
         </div>
-      </div>
+      </div> --}}
     </div>
   </div>
 </section>
@@ -934,31 +935,31 @@ footer {
     </div>
     <div class="steps-wrapper">
       <div class="step-card">
-        <div class="step-num">১</div>
+        <div class="step-num">{{ t('landing.step_1') }}</div>
         <div class="step-emoji">🏪</div>
         <h4>{{ t('landing.step_1_title') }}</h4>
         <p>{{ t('landing.step_1_desc') }}</p>
       </div>
       <div class="step-card">
-        <div class="step-num">২</div>
+        <div class="step-num">{{ t('landing.step_2') }}</div>
         <div class="step-emoji">📦</div>
         <h4>{{ t('landing.step_2_title') }}</h4>
         <p>{{ t('landing.step_2_desc') }}</p>
       </div>
       <div class="step-card">
-        <div class="step-num">৩</div>
+        <div class="step-num">{{ t('landing.step_3') }}</div>
         <div class="step-emoji">🛒</div>
         <h4>{{ t('landing.step_3_title') }}</h4>
         <p>{{ t('landing.step_3_desc') }}</p>
       </div>
       <div class="step-card">
-        <div class="step-num">৪</div>
+        <div class="step-num">{{ t('landing.step_4') }}</div>
         <div class="step-emoji">💰</div>
         <h4>{{ t('landing.step_4_title') }}</h4>
         <p>{{ t('landing.step_4_desc') }}</p>
       </div>
       <div class="step-card">
-        <div class="step-num">৫</div>
+        <div class="step-num">{{ t('landing.step_5') }}</div>
         <div class="step-emoji">📊</div>
         <h4>{{ t('landing.step_5_title') }}</h4>
         <p>{{ t('landing.step_5_desc') }}</p>
@@ -968,7 +969,7 @@ footer {
 </section>
 
 <!-- ═══════════════════════════════ PLANS ═══════════════════════════════ -->
-<section id="plans">
+{{-- <section id="plans">
   <div class="section-inner">
     <div class="text-center">
       <div class="section-tag">💎 {{ t('landing.plans_tag') }}</div>
@@ -1116,7 +1117,7 @@ footer {
       </table>
     </div>
   </div>
-</section>
+</section> --}}
 
 <!-- ═══════════════════════════════ MOBILE ═══════════════════════════════ -->
 <section class="mobile-section" id="mobile">
@@ -1300,7 +1301,7 @@ footer {
         <span>🔑</span> {{ t('landing.login_cta') }}
       </a>
     </div>
-    <p class="cta-note">✅ {{ t('landing.cta_note_1') }} &nbsp;·&nbsp; ✅ {{ t('landing.cta_note_2') }} &nbsp;·&nbsp; ✅ {{ t('landing.cta_note_3') }}</p>
+    <p class="cta-note">✅ {{ t('landing.cta_note_2') }} &nbsp;·&nbsp; ✅ {{ t('landing.cta_note_3') }}</p>
   </div>
 </section>
 
@@ -1322,13 +1323,13 @@ footer {
       <a href="#features">{{ t('nav.reports') }}</a>
       <a href="#features">{{ t('dashboard.invoice') }}</a>
     </div>
-    <div class="footer-col">
+    {{-- <div class="footer-col">
       <h5>{{ t('landing.nav_plans') }}</h5>
       <a href="#plans">{{ t('landing.plan_free_name') }}</a>
       <a href="#plans">{{ t('landing.plan_starter_name') }}</a>
       <a href="#plans">{{ t('landing.plan_dreamer_name') }}</a>
       <a href="#plans">{{ t('landing.plan_enterprise_name') }}</a>
-    </div>
+    </div> --}}
     <div class="footer-col">
       <h5>{{ t('landing.footer_help') }}</h5>
       <a href="#faq">{{ t('landing.nav_faq') }}</a>
@@ -1339,7 +1340,7 @@ footer {
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© ২০২৪ {{ t('brand.name') }}। {{ t('footer.rights') }}</span>
+    <span>© {{ t('footer.year') }} {{ t('brand.name') }}। {{ t('footer.rights') }}</span>
     <a href="https://tahmeed-three.vercel.app/" target="_blank" rel="noopener" class="footer-credit">
       <span class="dev-heart">❤</span>
       <span>Designed &amp; Developed by <span class="dev-name">Tahmeed Mahbub</span></span>

@@ -5,7 +5,12 @@
 @section('content')
     <div class="row gy-4 justify-content-center">
         <div class="col-12">
-            <h4 class="fw-bold mb-3">{{ t('damage.new_title') }}</h4>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="fw-bold mb-0">{{ t('damage.new_title') }}</h4>
+                <a href="{{ route('damages.index') }}" class="btn btn-sm btn-outline-secondary px-2">
+                    <i class="mdi mdi-format-list-bulleted me-1"></i> {{ t('damage.list') }}
+                </a>
+            </div>
 
             <div class="card">
                 <div class="card-body">

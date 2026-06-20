@@ -26,7 +26,7 @@
             </li>
             @endunless
             {{-- Notifications --}}
-            <li class="nav-item navbar-dropdown dropdown-notifications me-2 me-lg-3 dropdown">
+            <li class="nav-item navbar-dropdown dropdown-notifications me-2 me-lg-3 dropdown" style="display: none;">
                 <a class="nav-link dropdown-toggle hide-arrow position-relative" href="javascript:void(0);"
                     data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-label="{{ t('nav.notifications') }}">
                     <i class="mdi mdi-bell-outline mdi-24px"></i>
@@ -136,14 +136,14 @@
                             </button>
                         </form>
                     </li>
-                    @if (auth()->user()->isOwner() && auth()->user()->tenant)
+                    {{-- @if (auth()->user()->isOwner() && auth()->user()->tenant)
                         <li>
                             <a class="dropdown-item" href="{{ route('settings.index') }}">
                                 <i class="mdi mdi-cog-outline me-2"></i>
                                 <span class="align-middle">{{ t('nav.settings') }}</span>
                             </a>
                         </li>
-                    @endif
+                    @endif --}}
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>
