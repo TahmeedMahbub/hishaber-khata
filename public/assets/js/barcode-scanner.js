@@ -16,6 +16,7 @@
  * The scanner starts on 'shown.bs.modal' and stops on 'hidden.bs.modal'.
  * Zoom (2.5×) is applied after the camera stream is running so it never
  * interferes with getUserMedia permission.
+ * Thank you
  */
 
 function initBarcodeScanner(modalEl, onScan, errorMsg) {
