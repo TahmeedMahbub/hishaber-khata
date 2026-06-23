@@ -636,8 +636,8 @@ footer {
         {{ t('landing.hero_subtitle') }}
       </p>
       <div class="hero-btns fade-up delay-3">
-        <a href="{{ route('register') }}" class="btn-primary"><span>🚀</span> {{ t('landing.nav_cta') }}</a>
-        <a href="{{ route('login') }}" class="btn-secondary"><span>🔑</span> {{ t('landing.login_cta') }}</a>
+        <a href="{{ route('register') }}" class="btn-primary">{{ t('landing.nav_cta') }}</a>
+        <a href="{{ route('login') }}" class="btn-secondary">{{ t('landing.login_cta') }}</a>
       </div>
       <div class="trust-badges fade-up delay-4">
         <div class="trust-badge"><span class="material-icons">smartphone</span> {{ t('landing.trust_mobile') }}</div>
@@ -720,7 +720,7 @@ footer {
 <section class="section-bg" id="why">
   <div class="section-inner">
     <div class="text-center">
-      <div class="section-tag">😟 {{ t('landing.why_tag') }}</div>
+      <div class="section-tag">{{ t('landing.why_tag') }}</div>
       <h2 class="section-title">{{ t('landing.why_title_1') }}<br>{{ t('landing.why_title_2') }}</h2>
       <div class="divider center"></div>
       <p class="section-sub" style="margin-top:14px">{{ t('landing.why_subtitle') }}</p>
@@ -782,7 +782,7 @@ footer {
 <section id="features">
   <div class="section-inner">
     <div class="text-center">
-      <div class="section-tag">✨ {{ t('landing.features_tag') }}</div>
+      <div class="section-tag">{{ t('landing.features_tag') }}</div>
       <h2 class="section-title">{{ t('landing.features_title_1') }}<br>{{ t('landing.features_title_2') }}</h2>
       <div class="divider center"></div>
     </div>
@@ -881,42 +881,42 @@ footer {
     </div>
     <div class="benefits-grid">
       <div class="benefit-card">
-        <div class="benefit-icon">📱</div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/responsive.svg') }}" alt="Responsive Design" style="width:60px"></div>
         <h4>{{ t('landing.benefit_1_title') }}</h4>
         <p>{{ t('landing.benefit_1_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon">🎓</div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/math.svg') }}" alt="No Math Skills Required" style="width:60px"></div>
         <h4>{{ t('landing.benefit_2_title') }}</h4>
         <p>{{ t('landing.benefit_2_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon">⚡</div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/clock.svg') }}" alt="Benefit 3" style="width:60px"></div>
         <h4>{{ t('landing.benefit_3_title') }}</h4>
         <p>{{ t('landing.benefit_3_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon">🔍</div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/stock.svg') }}" alt="Benefit 4" style="width:60px"></div>
         <h4>{{ t('landing.benefit_4_title') }}</h4>
         <p>{{ t('landing.benefit_4_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon">💡</div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b5.svg') }}" alt="Benefit 5" style="width:60px"></div>
         <h4>{{ t('landing.benefit_5_title') }}</h4>
         <p>{{ t('landing.benefit_5_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon">📈</div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b6.svg') }}" alt="Benefit 6" style="width:60px"></div>
         <h4>{{ t('landing.benefit_6_title') }}</h4>
         <p>{{ t('landing.benefit_6_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon">🌙</div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b7.svg') }}" alt="Benefit 7" style="width:60px"></div>
         <h4>{{ t('landing.benefit_7_title') }}</h4>
         <p>{{ t('landing.benefit_7_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon">🤝</div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b8.svg') }}" alt="Benefit 8" style="width:60px"></div>
         <h4>{{ t('landing.benefit_8_title') }}</h4>
         <p>{{ t('landing.benefit_8_desc') }}</p>
       </div>

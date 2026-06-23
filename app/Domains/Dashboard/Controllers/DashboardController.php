@@ -6,6 +6,8 @@ use App\Domains\Dashboard\Services\DashboardService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -17,8 +19,15 @@ class DashboardController extends Controller
      * Render the dashboard shell only. No statistics are queried here;
      * widgets are hydrated client-side via the AJAX endpoints below.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
+        Log::info('Dashboard Accessed', [
+            'url'        => $request->fullUrl(),
+            'method'     => $request->method(),
+            'ip'         => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'user_id'    => auth()->id(),
+        ]);
         return view('contents.dashboard');
     }
 
