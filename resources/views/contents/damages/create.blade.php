@@ -114,6 +114,7 @@
 @section('page-script')
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}">
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="{{ asset('assets/js/barcode-scanner.js') }}"></script>
 <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
 <script>
 (function () {
@@ -161,33 +162,13 @@
     }
 
     // Barcode scanner (camera)
-    var scanModalEl = document.getElementById('barcodeScanModal');
-    var html5Qr = null;
-
-    function stopScanner() {
-        if (html5Qr) {
-            html5Qr.stop().then(function () { html5Qr.clear(); html5Qr = null; }).catch(function () { html5Qr = null; });
-        }
-    }
-
-    scanModalEl.addEventListener('shown.bs.modal', function () {
-        if (typeof Html5Qrcode === 'undefined') { return; }
-        html5Qr = new Html5Qrcode('scanReader');
-        html5Qr.start(
-            { facingMode: 'environment' },
-            { fps: 10, qrbox: { width: 250, height: 150 } },
-            function (decodedText) {
-                selectByBarcode(decodedText);
-                bootstrap.Modal.getInstance(scanModalEl).hide();
-            },
-            function () {}
-        ).catch(function () {
-            document.getElementById('scanReader').innerHTML =
-                '<p class="text-danger text-center mb-0">' + "{{ t('product.camera_failed') }}" + '</p>';
-        });
-    });
-
-    scanModalEl.addEventListener('hidden.bs.modal', stopScanner);
+    initBarcodeScanner(
+        document.getElementById('barcodeScanModal'),
+        function (decodedText) {
+            selectByBarcode(decodedText);
+        },
+        "{{ t('product.camera_failed') }}"
+    );
 })();
 </script>
 @endsection

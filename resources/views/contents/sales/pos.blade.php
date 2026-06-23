@@ -197,6 +197,7 @@
 @endphp
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}">
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="{{ asset('assets/js/barcode-scanner.js') }}"></script>
 <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
 <script>
 (function () {
@@ -515,56 +516,20 @@
     });
 
     // Barcode scanner -> finds product by barcode and adds (like scan + enter)
-    var scanModalEl = document.getElementById('barcodeScanModal');
-    var html5Qr = null;
-
-    function stopScanner() {
-        if (html5Qr) {
-            html5Qr.stop().then(function () { html5Qr.clear(); html5Qr = null; }).catch(function () { html5Qr = null; });
-        }
-    }
-
-    scanModalEl.addEventListener('shown.bs.modal', function () {
-        if (typeof Html5Qrcode === 'undefined') { return; }
-        html5Qr = new Html5Qrcode('scanReader');
-        html5Qr.start(
-            { facingMode: 'environment' },
-            { fps: 10, qrbox: { width: 250, height: 150 } },
-            function (decodedText) {
-                var code = String(decodedText).trim().toLowerCase();
-                var match = PRODUCTS.filter(function (p) { return p.barcode && p.barcode.toLowerCase() === code; })[0];
-                if (match) {
-                    addToCart(match);
-                    bootstrap.Modal.getInstance(scanModalEl).hide();
-                } else {
-                    searchInput.value = decodedText;
-                    bootstrap.Modal.getInstance(scanModalEl).hide();
-                    searchInput.dispatchEvent(new Event('input'));
-                }
-            },
-            function () {}
-        ).then(function () {
-            // Apply 2.5x zoom on the live track after the camera starts
-            try {
-                var video = document.querySelector('#scanReader video');
-                if (video && video.srcObject) {
-                    var track = video.srcObject.getVideoTracks()[0];
-                    if (track) {
-                        var caps = track.getCapabilities ? track.getCapabilities() : {};
-                        if (caps.zoom) {
-                            var zoomVal = Math.min(2.5, caps.zoom.max);
-                            track.applyConstraints({ advanced: [{ zoom: zoomVal }] }).catch(function () {});
-                        }
-                    }
-                }
-            } catch (e) {}
-        }).catch(function () {
-            document.getElementById('scanReader').innerHTML =
-                '<p class="text-danger text-center mb-0">{{ t('product.camera_failed') }}</p>';
-        });
-    });
-
-    scanModalEl.addEventListener('hidden.bs.modal', stopScanner);
+    initBarcodeScanner(
+        document.getElementById('barcodeScanModal'),
+        function (decodedText) {
+            var code = decodedText.toLowerCase();
+            var match = PRODUCTS.filter(function (p) { return p.barcode && p.barcode.toLowerCase() === code; })[0];
+            if (match) {
+                addToCart(match);
+            } else {
+                searchInput.value = decodedText;
+                searchInput.dispatchEvent(new Event('input'));
+            }
+        },
+        "{{ t('product.camera_failed') }}"
+    );
 })();
 </script>
 @endsection
