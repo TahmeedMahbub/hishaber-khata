@@ -528,7 +528,7 @@
         if (typeof Html5Qrcode === 'undefined') { return; }
         html5Qr = new Html5Qrcode('scanReader');
         html5Qr.start(
-            { facingMode: 'environment', advanced: [{ zoom: 2.5 }] },
+            { facingMode: 'environment' },
             { fps: 10, qrbox: { width: 250, height: 150 } },
             function (decodedText) {
                 var code = String(decodedText).trim().toLowerCase();
@@ -543,7 +543,22 @@
                 }
             },
             function () {}
-        ).catch(function () {
+        ).then(function () {
+            // Apply 2.5x zoom on the live track after the camera starts
+            try {
+                var video = document.querySelector('#scanReader video');
+                if (video && video.srcObject) {
+                    var track = video.srcObject.getVideoTracks()[0];
+                    if (track) {
+                        var caps = track.getCapabilities ? track.getCapabilities() : {};
+                        if (caps.zoom) {
+                            var zoomVal = Math.min(2.5, caps.zoom.max);
+                            track.applyConstraints({ advanced: [{ zoom: zoomVal }] }).catch(function () {});
+                        }
+                    }
+                }
+            } catch (e) {}
+        }).catch(function () {
             document.getElementById('scanReader').innerHTML =
                 '<p class="text-danger text-center mb-0">{{ t('product.camera_failed') }}</p>';
         });
