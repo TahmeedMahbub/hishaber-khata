@@ -25,7 +25,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'brand' => [
-        'name' => ['bn' => 'হিসাবীজ', 'en' => 'Hishabiz'],
+        'name' => ['bn' => 'হিসাবিজ', 'en' => 'Hishabiz'],
     ],
 
     /*
@@ -723,7 +723,7 @@ return [
         'pending'          => ['bn' => 'অপেক্ষমাণ', 'en' => 'Pending'],
         'resend_invite'    => ['bn' => 'আবার আমন্ত্রণ পাঠান', 'en' => 'Resend Invite'],
         'invite_note'      => ['bn' => 'কর্মচারীর ইমেইলে একটি আমন্ত্রণ লিংক পাঠানো হবে। তিনি লিংকে ক্লিক করে নিজের পাসওয়ার্ড সেট করবেন।', 'en' => 'An invitation link will be sent to the employee\'s email. They will click it to set their own password.'],
-        'invite_subject'      => ['bn' => 'হিসাবীজ — আপনাকে আমন্ত্রণ জানানো হয়েছে', 'en' => 'Hishabiz — You have been invited'],
+        'invite_subject'      => ['bn' => 'হিসাবিজ — আপনাকে আমন্ত্রণ জানানো হয়েছে', 'en' => 'Hishabiz — You have been invited'],
         'invite_greeting'     => ['bn' => 'হ্যালো', 'en' => 'Hello'],
         'invite_intro'        => ['bn' => 'আপনাকে এই ব্যবসায় যোগ দিতে আমন্ত্রণ জানানো হয়েছে:', 'en' => 'You have been invited to join the business:'],
         'invite_action_line'  => ['bn' => 'অ্যাকাউন্ট সক্রিয় করতে এবং আপনার পাসওয়ার্ড সেট করতে নিচের বাটনে ক্লিক করুন।', 'en' => 'Click the button below to activate your account and set your password.'],
@@ -757,7 +757,7 @@ return [
         'new_user'              => ['bn' => 'নতুন ব্যবহারকারী?', 'en' => 'New user?'],
         'create_account'        => ['bn' => 'একাউন্ট তৈরি করুন', 'en' => 'Create Account'],
         'register_heading'      => ['bn' => 'ব্যবসা শুরু করুন', 'en' => 'Start Your Business'],
-        'register_subtitle'     => ['bn' => 'কয়েক সেকেন্ডে আপনার "হিসাবীজ" একাউন্ট খুলুন।', 'en' => 'Open your "Hishabiz" account in seconds.'],
+        'register_subtitle'     => ['bn' => 'কয়েক সেকেন্ডে আপনার "হিসাবিজ" একাউন্ট খুলুন।', 'en' => 'Open your "Hishabiz" account in seconds.'],
         'register_title'        => ['bn' => 'ব্যবসা নিবন্ধন', 'en' => 'Register Business'],
         'business_name_label'   => ['bn' => 'ব্যবসার নাম', 'en' => 'Business Name'],
         'business_name_ph'      => ['bn' => 'যেমন: রহিম স্টোর', 'en' => 'e.g. Rahim Store'],
@@ -800,9 +800,9 @@ return [
     */
     'landing' => [
         // Page + nav
-        'page_title'        => ['bn' => 'হিসাবীজ – ছোট ব্যবসার ডিজিটাল খাতা', 'en' => 'Hishabiz – Digital Ledger for Small Businesses'],
-        'logo_word1'        => ['bn' => 'Hishabiz', 'en' => 'হিসাবীজ'],
-        'logo_word2'        => ['bn' => 'হিসাবীজ', 'en' => 'Hishabiz'],
+        'page_title'        => ['bn' => 'হিসাবিজ – ছোট ব্যবসার ডিজিটাল খাতা', 'en' => 'Hishabiz – Digital Ledger for Small Businesses'],
+        'logo_word1'        => ['bn' => 'Hishabiz', 'en' => 'হিসাবিজ'],
+        'logo_word2'        => ['bn' => 'হিসাবিজ', 'en' => 'Hishabiz'],
         'nav_features'      => ['bn' => 'ফিচার', 'en' => 'Features'],
         'nav_how'           => ['bn' => 'কিভাবে কাজ করে', 'en' => 'How It Works'],
         'nav_plans'         => ['bn' => 'প্ল্যান', 'en' => 'Plans'],
@@ -865,7 +865,7 @@ return [
         'why_tag'       => ['bn' => 'সমস্যা থেকে সমাধান', 'en' => 'From Problem to Solution'],
         'why_title_1'   => ['bn' => 'উদ্যোক্তাদের প্রতিদিনের সমস্যাগুলো', 'en' => "Entrepreneurs' everyday problems"],
         'why_title_2'   => ['bn' => 'আমরা বুঝি', 'en' => 'we understand'],
-        'why_subtitle'  => ['bn' => 'পুরনো পদ্ধতি আর নয়। "হিসাবীজ" আপনার ব্যবসাকে সহজ ও স্মার্ট করে তুলবে।', 'en' => 'No more old methods. "Hishabiz" makes your business simple and smart.'],
+        'why_subtitle'  => ['bn' => 'পুরনো পদ্ধতি আর নয়। "হিসাবিজ" আপনার ব্যবসাকে সহজ ও স্মার্ট করে তুলবে।', 'en' => 'No more old methods. "Hishabiz" makes your business simple and smart.'],
         'problem_1_before' => ['bn' => 'কাগজের খাতা হারিয়ে যায়', 'en' => 'Paper ledgers get lost'],
         'problem_1_after'  => ['bn' => 'ক্লাউডে সংরক্ষিত, কখনো হারাবে না', 'en' => 'Saved in the cloud, never lost'],
         'problem_2_before' => ['bn' => 'স্টক হিসাব করা কঠিন', 'en' => 'Stock counting is hard'],
@@ -926,7 +926,7 @@ return [
 
         // Benefits
         'benefits_tag'     => ['bn' => 'কেন উদ্যোক্তারা ভালোবাসেন', 'en' => 'Why Entrepreneurs Love It'],
-        'benefits_title_1' => ['bn' => '"হিসাবীজ" ব্যবহার করলে', 'en' => 'When you use "Hishabiz"'],
+        'benefits_title_1' => ['bn' => '"হিসাবিজ" ব্যবহার করলে', 'en' => 'When you use "Hishabiz"'],
         'benefits_title_2' => ['bn' => 'যা পাবেন', 'en' => "here's what you get"],
         'benefit_1_title'  => ['bn' => 'যেকোনো ডিভাইসে চলে', 'en' => 'Works on any device'],
         'benefit_1_desc'   => ['bn' => 'মোবাইল, ট্যাবলেট বা কম্পিউটার — সব জায়গায় ব্যবহার করুন', 'en' => 'Mobile, tablet or computer — use it everywhere'],
@@ -1043,7 +1043,7 @@ return [
         'faq_tag'   => ['bn' => 'প্রশ্ন ও উত্তর', 'en' => 'Questions & Answers'],
         'faq_title' => ['bn' => 'সাধারণ প্রশ্নসমূহ', 'en' => 'Frequently Asked Questions'],
         'faq_q1'    => ['bn' => 'কি টেকনিক্যাল জ্ঞান লাগবে?', 'en' => 'Do I need technical knowledge?'],
-        'faq_a1'    => ['bn' => 'না, একদমই না। "হিসাবীজ" সাধারণ উদ্যোক্তাদের কথা মাথায় রেখে তৈরি। মোবাইল চালাতে পারলেই ব্যবহার করতে পারবেন। আমাদের সহজ ইন্টারফেস যে কেউ শিখে নিতে পারবে।', 'en' => 'No, not at all. "Hishabiz" is built with ordinary entrepreneurs in mind. If you can use a mobile phone, you can use it. Anyone can learn our simple interface.'],
+        'faq_a1'    => ['bn' => 'না, একদমই না। "হিসাবিজ" সাধারণ উদ্যোক্তাদের কথা মাথায় রেখে তৈরি। মোবাইল চালাতে পারলেই ব্যবহার করতে পারবেন। আমাদের সহজ ইন্টারফেস যে কেউ শিখে নিতে পারবে।', 'en' => 'No, not at all. "Hishabiz" is built with ordinary entrepreneurs in mind. If you can use a mobile phone, you can use it. Anyone can learn our simple interface.'],
         'faq_q2'    => ['bn' => 'মোবাইল থেকে ব্যবহার করা যাবে?', 'en' => 'Can I use it from a mobile?'],
         'faq_a2'    => ['bn' => 'হ্যাঁ, সম্পূর্ণভাবে। Android, iPhone, Tablet সব ডিভাইসে কাজ করে। আলাদা কোনো অ্যাপ ডাউনলোড করতে হবে না — ব্রাউজার থেকেই ব্যবহার করুন।', 'en' => 'Yes, completely. It works on Android, iPhone and Tablet — all devices. No separate app to download — just use it from your browser.'],
         'faq_q3'    => ['bn' => 'স্টক ট্র্যাক করা যাবে কি?', 'en' => 'Can I track stock?'],
