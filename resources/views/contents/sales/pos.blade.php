@@ -528,7 +528,7 @@
         if (typeof Html5Qrcode === 'undefined') { return; }
         html5Qr = new Html5Qrcode('scanReader');
         html5Qr.start(
-            { facingMode: 'environment' },
+            { facingMode: 'environment', advanced: [{ zoom: 2.5 }] },
             { fps: 10, qrbox: { width: 250, height: 150 } },
             function (decodedText) {
                 var code = String(decodedText).trim().toLowerCase();
