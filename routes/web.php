@@ -33,11 +33,6 @@ Route::get('/', function () {
     return view('landing');
 })->name('home');
 
-// No-internet / offline page (public, no auth required)
-Route::get('/offline', function () {
-    return view('offline');
-})->name('offline');
-
 // Public feedback (e.g. from the landing page) — no auth/tenant required.
 Route::post('/feedback', [FeedbackController::class, 'storePublic'])->name('feedback.public');
 
