@@ -108,5 +108,8 @@
     })();
 </script>
 
+<!-- Pull-to-Refresh (swipe down like Facebook) -->
+<script src="{{ asset('assets/js/pull-to-refresh.js') }}"></script>
+
 <!-- Page JS -->
 @yield('page-script')
