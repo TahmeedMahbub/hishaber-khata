@@ -1,118 +1,204 @@
 /**
- * Pull-to-Refresh (Facebook-style swipe-down reload)
+ * Pull-to-Refresh – Facebook-style circular spinner
  * ---------------------------------------------------
- * Attach to the main content area. When the user pulls down from the top
- * beyond a threshold, the page reloads.
+ * A polished pull-to-refresh that shows a circular spinner dropping down
+ * from the top centre of the screen, just like Facebook / Instagram.
  *
- * Works on touch devices only (mobile / tablet). Ignored on desktop.
- * Included once from end-section.blade.php so every page gets it.
+ * Touch-only. Included once from end-section.blade.php.
  */
 (function () {
     'use strict';
 
-    var THRESHOLD   = 90;   // px the user must pull past to trigger refresh
-    var MAX_PULL    = 140;  // px – visual cap so the indicator doesn't fly off
-    var DAMPING     = 0.45; // resistance factor (< 1 makes it feel elastic)
+    // ── Tuning ───────────────────────────────────────────────────────
+    var THRESHOLD   = 80;   // px pull to trigger refresh
+    var MAX_PULL    = 130;  // visual cap
+    var DAMPING     = 0.4;  // rubber-band resistance
+    var SPINNER_SIZE = 40;  // px diameter of the spinner circle
 
     var startY      = 0;
+    var currentY    = 0;
     var pulling     = false;
+    var refreshing  = false;
     var indicator   = null;
+    var spinner     = null;
+    var arrow       = null;
+    var circle      = null;
 
-    // The scrollable container – the one that actually scrolls to 0
+    // ── Inject styles once ───────────────────────────────────────────
+    var style = document.createElement('style');
+    style.textContent = [
+        /* Container: fixed pill that drops from top-centre */
+        '#ptr-pill{',
+            'position:fixed;top:-60px;left:50%;transform:translateX(-50%);',
+            'z-index:10000;',
+            'width:' + SPINNER_SIZE + 'px;height:' + SPINNER_SIZE + 'px;',
+            'border-radius:50%;',
+            'background:var(--bs-body-bg,#fff);',
+            'box-shadow:0 2px 12px rgba(0,0,0,.18);',
+            'display:flex;align-items:center;justify-content:center;',
+            'transition:top .25s cubic-bezier(.4,0,.2,1), box-shadow .25s ease;',
+            'will-change:top;',
+            'pointer-events:none;',
+        '}',
+
+        /* When pulling, disable the CSS transition so it tracks the finger */
+        '#ptr-pill.ptr-tracking{transition:none;}',
+
+        /* SVG spinner circle (progress arc) */
+        '#ptr-pill .ptr-circle{',
+            'position:absolute;',
+            'width:' + SPINNER_SIZE + 'px;height:' + SPINNER_SIZE + 'px;',
+            'transform:rotate(-90deg);', /* start at 12 o'clock */
+        '}',
+        '#ptr-pill .ptr-circle circle{',
+            'fill:none;stroke-width:2.5;',
+        '}',
+        '#ptr-pill .ptr-circle .ptr-bg{',
+            'stroke:var(--bs-border-color,#e0e0e0);',
+        '}',
+        '#ptr-pill .ptr-circle .ptr-fg{',
+            'stroke:var(--bs-primary,#696cff);',
+            'stroke-linecap:round;',
+            'transition:stroke-dashoffset .1s ease;',
+        '}',
+
+        /* Arrow icon in the centre */
+        '#ptr-pill .ptr-arrow{',
+            'position:absolute;',
+            'width:18px;height:18px;',
+            'color:var(--bs-primary,#696cff);',
+            'transition:transform .2s ease, opacity .2s ease;',
+        '}',
+
+        /* Refreshing state: continuous spin */
+        '#ptr-pill.ptr-refreshing .ptr-circle{',
+            'animation:ptr-spin .8s linear infinite;',
+        '}',
+        '#ptr-pill.ptr-refreshing .ptr-arrow{',
+            'opacity:0;transform:scale(.3);',
+        '}',
+
+        /* Snap-back state */
+        '#ptr-pill.ptr-hiding{',
+            'transition:top .3s cubic-bezier(.4,0,.2,1) !important;',
+        '}',
+
+        '@keyframes ptr-spin{to{transform:rotate(270deg)}}',
+    ].join('\n');
+    document.head.appendChild(style);
+
+    // ── Build the indicator DOM ──────────────────────────────────────
+    function ensureIndicator() {
+        if (indicator) { return; }
+
+        indicator = document.createElement('div');
+        indicator.id = 'ptr-pill';
+
+        // SVG circular progress
+        var r = (SPINNER_SIZE / 2) - 3; // radius with room for stroke
+        var C = 2 * Math.PI * r;        // circumference
+
+        indicator.innerHTML =
+            '<svg class="ptr-circle" viewBox="0 0 ' + SPINNER_SIZE + ' ' + SPINNER_SIZE + '">' +
+                '<circle class="ptr-bg" cx="' + SPINNER_SIZE/2 + '" cy="' + SPINNER_SIZE/2 + '" r="' + r + '"/>' +
+                '<circle class="ptr-fg" cx="' + SPINNER_SIZE/2 + '" cy="' + SPINNER_SIZE/2 + '" r="' + r + '"' +
+                    ' stroke-dasharray="' + C + '" stroke-dashoffset="' + C + '"/>' +
+            '</svg>' +
+            '<svg class="ptr-arrow" viewBox="0 0 24 24">' +
+                '<path fill="currentColor" d="M20 12a8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8V1l5 4-5 4V6a6 6 0 0 0-6 6 6 6 0 0 0 6 6 6 6 0 0 0 6-6h2z"/>' +
+            '</svg>';
+
+        document.body.appendChild(indicator);
+
+        circle = indicator.querySelector('.ptr-fg');
+        arrow  = indicator.querySelector('.ptr-arrow');
+        spinner = indicator;
+
+        // Store circumference on the element for later use
+        circle._C = C;
+    }
+
+    // ── Helpers ──────────────────────────────────────────────────────
     function getScrollTop() {
-        // content-wrapper is the scrollable pane in this admin template
         var cw = document.querySelector('.content-wrapper');
         if (cw && cw.scrollTop !== undefined) { return cw.scrollTop; }
         return window.pageYOffset || document.documentElement.scrollTop || 0;
     }
 
-    // ── Build the pull indicator element (hidden by default) ──────────
-    function ensureIndicator() {
-        if (indicator) { return; }
-        indicator = document.createElement('div');
-        indicator.id = 'ptr-indicator';
-        indicator.innerHTML =
-            '<div class="ptr-spinner">' +
-                '<svg viewBox="0 0 24 24" width="28" height="28">' +
-                    '<path fill="currentColor" d="M17.65 6.35A7.96 7.96 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18a6 6 0 1 1 0-12c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>' +
-                '</svg>' +
-            '</div>' +
-            '<span class="ptr-text"></span>';
-
-        // Styles are inlined so no extra CSS file is needed
-        indicator.style.cssText =
-            'position:fixed;top:0;left:0;right:0;z-index:9999;' +
-            'display:flex;align-items:center;justify-content:center;gap:8px;' +
-            'height:0;overflow:hidden;' +
-            'background:var(--bs-body-bg, #fff);color:var(--bs-primary, #696cff);' +
-            'font-size:13px;font-weight:500;' +
-            'box-shadow:0 2px 8px rgba(0,0,0,.08);' +
-            'transition:height .2s ease, opacity .2s ease;opacity:0;';
-
-        var style = document.createElement('style');
-        style.textContent =
-            '@keyframes ptr-spin{to{transform:rotate(360deg)}}' +
-            '#ptr-indicator.ptr-active{opacity:1}' +
-            '#ptr-indicator.ptr-refreshing .ptr-spinner{animation:ptr-spin .7s linear infinite}';
-        document.head.appendChild(style);
-
-        document.body.appendChild(indicator);
+    function setProgress(ratio) {
+        // ratio 0‥1 → stroke-dashoffset C‥0
+        var offset = circle._C * (1 - ratio);
+        circle.setAttribute('stroke-dashoffset', offset);
     }
 
-    // ── Touch handlers ───────────────────────────────────────────────
+    function positionPill(pull) {
+        // pull 0..MAX_PULL → top: -60px .. 16px
+        var top = -60 + (pull / MAX_PULL) * 76;
+        indicator.style.top = Math.min(top, 16) + 'px';
+    }
+
+    // ── Touch lifecycle ─────────────────────────────────────────────
     document.addEventListener('touchstart', function (e) {
-        if (getScrollTop() > 5) { return; } // not at top – ignore
+        if (refreshing) { return; }
+        if (getScrollTop() > 5) { return; }
         startY  = e.touches[0].clientY;
         pulling = true;
         ensureIndicator();
+        indicator.classList.remove('ptr-refreshing', 'ptr-hiding');
+        indicator.classList.add('ptr-tracking');
     }, { passive: true });
 
     document.addEventListener('touchmove', function (e) {
-        if (!pulling) { return; }
+        if (!pulling || refreshing) { return; }
 
-        var dy = (e.touches[0].clientY - startY) * DAMPING;
-        if (dy <= 0) {
-            // scrolling up – reset
-            indicator.style.height = '0';
-            indicator.classList.remove('ptr-active');
+        currentY = e.touches[0].clientY;
+        var dy = (currentY - startY) * DAMPING;
+
+        if (dy <= 0 || getScrollTop() > 5) {
+            positionPill(0);
+            setProgress(0);
+            if (arrow) { arrow.style.transform = 'rotate(0deg)'; }
             return;
         }
 
-        // If the page is no longer at top (e.g. elastic overscroll), bail
-        if (getScrollTop() > 5) { pulling = false; return; }
+        var pull  = Math.min(dy, MAX_PULL);
+        var ratio = Math.min(pull / THRESHOLD, 1);
 
-        var pull = Math.min(dy, MAX_PULL);
-        indicator.style.height = pull + 'px';
-        indicator.classList.add('ptr-active');
+        positionPill(pull);
+        setProgress(ratio);
 
-        var text = indicator.querySelector('.ptr-text');
-        if (text) {
-            text.textContent = pull >= THRESHOLD ? '↑ ছেড়ে দিন' : '↓ রিফ্রেশ করতে টানুন';
+        // Rotate arrow proportionally: 0° → 540° (1.5 full turns)
+        if (arrow) {
+            arrow.style.transform = 'rotate(' + (ratio * 540) + 'deg)';
         }
     }, { passive: true });
 
     document.addEventListener('touchend', function () {
-        if (!pulling) { return; }
+        if (!pulling || refreshing) { return; }
         pulling = false;
 
         if (!indicator) { return; }
+        indicator.classList.remove('ptr-tracking');
 
-        var height = parseInt(indicator.style.height, 10) || 0;
+        var dy   = (currentY - startY) * DAMPING;
+        var pull = Math.min(dy, MAX_PULL);
 
-        if (height >= THRESHOLD) {
-            // Show refreshing state, then reload
+        if (pull >= THRESHOLD) {
+            // ── Trigger refresh ──────────────────────────────────
+            refreshing = true;
+            indicator.style.top = '16px';
+            setProgress(0.75); // partial arc for spinning look
             indicator.classList.add('ptr-refreshing');
-            var text = indicator.querySelector('.ptr-text');
-            if (text) { text.textContent = 'রিফ্রেশ হচ্ছে…'; }
-            indicator.style.height = '48px';
 
             setTimeout(function () {
                 window.location.reload();
-            }, 350);
+            }, 400);
         } else {
-            // Didn't pull far enough – snap back
-            indicator.style.height = '0';
-            indicator.classList.remove('ptr-active');
+            // ── Snap back ────────────────────────────────────────
+            indicator.classList.add('ptr-hiding');
+            indicator.style.top = '-60px';
+            setProgress(0);
+            if (arrow) { arrow.style.transform = 'rotate(0deg)'; }
         }
     }, { passive: true });
 })();
