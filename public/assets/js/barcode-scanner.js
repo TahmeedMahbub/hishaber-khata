@@ -16,7 +16,8 @@
  * --- Median (GoNative) Native Support ---
  * When running inside a Median app, the scanner uses the native barcode scanner
  * via `median.barcode.scan()` instead of getUserMedia. The modal is NOT opened;
- * instead the native camera overlay is launched directly.
+ * instead the native camera overlay is launched directly. Detection happens at
+ * click-time so the async-injected Median bridge is available.
  *
  * The scanner starts on 'shown.bs.modal' and stops on 'hidden.bs.modal'.
  * Zoom (2.5×) is applied after the camera stream is running so it never
@@ -25,96 +26,90 @@
  */
 
 /**
- * Detect whether we are running inside a Median (GoNative) native app.
- * The JS bridge injects the `median` or `gonative` global object.
+ * Check whether the Median native barcode bridge is available RIGHT NOW.
+ * Called at click-time, not at page-load, because Median injects the
+ * bridge asynchronously after DOM-ready.
  */
-function isMedianApp() {
-    return (typeof median !== 'undefined' && median && typeof median.barcode !== 'undefined') ||
-           (typeof gonative !== 'undefined' && gonative && typeof gonative.barcode !== 'undefined');
+function _hasMedianBarcode() {
+    try {
+        if (typeof median !== 'undefined' && median && median.barcode && typeof median.barcode.scan === 'function') {
+            return true;
+        }
+        if (typeof gonative !== 'undefined' && gonative && gonative.barcode && typeof gonative.barcode.scan === 'function') {
+            return true;
+        }
+    } catch (e) {}
+    return false;
 }
 
 /**
- * Launch the Median native barcode scanner.
- * Works with both `median` (current) and `gonative` (legacy) namespaces.
- * Returns a Promise that resolves with the scanned code string, or rejects on cancel/failure.
+ * Get the Median barcode bridge object (median or gonative namespace).
  */
-function medianBarcodeScan() {
-    return new Promise(function (resolve, reject) {
-        var bridge = (typeof median !== 'undefined' && median && median.barcode)
-            ? median.barcode
-            : (typeof gonative !== 'undefined' && gonative && gonative.barcode)
-                ? gonative.barcode
-                : null;
+function _getMedianBridge() {
+    if (typeof median !== 'undefined' && median && median.barcode) { return median.barcode; }
+    if (typeof gonative !== 'undefined' && gonative && gonative.barcode) { return gonative.barcode; }
+    return null;
+}
 
-        if (!bridge) {
-            reject(new Error('Median barcode bridge not available'));
-            return;
-        }
+/**
+ * Launch the Median native barcode scanner and return scanned text via callback.
+ */
+function _medianScan(onSuccess, onFail) {
+    var bridge = _getMedianBridge();
+    if (!bridge) { if (onFail) onFail(); return; }
 
-        // Try Promise-based API first (newer Median SDK), fall back to callback
-        try {
-            var result = bridge.scan({ callback: function (data) {
-                if (data && data.success) {
-                    resolve(String(data.code).trim());
-                } else {
-                    reject(new Error('Scan cancelled or failed'));
-                }
-            }});
-
-            // If bridge.scan returns a Promise (newer SDK), handle it too
-            if (result && typeof result.then === 'function') {
-                result.then(function (data) {
-                    if (data && data.success) {
-                        resolve(String(data.code).trim());
-                    } else {
-                        reject(new Error('Scan cancelled or failed'));
-                    }
-                }).catch(reject);
+    try {
+        bridge.scan({ callback: function (data) {
+            if (data && data.success) {
+                onSuccess(String(data.code).trim());
+            } else {
+                if (onFail) onFail();
             }
-        } catch (e) {
-            reject(e);
-        }
-    });
+        }});
+    } catch (e) {
+        if (onFail) onFail();
+    }
 }
 
 function initBarcodeScanner(modalEl, onScan, errorMsg) {
     if (!modalEl) { return; }
 
-    // ─── Median Native App Path ───────────────────────────────────────
-    // When inside Median, intercept the scan button clicks to launch the
-    // native scanner instead of opening the Bootstrap modal.
-    if (isMedianApp()) {
-        // Find all buttons that would open the barcode scan modal
-        var scanTriggers = document.querySelectorAll('[data-bs-target="#barcodeScanModal"]');
-        scanTriggers.forEach(function (btn) {
-            // Remove the Bootstrap modal trigger so the modal doesn't open
-            btn.removeAttribute('data-bs-toggle');
-            btn.removeAttribute('data-bs-target');
-
-            btn.addEventListener('click', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                // Fire the 'show.bs.modal' event manually so scanTarget gets set
-                // (some pages rely on this to determine where to put the result)
-                var showEvent = new Event('show.bs.modal', { bubbles: true });
-                showEvent.relatedTarget = btn;
-                modalEl.dispatchEvent(showEvent);
-
-                medianBarcodeScan().then(function (code) {
-                    onScan(code);
-                }).catch(function () {
-                    // User cancelled or scan failed – do nothing
-                });
-            });
-        });
-
-        return; // Don't set up the HTML5 camera scanner at all
-    }
-
-    // ─── Browser / Web Path (existing behaviour) ─────────────────────
     var html5Qr = null;
 
+    // ─── Intercept ALL scan-trigger buttons ───────────────────────────
+    // At click-time, decide: use Median native or open the Bootstrap modal.
+    var scanTriggers = document.querySelectorAll('[data-bs-target="#barcodeScanModal"]');
+
+    scanTriggers.forEach(function (btn) {
+        // Remove Bootstrap auto-toggle so we control the flow
+        btn.removeAttribute('data-bs-toggle');
+        btn.removeAttribute('data-bs-target');
+
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Fire show.bs.modal so page-level scanTarget logic still works
+            var showEvent = new Event('show.bs.modal', { bubbles: true });
+            showEvent.relatedTarget = btn;
+            modalEl.dispatchEvent(showEvent);
+
+            // ── Check at click-time if Median bridge is ready ──
+            if (_hasMedianBarcode()) {
+                _medianScan(
+                    function (code) { onScan(code); },
+                    function ()     { /* cancelled / failed – do nothing */ }
+                );
+                return;
+            }
+
+            // ── Fallback: open the Bootstrap modal for browser-based scan ──
+            var bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            bsModal.show();
+        });
+    });
+
+    // ─── Browser / Web Path (existing behaviour) ─────────────────────
     function stopScanner() {
         if (html5Qr) {
             html5Qr.stop()
