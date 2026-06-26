@@ -52,10 +52,10 @@ nav {
   height: 64px;
 }
 .logo {
-  display:flex; align-items:center; gap:10px; text-decoration:none;
+  display:flex; align-items:center; gap:1px; text-decoration:none;
 }
 .logo-icon {
-  width:40px; height:40px; background: var(--green);
+  height:40px;
   border-radius:10px; display:flex; align-items:center; justify-content:center;
   font-size:20px; overflow:hidden;
 }
@@ -597,8 +597,8 @@ footer {
 <nav>
   <div class="nav-inner">
     <a href="{{ route('home') }}" class="logo">
-      <div class="logo-icon"><img src="{{ asset('assets/img/project/logo.png') }}" alt="{{ t('brand.name') }}"></div>
-      <span class="logo-text">{{ t('landing.logo_word1') }} <span>{{ t('landing.logo_word2') }}</span></span>
+      <div class="logo-icon"><img src="{{ asset('assets/img/project/brand-logo.svg') }}" alt="{{ t('brand.name') }}"></div>
+      {{-- <span class="logo-text"><img src="{{ asset('assets/img/project/brand.svg') }}" alt="{{ t('brand.name') }}" style="height:15px;"></span> --}}
     </a>
     <div class="nav-links">
       <a href="#features">{{ t('landing.nav_features') }}</a>
@@ -1310,8 +1310,8 @@ footer {
   <div class="footer-inner">
     <div class="footer-brand">
       <a href="{{ route('home') }}" class="logo" style="text-decoration:none">
-        <div class="logo-icon"><img src="{{ asset('assets/img/project/logo.png') }}" alt="{{ t('brand.name') }}"></div>
-        <span class="logo-text">{{ t('landing.logo_word1') }} <span>{{ t('landing.logo_word2') }}</span></span>
+        <div class="logo-icon"><img src="{{ asset('assets/img/project/brand-logo.svg') }}" alt="{{ t('brand.name') }}"></div>
+        {{-- <span class="logo-text"><img src="{{ asset('assets/img/project/brand.svg') }}" alt="{{ t('brand.name') }}" style="height:15px;"></span> --}}
       </a>
       <p>{{ t('landing.footer_about') }}</p>
     </div>

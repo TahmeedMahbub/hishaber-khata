@@ -58,7 +58,7 @@ $(function () {
                 type: 'img'
               },
               {
-                text: 'logo.png',
+                text: 'logo.svg',
                 type: 'img'
               },
               {
@@ -152,7 +152,7 @@ $(function () {
                 type: 'img'
               },
               {
-                text: 'logo.png',
+                text: 'logo.svg',
                 type: 'img'
               },
               {
@@ -246,7 +246,7 @@ $(function () {
                 type: 'img'
               },
               {
-                text: 'logo.png',
+                text: 'logo.svg',
                 type: 'img'
               },
               {
@@ -339,7 +339,7 @@ $(function () {
                 type: 'img'
               },
               {
-                text: 'logo.png',
+                text: 'logo.svg',
                 type: 'img'
               },
               {

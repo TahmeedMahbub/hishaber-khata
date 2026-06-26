@@ -2,7 +2,7 @@
     <div class="app-brand demo">
         <a href="{{ route('dashboard') }}" class="app-brand-link">
             <span class="app-brand-logo demo">
-                <img src="{{ asset('assets/img/project/logo.png') }}" alt="{{ t('brand.name') }}" width="35" height="35" style="border-radius:8px;">
+                <img src="{{ asset('assets/img/project/logo.svg') }}" alt="{{ t('brand.name') }}" width="35" height="35" style="border-radius:8px;">
             </span>
             <span class="app-brand-text demo menu-text fw-bold ms-2">{{ t('brand.name') }}</span>
         </a>

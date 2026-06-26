@@ -205,7 +205,7 @@
 <body>
     <div class="err-card">
         <div class="err-brand">
-            <span class="logo"><img src="{{ asset('assets/img/project/logo.png') }}" alt="{{ t('brand.name') }}"></span>
+            <span class="logo"><img src="{{ asset('assets/img/project/logo.svg') }}" alt="{{ t('brand.name') }}"></span>
             <span>{{ t('brand.name') }}</span>
         </div>
 

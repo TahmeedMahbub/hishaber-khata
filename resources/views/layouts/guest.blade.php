@@ -139,7 +139,7 @@
             <div class="text-center mb-4">
                 <a href="{{ url('/') }}" class="hk-auth-brand-link">
                     <span class="hk-auth-brand-logo">
-                        <img src="{{ asset('assets/img/project/logo.png') }}" alt="logo"
+                        <img src="{{ asset('assets/img/project/logo.svg') }}" alt="logo"
                             onerror="this.style.display='none';this.parentNode.innerHTML='<i class=&quot;mdi mdi-notebook-outline&quot;></i>';">
                     </span>
                     <span class="hk-auth-brand-text">{{ t('brand.name') }}</span>
