@@ -20,9 +20,15 @@
                         @csrf
                         @include('contents.products.partials.form', ['product' => null])
 
+                        <input type="hidden" name="_add_another" id="_add_another" value="0">
+
                         <div class="d-flex gap-2 mt-3">
-                            <button type="submit" class="btn btn-primary">{{ t('common.save') }}</button>
-                            <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">{{ t('common.cancel') }}</a>
+                            <button type="submit" class="btn btn-primary px-3">{{ t('common.save') }}</button>
+                            <button type="submit" class="btn btn-outline-primary px-3"
+                                onclick="document.getElementById('_add_another').value='1'">
+                                <i class="mdi mdi-plus me-1"></i>{{ t('common.save_and_add_another') }}
+                            </button>
+                            <a href="{{ route('products.index') }}" class="btn btn-outline-secondary px-3">{{ t('common.cancel') }}</a>
                         </div>
                     </form>
                 </div>

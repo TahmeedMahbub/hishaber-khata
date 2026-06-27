@@ -49,6 +49,11 @@ class ProductController extends Controller
     {
         $this->service->create($request->validated());
 
+        if ($request->input('_add_another') === '1') {
+            return redirect()->route('products.create')
+                ->with('success', t('msg.product_created'));
+        }
+
         return redirect()->route('products.index')
             ->with('success', t('msg.product_created'));
     }
