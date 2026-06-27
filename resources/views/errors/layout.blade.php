@@ -70,15 +70,15 @@
         }
 
         .err-brand .logo {
-            width: 38px;
-            height: 38px;
+            width: 70%;
+            /* height: 38px; */
             border-radius: 11px;
-            background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+            /* background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%); */
             color: #fff;
             display: grid;
             place-items: center;
             overflow: hidden;
-            box-shadow: 0 6px 16px rgba(27, 139, 90, .35);
+            /* box-shadow: 0 6px 16px rgba(27, 139, 90, .35); */
         }
 
         .err-brand .logo img {
@@ -205,8 +205,8 @@
 <body>
     <div class="err-card">
         <div class="err-brand">
-            <span class="logo"><img src="{{ asset('assets/img/project/logo.svg') }}" alt="{{ t('brand.name') }}"></span>
-            <span>{{ t('brand.name') }}</span>
+            <span class="logo"><img src="{{ asset('assets/img/project/brand-logo.svg') }}" alt="{{ t('brand.name') }}"></span>
+            <!-- <span>{{ t('brand.name') }}</span> -->
         </div>
 
         @yield('content')
