@@ -197,6 +197,7 @@ return [
         'product_created'    => ['bn' => 'পণ্য যোগ করা হয়েছে।', 'en' => 'Product added.'],
         'product_updated'    => ['bn' => 'পণ্য আপডেট করা হয়েছে।', 'en' => 'Product updated.'],
         'product_deleted'    => ['bn' => 'পণ্য মুছে ফেলা হয়েছে।', 'en' => 'Product deleted.'],
+        'product_deactivated' => ['bn' => 'পণ্যটি নিষ্ক্রিয় করা হয়েছে।', 'en' => 'Product marked as inactive.'],
         'product_import_done' => ['bn' => 'টি পণ্য সফলভাবে যোগ করা হয়েছে।', 'en' => 'products imported successfully.'],
         'sale_created'       => ['bn' => 'বিক্রয় সম্পন্ন হয়েছে।', 'en' => 'Sale completed.'],
         'sale_deleted'       => ['bn' => 'বিক্রয় মুছে ফেলা হয়েছে।', 'en' => 'Sale deleted.'],
@@ -392,6 +393,9 @@ return [
         'header_order'           => ['bn' => 'শিরোনাম ক্রম: পণ্যের নাম · ক্যাটাগরি · বারকোড · ক্রয়মূল্য · বিক্রয়মূল্য · একক · বর্তমান স্টক · কম স্টক সতর্কতা।', 'en' => 'Header order: Product Name · Category · Barcode · Purchase Price · Sale Price · Unit · Current Stock · Low Stock Alert.'],
         'import_btn'             => ['bn' => 'ইমপোর্ট করুন', 'en' => 'Import'],
         'some_rows_skipped'      => ['bn' => 'কিছু সারি বাদ পড়েছে:', 'en' => 'Some rows were skipped:'],
+        'in_use_title'           => ['bn' => 'পণ্য মুছা যাচ্ছে না', 'en' => 'Cannot Delete Product'],
+        'in_use_body'            => ['bn' => 'এই পণ্যটি বিক্রয়, ক্রয় বা অন্য কোনো রেকর্ডে ব্যবহৃত হয়েছে, তাই মুছা সম্ভব নয়। পণ্যটি আর প্রয়োজন না হলে নিষ্ক্রিয় করুন।', 'en' => 'This product is linked to existing sales, purchases, or other records and cannot be deleted. If it is no longer needed, you can mark it as inactive instead.'],
+        'make_inactive'          => ['bn' => 'নিষ্ক্রিয় করুন', 'en' => 'Make Inactive'],
     ],
 
     /*

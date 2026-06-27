@@ -104,6 +104,7 @@ Route::middleware(['auth', 'verified.owner', 'tenant'])->group(function () {
     Route::post('/products/quick', [ProductController::class, 'quickStore'])->name('products.quickStore');
     Route::get('/products/import/template', [ProductController::class, 'template'])->name('products.import.template');
     Route::post('/products/import', [ProductController::class, 'import'])->name('products.import');
+    Route::patch('/products/{product}/deactivate', [ProductController::class, 'deactivate'])->name('products.deactivate');
     Route::resource('products', ProductController::class)->except('show');
     Route::resource('sales', SaleController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
     Route::resource('purchases', PurchaseController::class)->only(['index', 'create', 'store', 'show', 'destroy']);

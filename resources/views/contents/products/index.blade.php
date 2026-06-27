@@ -3,6 +3,7 @@
 @section('title', t('product.title'))
 
 @section('content')
+@php $inUseProduct = session('product_in_use'); @endphp
     <div class="row gy-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -120,14 +121,20 @@
                                             class="btn btn-sm btn-icon btn-text-secondary">
                                             <i class="mdi mdi-pencil-outline"></i>
                                         </a>
-                                        <form method="POST" action="{{ route('products.destroy', $product) }}"
-                                            class="d-inline" data-confirm="{{ t('common.are_you_sure') }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-icon btn-text-danger">
+                                        @if($product->status == "active")
+                                            <form method="POST" action="{{ route('products.destroy', $product) }}"
+                                                class="d-inline" id="deleteForm-{{ $product->id }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-icon btn-text-danger">
+                                                    <i class="mdi mdi-delete-outline"></i>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <button type="submit" class="btn btn-sm btn-icon btn-text-disabled">
                                                 <i class="mdi mdi-delete-outline"></i>
                                             </button>
-                                        </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty
@@ -207,6 +214,43 @@
             </div>
         </div>
     </div>
+
+    {{-- Product in-use modal (shown when delete fails due to FK constraint) --}}
+    <div class="modal" id="productInUseModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title text-danger">
+                        <i class="mdi mdi-alert-circle-outline me-1"></i>
+                        {{ t('product.in_use_title') }}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    @if ($inUseProduct)
+                        <p class="fw-semibold mb-1">{{ $inUseProduct['name'] }}</p>
+                    @endif
+                    <p class="text-muted mb-0">{{ t('product.in_use_body') }}</p>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        {{ t('common.cancel') }}
+                    </button>
+                    @if ($inUseProduct)
+                        <form method="POST"
+                            action="{{ route('products.deactivate', $inUseProduct['public_id']) }}">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="btn btn-warning">
+                                <i class="mdi mdi-eye-off-outline me-1"></i>
+                                {{ t('product.make_inactive') }}
+                            </button>
+                        </form>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('page-script')
@@ -225,6 +269,12 @@
         },
         "{{ t('product.camera_failed') }}"
     );
+
+    // Auto-open the in-use modal if delete failed due to FK constraint
+    @if (session('product_in_use'))
+        var inUseModal = new bootstrap.Modal(document.getElementById('productInUseModal'));
+        inUseModal.show();
+    @endif
 })();
 </script>
 @endsection

@@ -10,6 +10,7 @@ use App\Domains\Product\Services\ProductImportService;
 use App\Domains\Product\Services\ProductService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -76,10 +77,31 @@ class ProductController extends Controller
 
     public function destroy(Product $product): RedirectResponse
     {
-        $this->service->delete($product);
+        try {
+            $this->service->delete($product);
+        } catch (QueryException $e) {
+            // Foreign key constraint violation (SQLSTATE 23000)
+            if ($e->getCode() === '23000') {
+                return redirect()->route('products.index')
+                    ->with('product_in_use', [
+                        'id'           => $product->id,
+                        'public_id'    => $product->public_id,
+                        'name'         => $product->name,
+                    ]);
+            }
+            throw $e;
+        }
 
         return redirect()->route('products.index')
             ->with('success', t('msg.product_deleted'));
+    }
+
+    public function deactivate(Product $product): RedirectResponse
+    {
+        $product->update(['status' => 'inactive']);
+
+        return redirect()->route('products.index')
+            ->with('success', t('msg.product_deactivated'));
     }
 
     /**
