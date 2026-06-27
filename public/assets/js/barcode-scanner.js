@@ -13,63 +13,12 @@
  *              hidden automatically before the callback fires.
  *   errorMsg – string shown inside #scanReader when the camera cannot be opened.
  *
- * --- Median (GoNative) Native Support ---
- * When running inside a Median app, the scanner uses the native barcode scanner
- * via `median.barcode.scan()` instead of getUserMedia. The modal is NOT opened;
- * instead the native camera overlay is launched directly. Detection happens at
- * click-time so the async-injected Median bridge is available.
+ * Always uses Html5Qrcode with facingMode: 'environment'.
+ * Zoom (2.5×) and continuous autofocus are applied after the camera stream is
+ * running so they never interfere with getUserMedia permission.
  *
  * The scanner starts on 'shown.bs.modal' and stops on 'hidden.bs.modal'.
- * Zoom (2.5×) is applied after the camera stream is running so it never
- * interferes with getUserMedia permission.
- * Thank you
  */
-
-/**
- * Check whether the Median native barcode bridge is available RIGHT NOW.
- * Called at click-time, not at page-load, because Median injects the
- * bridge asynchronously after DOM-ready.
- */
-function _hasMedianBarcode() {
-    try {
-        if (typeof median !== 'undefined' && median && median.barcode && typeof median.barcode.scan === 'function') {
-            return true;
-        }
-        if (typeof gonative !== 'undefined' && gonative && gonative.barcode && typeof gonative.barcode.scan === 'function') {
-            return true;
-        }
-    } catch (e) {}
-    return false;
-}
-
-/**
- * Get the Median barcode bridge object (median or gonative namespace).
- */
-function _getMedianBridge() {
-    if (typeof median !== 'undefined' && median && median.barcode) { return median.barcode; }
-    if (typeof gonative !== 'undefined' && gonative && gonative.barcode) { return gonative.barcode; }
-    return null;
-}
-
-/**
- * Launch the Median native barcode scanner and return scanned text via callback.
- */
-function _medianScan(onSuccess, onFail) {
-    var bridge = _getMedianBridge();
-    if (!bridge) { if (onFail) onFail(); return; }
-
-    try {
-        bridge.scan({ callback: function (data) {
-            if (data && data.success) {
-                onSuccess(String(data.code).trim());
-            } else {
-                if (onFail) onFail();
-            }
-        }});
-    } catch (e) {
-        if (onFail) onFail();
-    }
-}
 
 function initBarcodeScanner(modalEl, onScan, errorMsg) {
     if (!modalEl) { return; }
@@ -77,7 +26,7 @@ function initBarcodeScanner(modalEl, onScan, errorMsg) {
     var html5Qr = null;
 
     // ─── Intercept ALL scan-trigger buttons ───────────────────────────
-    // At click-time, decide: use Median native or open the Bootstrap modal.
+    // Open the Bootstrap modal for Html5Qrcode scanning.
     var scanTriggers = document.querySelectorAll('[data-bs-target="#barcodeScanModal"]');
 
     scanTriggers.forEach(function (btn) {
@@ -94,22 +43,13 @@ function initBarcodeScanner(modalEl, onScan, errorMsg) {
             showEvent.relatedTarget = btn;
             modalEl.dispatchEvent(showEvent);
 
-            // ── Check at click-time if Median bridge is ready ──
-            if (_hasMedianBarcode()) {
-                _medianScan(
-                    function (code) { onScan(code); },
-                    function ()     { /* cancelled / failed – do nothing */ }
-                );
-                return;
-            }
-
-            // ── Fallback: open the Bootstrap modal for browser-based scan ──
+            // Open the Bootstrap modal for browser-based scan
             var bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
             bsModal.show();
         });
     });
 
-    // ─── Browser / Web Path (existing behaviour) ─────────────────────
+    // ─── Scanner helpers ─────────────────────────────────────────────
     function stopScanner() {
         if (html5Qr) {
             html5Qr.stop()
@@ -118,22 +58,53 @@ function initBarcodeScanner(modalEl, onScan, errorMsg) {
         }
     }
 
-    function applyZoom() {
+    function applyCameraEnhancements() {
         try {
+            console.log('[BarcodeScanner] navigator.userAgent:', navigator.userAgent);
+
             var video = modalEl.querySelector('#scanReader video');
             if (video && video.srcObject) {
                 var track = video.srcObject.getVideoTracks()[0];
                 if (track) {
                     var caps = track.getCapabilities ? track.getCapabilities() : {};
-                    if (caps.zoom) {
+                    var settings = track.getSettings ? track.getSettings() : {};
+
+                    console.log('[BarcodeScanner] track.getCapabilities():', JSON.stringify(caps, null, 2));
+                    console.log('[BarcodeScanner] track.getSettings():', JSON.stringify(settings, null, 2));
+
+                    var advancedConstraints = [];
+
+                    // Apply 2.5× zoom if supported
+                    var hasZoom = !!(caps.zoom);
+                    console.log('[BarcodeScanner] Zoom capability exists:', hasZoom);
+                    if (hasZoom) {
+                        console.log('[BarcodeScanner] zoom.min:', caps.zoom.min);
+                        console.log('[BarcodeScanner] zoom.max:', caps.zoom.max);
                         var zoomVal = Math.min(2.5, caps.zoom.max);
-                        track.applyConstraints({ advanced: [{ zoom: zoomVal }] }).catch(function () {});
+                        console.log('[BarcodeScanner] Applied zoom value:', zoomVal);
+                        advancedConstraints.push({ zoom: zoomVal });
+                    }
+
+                    // Enable continuous autofocus if supported
+                    var hasAutofocus = !!(caps.focusMode && caps.focusMode.indexOf('continuous') !== -1);
+                    console.log('[BarcodeScanner] Continuous autofocus capability:', hasAutofocus);
+                    if (hasAutofocus) {
+                        advancedConstraints.push({ focusMode: 'continuous' });
+                    }
+
+                    if (advancedConstraints.length > 0) {
+                        track.applyConstraints({ advanced: advancedConstraints }).catch(function (err) {
+                            console.warn('[BarcodeScanner] applyConstraints failed:', err);
+                        });
                     }
                 }
             }
-        } catch (e) {}
+        } catch (e) {
+            console.error('[BarcodeScanner] applyCameraEnhancements error:', e);
+        }
     }
 
+    // ─── Modal lifecycle ─────────────────────────────────────────────
     modalEl.addEventListener('shown.bs.modal', function () {
         if (typeof Html5Qrcode === 'undefined') { return; }
         html5Qr = new Html5Qrcode('scanReader');
@@ -146,7 +117,9 @@ function initBarcodeScanner(modalEl, onScan, errorMsg) {
                 onScan(String(decodedText).trim());
             },
             function () {}
-        ).then(applyZoom).catch(function () {
+        ).then(function () {
+            setTimeout(applyCameraEnhancements, 1500);
+        }).catch(function () {
             var reader = document.getElementById('scanReader');
             if (reader) {
                 reader.innerHTML = '<p class="text-danger text-center mb-0">' + (errorMsg || 'Camera failed.') + '</p>';
