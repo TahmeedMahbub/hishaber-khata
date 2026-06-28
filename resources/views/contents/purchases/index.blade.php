@@ -69,6 +69,10 @@
                                         @endif
                                     </td>
                                     <td class="text-end">
+                                        <a href="{{ route('purchases.edit', $purchase) }}"
+                                            class="btn btn-sm btn-icon btn-text-secondary" title="{{ t('common.edit') }}">
+                                            <i class="mdi mdi-pencil-outline"></i>
+                                        </a>
                                         <a href="{{ route('purchases.show', $purchase) }}"
                                             class="btn btn-sm btn-icon btn-text-secondary">
                                             <i class="mdi mdi-eye-outline"></i>

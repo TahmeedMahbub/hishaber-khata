@@ -106,8 +106,8 @@ Route::middleware(['auth', 'verified.owner', 'tenant'])->group(function () {
     Route::post('/products/import', [ProductController::class, 'import'])->name('products.import');
     Route::patch('/products/{product}/deactivate', [ProductController::class, 'deactivate'])->name('products.deactivate');
     Route::resource('products', ProductController::class)->except('show');
-    Route::resource('sales', SaleController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
-    Route::resource('purchases', PurchaseController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
+    Route::resource('sales', SaleController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+    Route::resource('purchases', PurchaseController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
 
     Route::post('/customers/quick', [CustomerController::class, 'quickStore'])->name('customers.quickStore');
     Route::resource('customers', CustomerController::class)->except('show');

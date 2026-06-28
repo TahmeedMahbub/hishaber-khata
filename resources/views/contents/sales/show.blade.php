@@ -65,7 +65,10 @@
                         <a href="{{ $waUrl }}" target="_blank" rel="noopener" class="btn btn-outline-success">
                             <i class="mdi mdi-whatsapp me-1"></i> <span class="btn-label">{{ t('sale.whatsapp') }}</span>
                         </a>
-                    @endif                    <a href="{{ route('sales.create') }}" class="btn btn-outline-primary">
+                    @endif                    <a href="{{ route('sales.edit', $sale) }}" class="btn btn-outline-secondary">
+                        <i class="mdi mdi-pencil-outline me-1"></i> <span class="btn-label">{{ t('common.edit') }}</span>
+                    </a>
+                    <a href="{{ route('sales.create') }}" class="btn btn-outline-primary">
                         <i class="mdi mdi-plus me-1"></i> <span class="btn-label">{{ t('dashboard.new_sale') }}</span>
                     </a>
                     <button type="button" class="btn btn-primary" onclick="window.print()">
