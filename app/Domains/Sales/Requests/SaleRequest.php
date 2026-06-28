@@ -38,6 +38,7 @@ class SaleRequest extends FormRequest
             'items.*.unit_price' => ['required', 'numeric', 'min:0'],
             'discount'           => ['nullable', 'numeric', 'min:0'],
             'paid'               => ['nullable', 'numeric', 'min:0'],
+            'sale_date'          => ['nullable', 'date'],
             'note'               => ['nullable', 'string', 'max:255'],
         ];
     }

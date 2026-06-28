@@ -54,6 +54,25 @@ class SaleController extends Controller
         return view('contents.sales.show', ['sale' => $sale]);
     }
 
+    public function edit(Sale $sale): View
+    {
+        $sale->load(['items.product', 'customer']);
+
+        return view('contents.sales.edit', [
+            'sale'      => $sale,
+            'products'  => Product::where('status', 'active')->orderBy('name')->get(),
+            'customers' => Customer::orderBy('name')->get(),
+        ]);
+    }
+
+    public function update(SaleRequest $request, Sale $sale): RedirectResponse
+    {
+        $this->service->update($sale, $request->validated());
+
+        return redirect()->route('sales.show', $sale)
+            ->with('success', t('msg.sale_updated'));
+    }
+
     public function destroy(Sale $sale): RedirectResponse
     {
         $this->service->delete($sale);
