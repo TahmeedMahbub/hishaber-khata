@@ -1,11 +1,38 @@
+@php($seo = $seo ?? \App\Support\LandingSeo::make(request()))
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="{{ $seo['htmlLocale'] }}" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ t('landing.page_title') }}</title>
+<title>{{ $seo['title'] }}</title>
+<meta name="description" content="{{ $seo['description'] }}">
+<meta name="keywords" content="{{ $seo['keywords'] }}">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="author" content="{{ $seo['brand'] }}">
+<meta name="theme-color" content="#1B8B5A">
+<link rel="canonical" href="{{ $seo['canonical'] }}">
+@foreach ($seo['alternates'] as $hreflang => $href)
+<link rel="alternate" hreflang="{{ $hreflang }}" href="{{ $href }}">
+@endforeach
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ $seo['brand'] }}">
+<meta property="og:title" content="{{ $seo['title'] }}">
+<meta property="og:description" content="{{ $seo['description'] }}">
+<meta property="og:url" content="{{ $seo['canonical'] }}">
+<meta property="og:image" content="{{ $seo['image'] }}">
+<meta property="og:image:alt" content="{{ $seo['brand'] }} dashboard preview">
+<meta property="og:locale" content="{{ str_replace('-', '_', $seo['htmlLocale']) }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $seo['title'] }}">
+<meta name="twitter:description" content="{{ $seo['description'] }}">
+<meta name="twitter:image" content="{{ $seo['image'] }}">
+<link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="{{ asset('assets/img/project/screenshot.webp') }}" type="image/webp" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet">
+<script type="application/ld+json">@json($seo['jsonLd'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)</script>
 <style>
 :root {
   --green: #1B8B5A;
@@ -305,6 +332,32 @@ section { padding:70px 5%; }
   border-radius:50%; display:flex; align-items:center; justify-content:center;
   flex-shrink:0;
 }
+
+/* SEO content sections */
+.use-case-grid,
+.testimonial-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px; margin-top:42px;
+}
+.use-case-card,
+.testimonial-card {
+  background:#fff; border:1px solid var(--border); border-radius:var(--radius);
+  padding:24px; transition:all .3s;
+}
+.use-case-card:hover,
+.testimonial-card:hover { box-shadow:var(--shadow); transform:translateY(-3px); }
+.use-case-card h3,
+.testimonial-card h3 { font-size:1.05rem; font-weight:800; margin-bottom:8px; }
+.use-case-card p,
+.testimonial-card p { color:var(--text-2); font-size:0.92rem; }
+.testimonial-card blockquote { color:var(--text-2); font-size:0.95rem; margin-bottom:16px; }
+.testimonial-role { color:var(--green); font-size:0.82rem; font-weight:700; }
+.seo-copy {
+  margin-top:32px; background:var(--green-light); border:1px solid rgba(27,139,90,0.16);
+  border-radius:var(--radius); padding:24px; color:var(--green-dark);
+}
+.seo-copy p { margin-bottom:10px; }
+.seo-copy p:last-child { margin-bottom:0; }
 
 /* ── BENEFITS ── */
 .benefits-grid {
@@ -624,6 +677,8 @@ footer {
   </div>
 </nav>
 
+<main id="content">
+
 <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
 <section class="hero">
   <div class="hero-inner">
@@ -649,7 +704,10 @@ footer {
 
     <!-- Dashboard Preview -->
     <div class="hero-visual fade-up delay-2">
-      <img src="{{ asset('assets/img/project/screenshot.jpg') }}" width="100%">
+      <picture>
+        <source srcset="{{ asset('assets/img/project/screenshot.webp') }}" type="image/webp">
+        <img src="{{ asset('assets/img/project/screenshot.jpg') }}" width="1549" height="979" alt="{{ $seo['brand'] }} accounting and inventory management software dashboard" fetchpriority="high" decoding="async" style="width:100%;height:auto;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.12);">
+      </picture>
       {{-- <div class="dashboard-preview">
         <div class="dash-header">
           <span class="dash-header-title">📒 {{ t('brand.name') }}</span>
@@ -778,6 +836,31 @@ footer {
   </div>
 </section>
 
+<section class="section-bg" id="use-cases">
+  <div class="section-inner">
+    <div class="text-center">
+      <div class="section-tag">{{ $seo['locale'] === 'bn' ? 'ব্যবহারের ক্ষেত্র' : 'Use Cases' }}</div>
+      <h2 class="section-title">Made for Bangladeshi Businesses</h2>
+      <div class="divider center"></div>
+      <p class="section-sub" style="margin-top:14px">
+        {{ $seo['locale'] === 'bn' ? 'Trusted Business Software হিসেবে হিসাবিজ দোকান, পাইকারি ও SME ব্যবসার দৈনন্দিন কাজ সহজ করে।' : 'Hishabiz helps shops, wholesalers and SMEs run daily operations with Trusted Business Software.' }}
+      </p>
+    </div>
+    <div class="use-case-grid">
+      @foreach ($seo['useCases'] as $useCase)
+        <article class="use-case-card">
+          <h3>{{ $useCase['title'] }}</h3>
+          <p>{{ $useCase['text'] }}</p>
+        </article>
+      @endforeach
+    </div>
+    <div class="seo-copy">
+      <p>{{ $seo['locale'] === 'bn' ? 'হিসাবিজ একটি Reliable Accounting Software এবং Easy Business Management Software, যা বিক্রয়, খরচ, কাস্টমার বাকি, সাপ্লায়ার বাকি, ইনভয়েস ও রিপোর্ট একসাথে ম্যানেজ করতে সাহায্য করে।' : 'Hishabiz is Reliable Accounting Software and Easy Business Management Software for sales, expenses, customer dues, supplier dues, invoices and reports.' }}</p>
+      <p>{{ $seo['locale'] === 'bn' ? 'Inventory Management Software Bangladesh এবং Small Business Software খুঁজছেন এমন ব্যবসার জন্য এটি সহজ, মোবাইল-ফ্রেন্ডলি ও SSR-friendly ওয়েব অ্যাপ।' : 'For teams searching for Inventory Management Software Bangladesh, SME Software Bangladesh or small business software, Hishabiz is simple, mobile-friendly and built for Bangladeshi businesses.' }}</p>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════════════════════════ FEATURES ═══════════════════════════════ -->
 <section id="features">
   <div class="section-inner">
@@ -881,42 +964,42 @@ footer {
     </div>
     <div class="benefits-grid">
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/responsive.svg') }}" alt="Responsive Design" style="width:60px"></div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/responsive.svg') }}" alt="Responsive Design" width="60" height="60" loading="lazy" decoding="async"></div>
         <h4>{{ t('landing.benefit_1_title') }}</h4>
         <p>{{ t('landing.benefit_1_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/math.svg') }}" alt="No Math Skills Required" style="width:60px"></div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/math.svg') }}" alt="No Math Skills Required" width="60" height="60" loading="lazy" decoding="async"></div>
         <h4>{{ t('landing.benefit_2_title') }}</h4>
         <p>{{ t('landing.benefit_2_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/clock.svg') }}" alt="Benefit 3" style="width:60px"></div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/clock.svg') }}" alt="Save time with business management software" width="60" height="60" loading="lazy" decoding="async"></div>
         <h4>{{ t('landing.benefit_3_title') }}</h4>
         <p>{{ t('landing.benefit_3_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/stock.svg') }}" alt="Benefit 4" style="width:60px"></div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/stock.svg') }}" alt="Inventory management software" width="60" height="60" loading="lazy" decoding="async"></div>
         <h4>{{ t('landing.benefit_4_title') }}</h4>
         <p>{{ t('landing.benefit_4_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b5.svg') }}" alt="Benefit 5" style="width:60px"></div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b5.svg') }}" alt="Business reporting" width="60" height="60" loading="lazy" decoding="async"></div>
         <h4>{{ t('landing.benefit_5_title') }}</h4>
         <p>{{ t('landing.benefit_5_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b6.svg') }}" alt="Benefit 6" style="width:60px"></div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b6.svg') }}" alt="Small business software" width="60" height="60" loading="lazy" decoding="async"></div>
         <h4>{{ t('landing.benefit_6_title') }}</h4>
         <p>{{ t('landing.benefit_6_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b7.svg') }}" alt="Benefit 7" style="width:60px"></div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b7.svg') }}" alt="Cloud accounting software" width="60" height="60" loading="lazy" decoding="async"></div>
         <h4>{{ t('landing.benefit_7_title') }}</h4>
         <p>{{ t('landing.benefit_7_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b8.svg') }}" alt="Benefit 8" style="width:60px"></div>
+        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b8.svg') }}" alt="SME software Bangladesh" width="60" height="60" loading="lazy" decoding="async"></div>
         <h4>{{ t('landing.benefit_8_title') }}</h4>
         <p>{{ t('landing.benefit_8_desc') }}</p>
       </div>
@@ -969,7 +1052,7 @@ footer {
 </section>
 
 <!-- ═══════════════════════════════ PLANS ═══════════════════════════════ -->
-{{-- <section id="plans">
+<section id="plans">
   <div class="section-inner">
     <div class="text-center">
       <div class="section-tag">💎 {{ t('landing.plans_tag') }}</div>
@@ -1010,7 +1093,7 @@ footer {
         <a href="{{ route('register') }}" class="plan-btn">{{ t('landing.start_btn') }}</a>
       </div>
 
-      <!-- Dreamer — Most Popular -->
+      <!-- Dreamer plan -->
       <div class="plan-card popular">
         <div class="popular-badge">⭐ {{ t('landing.plan_popular_badge') }}</div>
         <div class="plan-name">🚀 {{ t('landing.plan_dreamer_name') }}</div>
@@ -1117,7 +1200,7 @@ footer {
       </table>
     </div>
   </div>
-</section> --}}
+</section>
 
 <!-- ═══════════════════════════════ MOBILE ═══════════════════════════════ -->
 <section class="mobile-section" id="mobile">
@@ -1288,6 +1371,28 @@ footer {
 </section>
 
 <!-- ═══════════════════════════════ FINAL CTA ═══════════════════════════════ -->
+<section id="testimonials">
+  <div class="section-inner">
+    <div class="text-center">
+      <div class="section-tag">{{ $seo['locale'] === 'bn' ? 'গ্রাহকদের অভিজ্ঞতা' : 'Testimonials' }}</div>
+      <h2 class="section-title">{{ $seo['locale'] === 'bn' ? 'বাংলাদেশি ব্যবসার বাস্তব ব্যবহার' : 'Built around real business workflows' }}</h2>
+      <div class="divider center"></div>
+      <p class="section-sub" style="margin-top:14px">
+        {{ $seo['locale'] === 'bn' ? 'এই মতামতগুলো উদাহরণভিত্তিক ব্যবহার পরিস্থিতি, অতিরঞ্জিত দাবি নয়।' : 'These are representative usage scenarios, without unsupported superlative claims.' }}
+      </p>
+    </div>
+    <div class="testimonial-grid">
+      @foreach ($seo['testimonials'] as $testimonial)
+        <article class="testimonial-card">
+          <blockquote>{{ $testimonial['quote'] }}</blockquote>
+          <h3>{{ $testimonial['name'] }}</h3>
+          <div class="testimonial-role">{{ $testimonial['role'] }}</div>
+        </article>
+      @endforeach
+    </div>
+  </div>
+</section>
+
 <section class="cta-section">
   <div class="section-inner">
     <div class="section-tag" style="margin-bottom:20px;display:inline-flex">🚀 {{ t('landing.cta_tag') }}</div>
@@ -1306,6 +1411,8 @@ footer {
 </section>
 
 <!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+</main>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
@@ -1375,7 +1482,7 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.feature-card, .benefit-card, .sec-card, .plan-card, .step-card, .problem-card').forEach(el => {
+document.querySelectorAll('.feature-card, .benefit-card, .sec-card, .plan-card, .step-card, .problem-card, .use-case-card, .testimonial-card').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(20px)';
   el.style.transition = 'opacity .5s ease, transform .5s ease';

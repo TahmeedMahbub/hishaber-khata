@@ -16,6 +16,7 @@ use App\Domains\Report\Controllers\ReportController;
 use App\Domains\Sales\Controllers\SaleController;
 use App\Domains\Supplier\Controllers\SupplierController;
 use App\Domains\Tenant\Controllers\SettingsController;
+use App\Support\LandingSeo;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,8 +31,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('landing');
+    return view('landing', [
+        'seo' => LandingSeo::make(request(), 'bn'),
+    ]);
 })->name('home');
+
+Route::get('/{locale}', function (string $locale) {
+    return view('landing', [
+        'seo' => LandingSeo::make(request(), $locale),
+    ]);
+})->whereIn('locale', ['bn', 'en'])->name('landing.locale');
+
+Route::get('/sitemap.xml', function () {
+    return response()
+        ->view('sitemap', ['urls' => LandingSeo::sitemap(request())])
+        ->header('Content-Type', 'application/xml');
+})->name('sitemap');
 
 // Public feedback (e.g. from the landing page) — no auth/tenant required.
 Route::post('/feedback', [FeedbackController::class, 'storePublic'])->name('feedback.public');

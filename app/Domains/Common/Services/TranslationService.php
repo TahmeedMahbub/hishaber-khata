@@ -61,9 +61,13 @@ class TranslationService
      */
     public function currentLanguage(): string
     {
-        $lang = Auth::user()->language
+        $routeLocale = request()->route('locale');
+
+        $lang = in_array($routeLocale, self::LANGUAGES, true)
+            ? $routeLocale
+            : (Auth::user()->language
             ?? request()->cookie(self::COOKIE)
-            ?? self::FALLBACK;
+            ?? self::FALLBACK);
 
         return in_array($lang, self::LANGUAGES, true) ? $lang : self::FALLBACK;
     }
