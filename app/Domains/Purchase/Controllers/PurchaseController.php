@@ -54,6 +54,25 @@ class PurchaseController extends Controller
         return view('contents.purchases.show', ['purchase' => $purchase]);
     }
 
+    public function edit(Purchase $purchase): View
+    {
+        $purchase->load(['items.product', 'supplier']);
+
+        return view('contents.purchases.edit', [
+            'purchase'  => $purchase,
+            'products'  => Product::where('status', 'active')->orderBy('name')->get(),
+            'suppliers' => Supplier::orderBy('name')->get(),
+        ]);
+    }
+
+    public function update(PurchaseRequest $request, Purchase $purchase): RedirectResponse
+    {
+        $this->service->update($purchase, $request->validated());
+
+        return redirect()->route('purchases.show', $purchase)
+            ->with('success', t('msg.purchase_updated'));
+    }
+
     public function destroy(Purchase $purchase): RedirectResponse
     {
         $this->service->delete($purchase);
