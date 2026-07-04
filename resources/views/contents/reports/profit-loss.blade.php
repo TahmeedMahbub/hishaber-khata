@@ -3,7 +3,12 @@
 @section('title', t('report.profit_loss'))
 
 @section('content')
-    <div class="row gy-4">
+    @include('contents.reports.partials.print-style', [
+        'reportTitle' => t('report.profit_loss'),
+        'reportDate'  => \Illuminate\Support\Carbon::parse($report['from'])->format('d M Y') . ' — ' . \Illuminate\Support\Carbon::parse($report['to'])->format('d M Y'),
+    ])
+
+    <div class="row gy-4 report-sheet">
         <div class="col-12">
             @include('contents.reports.partials.header', ['title' => t('report.profit_loss')])
             @include('contents.reports.partials.range-filter', [
@@ -55,6 +60,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="report-print-footer">
+                <span>{{ t('report.profit_loss') }} — {{ \Illuminate\Support\Carbon::parse($report['from'])->format('d M Y') }} {{ t('report.to') }} {{ \Illuminate\Support\Carbon::parse($report['to'])->format('d M Y') }}</span>
+                <span>{{ t('common.print') }}: {{ now()->format('d M Y, h:i A') }}</span>
             </div>
         </div>
     </div>

@@ -3,11 +3,16 @@
 @section('title', t('report.stock'))
 
 @section('content')
-    <div class="row gy-4">
+    @include('contents.reports.partials.print-style', [
+        'reportTitle' => t('report.stock'),
+        'reportDate'  => now()->format('d M Y'),
+    ])
+
+    <div class="row gy-4 report-sheet">
         <div class="col-12">
             @include('contents.reports.partials.header', ['title' => t('report.stock')])
 
-            <div class="row g-3 mb-3">
+            <div class="row g-3 mb-3 report-summary-cards">
                 <div class="col-6 col-md-4">
                     <div class="card"><div class="card-body p-3">
                         <small class="text-muted d-block">{{ t('report.total_products') }}</small>
@@ -68,6 +73,11 @@
                         @endif
                     </table>
                 </div>
+            </div>
+
+            <div class="report-print-footer">
+                <span>{{ t('report.stock') }}</span>
+                <span>{{ t('common.print') }}: {{ now()->format('d M Y, h:i A') }}</span>
             </div>
         </div>
     </div>

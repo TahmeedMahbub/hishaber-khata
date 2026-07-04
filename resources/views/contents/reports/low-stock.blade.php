@@ -3,7 +3,12 @@
 @section('title', t('report.low_stock'))
 
 @section('content')
-    <div class="row gy-4">
+    @include('contents.reports.partials.print-style', [
+        'reportTitle' => t('report.low_stock'),
+        'reportDate'  => now()->format('d M Y'),
+    ])
+
+    <div class="row gy-4 report-sheet">
         <div class="col-12">
             @include('contents.reports.partials.header', ['title' => t('report.low_stock')])
 
@@ -41,6 +46,11 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+
+            <div class="report-print-footer">
+                <span>{{ t('report.low_stock') }}</span>
+                <span>{{ t('common.print') }}: {{ now()->format('d M Y, h:i A') }}</span>
             </div>
         </div>
     </div>

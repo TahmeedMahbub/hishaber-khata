@@ -3,7 +3,12 @@
 @section('title', t('report.expense'))
 
 @section('content')
-    <div class="row gy-4">
+    @include('contents.reports.partials.print-style', [
+        'reportTitle' => t('report.expense'),
+        'reportDate'  => \Illuminate\Support\Carbon::parse($report['from'])->format('d M Y') . ' — ' . \Illuminate\Support\Carbon::parse($report['to'])->format('d M Y'),
+    ])
+
+    <div class="row gy-4 report-sheet">
         <div class="col-12">
             @include('contents.reports.partials.header', ['title' => t('report.expense')])
             @include('contents.reports.partials.range-filter', [
@@ -12,7 +17,7 @@
                 'to'     => $report['to'],
             ])
 
-            <div class="row g-3 mb-3">
+            <div class="row g-3 mb-3 report-summary-cards">
                 <div class="col-6">
                     <div class="card"><div class="card-body p-3">
                         <small class="text-muted d-block">{{ t('report.total_expenses') }}</small>
@@ -60,6 +65,11 @@
                         @endif
                     </table>
                 </div>
+            </div>
+
+            <div class="report-print-footer">
+                <span>{{ t('report.expense') }} — {{ \Illuminate\Support\Carbon::parse($report['from'])->format('d M Y') }} {{ t('report.to') }} {{ \Illuminate\Support\Carbon::parse($report['to'])->format('d M Y') }}</span>
+                <span>{{ t('common.print') }}: {{ now()->format('d M Y, h:i A') }}</span>
             </div>
         </div>
     </div>

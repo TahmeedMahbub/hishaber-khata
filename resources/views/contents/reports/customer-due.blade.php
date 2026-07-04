@@ -3,11 +3,16 @@
 @section('title', t('report.customer_due'))
 
 @section('content')
-    <div class="row gy-4">
+    @include('contents.reports.partials.print-style', [
+        'reportTitle' => t('report.customer_due'),
+        'reportDate'  => now()->format('d M Y'),
+    ])
+
+    <div class="row gy-4 report-sheet">
         <div class="col-12">
             @include('contents.reports.partials.header', ['title' => t('report.customer_due')])
 
-            <div class="row g-3 mb-3">
+            <div class="row g-3 mb-3 report-summary-cards">
                 <div class="col-6">
                     <div class="card"><div class="card-body p-3">
                         <small class="text-muted d-block">{{ t('report.total_due') }}</small>
@@ -53,6 +58,11 @@
                         @endif
                     </table>
                 </div>
+            </div>
+
+            <div class="report-print-footer">
+                <span>{{ t('report.customer_due') }}</span>
+                <span>{{ t('common.print') }}: {{ now()->format('d M Y, h:i A') }}</span>
             </div>
         </div>
     </div>
