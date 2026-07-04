@@ -9,9 +9,9 @@
     $isReports   = request()->is('reports*');
     $isMore = request()->is('purchases*') || request()->is('customers*')
         || request()->is('suppliers*') || request()->is('expenses*')
-        || request()->is('due-payments*') || request()->is('damages*')
-        || request()->is('settings*') || request()->is('feedback*')
-        || request()->is('profile*');
+        || request()->is('due-payments*') || request()->is('sale-returns*')
+        || request()->is('damages*') || request()->is('settings*')
+        || request()->is('feedback*') || request()->is('profile*');
 @endphp
 
 <nav class="hk-mnav" aria-label="{{ t('nav.main_menu') }}">
@@ -28,7 +28,7 @@
     <a href="{{ route('sales.create') }}"
         class="hk-mnav__item hk-mnav__item--primary {{ $isSales ? 'active' : '' }}">
         <i class="hk-mnav__icon mdi mdi-cart-plus"></i>
-        <span>{{ t('nav.sales') }}</span>
+        <span>{{ t('nav.pos') }}</span>
     </a>
 
     <a href="{{ route('reports.index') }}" class="hk-mnav__item {{ $isReports ? 'active' : '' }}">
@@ -67,6 +67,9 @@
         </a>
         <a href="{{ route('sales.index') }}" class="hk-sheet__link {{ request()->is('sales*') ? 'active' : '' }}">
             <i class="mdi mdi-cart-outline"></i><span>{{ t('nav.sales') }}</span>
+        </a>
+        <a href="{{ route('sale-returns.index') }}" class="hk-sheet__link {{ request()->is('sale-returns*') ? 'active' : '' }}">
+            <i class="mdi mdi-undo-variant"></i><span>{{ t('nav.sale_returns') }}</span>
         </a>
         <a href="{{ route('expenses.index') }}" class="hk-sheet__link {{ request()->is('expenses*') ? 'active' : '' }}">
             <i class="mdi mdi-cash-minus"></i><span>{{ t('nav.expenses') }}</span>

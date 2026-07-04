@@ -25,11 +25,24 @@
         </li>
 
         {{-- Sales --}}
-        <li class="menu-item {{ request()->is('sales*') ? 'active' : '' }}">
-            <a href="{{ route('sales.index') }}" class="menu-link">
+        @php $salesActive = request()->is('sales*') || request()->is('sale-returns*'); @endphp
+        <li class="menu-item {{ $salesActive ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons mdi mdi-cart-outline"></i>
                 <div>{{ t('nav.sales') }}</div>
             </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('sales*') ? 'active' : '' }}">
+                    <a href="{{ route('sales.index') }}" class="menu-link">
+                        <div>{{ t('sale.list') }}</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('sale-returns*') ? 'active' : '' }}">
+                    <a href="{{ route('sale-returns.index') }}" class="menu-link">
+                        <div>{{ t('nav.sale_returns') }}</div>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         {{-- Products --}}

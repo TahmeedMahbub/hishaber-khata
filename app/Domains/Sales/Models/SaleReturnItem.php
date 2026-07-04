@@ -7,14 +7,15 @@ use App\Domains\Product\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class SaleItem extends Model
+class SaleReturnItem extends Model
 {
     use HasPublicId;
 
     public $timestamps = false;
 
     protected $fillable = [
-        'sale_id',
+        'sale_return_id',
+        'sale_item_id',
         'product_id',
         'qty',
         'unit_price',
@@ -29,23 +30,18 @@ class SaleItem extends Model
         'total'      => 'decimal:2',
     ];
 
-    public function sale(): BelongsTo
+    public function saleReturn(): BelongsTo
     {
-        return $this->belongsTo(Sale::class);
+        return $this->belongsTo(SaleReturn::class);
+    }
+
+    public function saleItem(): BelongsTo
+    {
+        return $this->belongsTo(SaleItem::class);
     }
 
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
-    }
-
-    public function returnedQty(): float
-    {
-        return (float) SaleReturnItem::where('sale_item_id', $this->id)->sum('qty');
-    }
-
-    public function returnableQty(): float
-    {
-        return max(0, (float) $this->qty - $this->returnedQty());
     }
 }

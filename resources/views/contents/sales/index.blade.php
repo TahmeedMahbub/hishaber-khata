@@ -64,22 +64,72 @@
                                         @endif
                                     </td>
                                     <td class="text-end">
-                                        <a href="{{ route('sales.edit', $sale) }}"
-                                            class="btn btn-sm btn-icon btn-text-secondary" title="{{ t('common.edit') }}">
-                                            <i class="mdi mdi-pencil-outline"></i>
-                                        </a>
-                                        <a href="{{ route('sales.show', $sale) }}"
-                                            class="btn btn-sm btn-icon btn-text-secondary">
-                                            <i class="mdi mdi-eye-outline"></i>
-                                        </a>
-                                        <form method="POST" action="{{ route('sales.destroy', $sale) }}"
-                                            class="d-inline" data-confirm="{{ t('sale.delete_confirm') }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-icon btn-text-danger">
-                                                <i class="mdi mdi-delete-outline"></i>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-sm btn-icon btn-text-secondary dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                <i class="mdi mdi-dots-vertical mdi-24px"></i>
                                             </button>
-                                        </form>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li>
+                                                    <a href="{{ route('sales.show', $sale) }}" class="dropdown-item">
+                                                        <i class="mdi mdi-eye-outline me-2"></i> {{ t('common.view') }}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('sales.edit', $sale) }}" class="dropdown-item">
+                                                        <i class="mdi mdi-pencil-outline me-2"></i> {{ t('common.edit') }}
+                                                    </a>
+                                                </li>
+                                                @php
+                                                    $waPhone = preg_replace('/\D+/', '', optional($sale->customer)->phone ?? '');
+                                                    $waUrl = '';
+                                                    if ($waPhone !== '') {
+                                                        $waPhone = '8801' . substr($waPhone, -9);
+                                                        $waMsg = rawurlencode(implode("\n", [
+                                                            optional(auth()->user()->tenant)->name ?? config('app.name'),
+                                                            'Invoice #' . $sale->invoice_no,
+                                                            'Total: Tk ' . number_format($sale->total, 2),
+                                                            $sale->due > 0 ? 'Due: Tk ' . number_format($sale->due, 2) : '',
+                                                        ]));
+                                                        $waUrl = 'https://wa.me/' . $waPhone . '?text=' . $waMsg;
+                                                    }
+                                                @endphp
+                                                @if ($waUrl)
+                                                    <li>
+                                                        <a href="{{ $waUrl }}" target="_blank" rel="noopener" class="dropdown-item">
+                                                            <i class="mdi mdi-whatsapp me-2"></i> {{ t('sale.whatsapp') }}
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if ($sale->status === 'completed')
+                                                    <li>
+                                                        <a href="{{ route('sale-returns.create', $sale) }}" class="dropdown-item">
+                                                            <i class="mdi mdi-undo-variant me-2"></i> {{ t('sale_return.returned') }}
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('sale-returns.index', ['search' => $sale->invoice_no]) }}" class="dropdown-item">
+                                                            <i class="mdi mdi-clipboard-text-clock-outline me-2"></i> {{ t('nav.sale_returns') }}
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                <li>
+                                                    <a href="{{ route('sales.show', $sale) }}#print" class="dropdown-item" onclick="window.open(this.href); return false;">
+                                                        <i class="mdi mdi-printer-outline me-2"></i> {{ t('common.print') }}
+                                                    </a>
+                                                </li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li>
+                                                    <form method="POST" action="{{ route('sales.destroy', $sale) }}"
+                                                        onsubmit="return confirm('{{ t('sale.delete_confirm') }}')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item text-danger">
+                                                            <i class="mdi mdi-delete-outline me-2"></i> {{ t('common.delete') }}
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

@@ -68,6 +68,11 @@
                     @endif                    <a href="{{ route('sales.edit', $sale) }}" class="btn btn-outline-secondary">
                         <i class="mdi mdi-pencil-outline me-1"></i> <span class="btn-label">{{ t('common.edit') }}</span>
                     </a>
+                    @if ($sale->status === 'completed')
+                        <a href="{{ route('sale-returns.create', $sale) }}" class="btn btn-outline-warning">
+                            <i class="mdi mdi-undo-variant me-1"></i> <span class="btn-label">{{ t('sale_return.returned') }}</span>
+                        </a>
+                    @endif
                     <a href="{{ route('sales.create') }}" class="btn btn-outline-primary">
                         <i class="mdi mdi-plus me-1"></i> <span class="btn-label">{{ t('dashboard.new_sale') }}</span>
                     </a>
@@ -188,6 +193,46 @@
                     <div class="invoice-thanks">{{ t('sale.thanks') }}</div>
                 </div>
             </div>
+
+            {{-- Return history for this sale --}}
+            @php $returns = $sale->returns()->with('items.product')->latest()->get(); @endphp
+            @if ($returns->isNotEmpty())
+                <div class="card mt-3 d-print-none">
+                    <div class="card-header py-2">
+                        <h6 class="mb-0"><i class="mdi mdi-undo-variant me-1"></i> {{ t('sale_return.title') }}</h6>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-sm mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>{{ t('sale_return.return_no') }}</th>
+                                        <th>{{ t('common.date') }}</th>
+                                        <th class="text-end">{{ t('common.total') }}</th>
+                                        <th class="text-end">{{ t('sale_return.refunded') }}</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($returns as $ret)
+                                        <tr>
+                                            <td>{{ $ret->return_no }}</td>
+                                            <td>{{ $ret->return_date->format('d M Y') }}</td>
+                                            <td class="text-end">৳ {{ number_format($ret->total, 2) }}</td>
+                                            <td class="text-end">৳ {{ number_format($ret->refunded, 2) }}</td>
+                                            <td class="text-end">
+                                                <a href="{{ route('sale-returns.show', $ret) }}" class="btn btn-sm btn-outline-primary py-0 px-2">
+                                                    {{ t('sale_return.view_return') }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 @endsection

@@ -35,7 +35,8 @@ return [
     */
     'nav' => [
         'dashboard'     => ['bn' => 'ড্যাশবোর্ড', 'en' => 'Dashboard'],
-        'sales'         => ['bn' => 'বিক্রয়', 'en' => 'POS'],
+        'sales'         => ['bn' => 'বিক্রয়', 'en' => 'Sales'],
+        'pos'           => ['bn' => 'বিক্রয়', 'en' => 'POS'],
         'sell'          => ['bn' => 'বিক্রয় করুন', 'en' => 'POS'],
         'products'      => ['bn' => 'পণ্য', 'en' => 'Products'],
         'all_products'  => ['bn' => 'সকল পণ্য', 'en' => 'All Products'],
@@ -49,6 +50,7 @@ return [
         'expenses'      => ['bn' => 'খরচ', 'en' => 'Expenses'],
         'damages'       => ['bn' => 'ড্যামেজ / হারানো', 'en' => 'Damage / Loss'],
         'damages_short' => ['bn' => 'ড্যামেজ / লস', 'en' => 'Damage Loss'],
+        'sale_returns'  => ['bn' => 'বিক্রয় রিটার্ন', 'en' => 'Sale Returns'],
         'employees'     => ['bn' => 'কর্মচারী', 'en' => 'Employees'],
         'settings'      => ['bn' => 'সেটিংস', 'en' => 'Settings'],
         'profile'       => ['bn' => 'প্রোফাইল', 'en' => 'Profile'],
@@ -201,6 +203,8 @@ return [
         'product_import_done' => ['bn' => 'টি পণ্য সফলভাবে যোগ করা হয়েছে।', 'en' => 'products imported successfully.'],
         'sale_created'       => ['bn' => 'বিক্রয় সম্পন্ন হয়েছে।', 'en' => 'Sale completed.'],
         'sale_deleted'       => ['bn' => 'বিক্রয় মুছে ফেলা হয়েছে।', 'en' => 'Sale deleted.'],
+        'sale_return_created' => ['bn' => 'রিটার্ন সফলভাবে সম্পন্ন হয়েছে।', 'en' => 'Sale return completed.'],
+        'sale_return_deleted' => ['bn' => 'রিটার্ন মুছে ফেলা হয়েছে। স্টক ও বাকি পুনরুদ্ধার করা হয়েছে।', 'en' => 'Return deleted. Stock and due restored.'],
         'purchase_created'   => ['bn' => 'ক্রয় সম্পন্ন হয়েছে।', 'en' => 'Purchase completed.'],
         'purchase_deleted'   => ['bn' => 'ক্রয় মুছে ফেলা হয়েছে।', 'en' => 'Purchase deleted.'],
         'expense_created'    => ['bn' => 'খরচ যোগ করা হয়েছে।', 'en' => 'Expense added.'],
@@ -465,6 +469,35 @@ return [
         'customer_add_failed' => ['bn' => 'কাস্টমার যোগ করা যায়নি।', 'en' => 'Could not add customer.'],
         'server_error'        => ['bn' => 'সার্ভার ত্রুটি। আবার চেষ্টা করুন।', 'en' => 'Server error. Please try again.'],
         'clear_cart'          => ['bn' => 'কার্ট খালি করুন', 'en' => 'Clear Cart'],
+        'edit_title'          => ['bn' => 'বিক্রয় সম্পাদনা', 'en' => 'Edit Sale'],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sale Return module
+    |--------------------------------------------------------------------------
+    */
+    'sale_return' => [
+        'title'            => ['bn' => 'বিক্রয় রিটার্ন', 'en' => 'Sale Return'],
+        'new_title'        => ['bn' => 'বিক্রয় রিটার্ন করুন', 'en' => 'Create Sale Return'],
+        'receipt'          => ['bn' => 'রিটার্ন রসিদ', 'en' => 'Return Receipt'],
+        'return_no'        => ['bn' => 'রিটার্ন নং', 'en' => 'Return No'],
+        'original_invoice' => ['bn' => 'মূল ইনভয়েস', 'en' => 'Original Invoice'],
+        'sold_qty'         => ['bn' => 'বিক্রিত', 'en' => 'Sold'],
+        'returnable_qty'   => ['bn' => 'রিটার্নযোগ্য', 'en' => 'Returnable'],
+        'return_qty'       => ['bn' => 'রিটার্ন', 'en' => 'Return Qty'],
+        'return_total'     => ['bn' => 'রিটার্ন মোট', 'en' => 'Return Total'],
+        'refunded'         => ['bn' => 'নগদ ফেরত', 'en' => 'Cash Refunded'],
+        'adjusted_due'     => ['bn' => 'বাকি থেকে কমানো', 'en' => 'Adjusted from Due'],
+        'reason'           => ['bn' => 'কারণ', 'en' => 'Reason'],
+        'reason_ph'        => ['bn' => 'রিটার্নের কারণ (ঐচ্ছিক)', 'en' => 'Reason for return (optional)'],
+        'return_all'       => ['bn' => 'সবকিছু রিটার্ন', 'en' => 'Return All'],
+        'confirm_btn'      => ['bn' => 'রিটার্ন সম্পন্ন করুন', 'en' => 'Confirm Return'],
+        'delete_confirm'   => ['bn' => 'এই রিটার্ন মুছলে স্টক কমবে ও বাকি ফিরে আসবে। নিশ্চিত?', 'en' => 'Deleting this return will reverse stock and due changes. Are you sure?'],
+        'none_yet'         => ['bn' => 'কোনো রিটার্ন হয়নি', 'en' => 'No returns yet'],
+        'returned'         => ['bn' => 'রিটার্ন', 'en' => 'Returned'],
+        'net_sale'         => ['bn' => 'নেট বিক্রয়', 'en' => 'Net Sale'],
+        'view_return'      => ['bn' => 'রিটার্ন দেখুন', 'en' => 'View Return'],
     ],
 
     /*

@@ -10,46 +10,39 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Sale extends Model
+class SaleReturn extends Model
 {
     use BelongsToTenant, HasPublicId;
 
     protected $fillable = [
         'tenant_id',
         'branch_id',
+        'sale_id',
         'customer_id',
         'user_id',
-        'invoice_no',
-        'status',
+        'return_no',
         'total',
-        'discount',
-        'paid',
-        'due',
-        'sale_date',
-        'note',
+        'refunded',
+        'adjusted_due',
+        'reason',
+        'return_date',
     ];
 
     protected $casts = [
-        'total'     => 'decimal:2',
-        'discount'  => 'decimal:2',
-        'paid'      => 'decimal:2',
-        'due'       => 'decimal:2',
-        'sale_date' => 'date',
+        'total'        => 'decimal:2',
+        'refunded'     => 'decimal:2',
+        'adjusted_due' => 'decimal:2',
+        'return_date'  => 'date',
     ];
 
     public function items(): HasMany
     {
-        return $this->hasMany(SaleItem::class);
+        return $this->hasMany(SaleReturnItem::class);
     }
 
-    public function returns(): HasMany
+    public function sale(): BelongsTo
     {
-        return $this->hasMany(SaleReturn::class);
-    }
-
-    public function totalReturned(): float
-    {
-        return (float) $this->returns()->sum('total');
+        return $this->belongsTo(Sale::class);
     }
 
     public function customer(): BelongsTo
@@ -60,10 +53,5 @@ class Sale extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function isPaid(): bool
-    {
-        return $this->due <= 0;
     }
 }

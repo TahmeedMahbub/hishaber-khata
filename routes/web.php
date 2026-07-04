@@ -14,6 +14,7 @@ use App\Domains\Product\Controllers\ProductController;
 use App\Domains\Purchase\Controllers\PurchaseController;
 use App\Domains\Report\Controllers\ReportController;
 use App\Domains\Sales\Controllers\SaleController;
+use App\Domains\Sales\Controllers\SaleReturnController;
 use App\Domains\Supplier\Controllers\SupplierController;
 use App\Domains\Tenant\Controllers\SettingsController;
 use App\Support\LandingSeo;
@@ -122,6 +123,11 @@ Route::middleware(['auth', 'verified.owner', 'tenant'])->group(function () {
     Route::patch('/products/{product}/deactivate', [ProductController::class, 'deactivate'])->name('products.deactivate');
     Route::resource('products', ProductController::class)->except('show');
     Route::resource('sales', SaleController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+    Route::get('/sale-returns', [SaleReturnController::class, 'index'])->name('sale-returns.index');
+    Route::get('/sales/{sale}/return', [SaleReturnController::class, 'create'])->name('sale-returns.create');
+    Route::post('/sales/{sale}/return', [SaleReturnController::class, 'store'])->name('sale-returns.store');
+    Route::get('/sale-returns/{saleReturn}', [SaleReturnController::class, 'show'])->name('sale-returns.show');
+    Route::delete('/sale-returns/{saleReturn}', [SaleReturnController::class, 'destroy'])->name('sale-returns.destroy');
     Route::resource('purchases', PurchaseController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
 
     Route::post('/customers/quick', [CustomerController::class, 'quickStore'])->name('customers.quickStore');
