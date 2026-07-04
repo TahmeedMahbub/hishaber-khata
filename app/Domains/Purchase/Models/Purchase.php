@@ -54,4 +54,14 @@ class Purchase extends Model
     {
         return $this->due <= 0;
     }
+
+    public function returns(): HasMany
+    {
+        return $this->hasMany(PurchaseReturn::class);
+    }
+
+    public function totalReturned(): float
+    {
+        return (float) $this->returns()->sum('total');
+    }
 }

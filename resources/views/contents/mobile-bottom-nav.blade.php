@@ -7,7 +7,8 @@
     $isSales     = request()->is('sales*');
     $isProducts  = request()->is('products*') || request()->is('categories*');
     $isReports   = request()->is('reports*');
-    $isMore = request()->is('purchases*') || request()->is('customers*')
+    $isMore = request()->is('purchases*') || request()->is('purchase-returns*')
+        || request()->is('customers*')
         || request()->is('suppliers*') || request()->is('expenses*')
         || request()->is('due-payments*') || request()->is('sale-returns*')
         || request()->is('damages*') || request()->is('settings*')
@@ -65,20 +66,23 @@
         <a href="{{ route('purchases.index') }}" class="hk-sheet__link {{ request()->is('purchases*') ? 'active' : '' }}">
             <i class="mdi mdi-cart-arrow-down"></i><span>{{ t('nav.purchases') }}</span>
         </a>
+        <a href="{{ route('purchase-returns.index') }}" class="hk-sheet__link {{ request()->is('purchase-returns*') ? 'active' : '' }}">
+            <i class="mdi mdi-truck-delivery-outline"></i><span>{{ t('nav.purchase_returns') }}</span>
+        </a>
+        <a href="{{ route('suppliers.index') }}" class="hk-sheet__link {{ request()->is('suppliers*') ? 'active' : '' }}">
+            <i class="mdi mdi-truck-outline"></i><span>{{ t('nav.suppliers') }}</span>
+        </a>
         <a href="{{ route('sales.index') }}" class="hk-sheet__link {{ request()->is('sales*') ? 'active' : '' }}">
             <i class="mdi mdi-cart-outline"></i><span>{{ t('nav.sales') }}</span>
         </a>
         <a href="{{ route('sale-returns.index') }}" class="hk-sheet__link {{ request()->is('sale-returns*') ? 'active' : '' }}">
             <i class="mdi mdi-undo-variant"></i><span>{{ t('nav.sale_returns') }}</span>
         </a>
-        <a href="{{ route('expenses.index') }}" class="hk-sheet__link {{ request()->is('expenses*') ? 'active' : '' }}">
-            <i class="mdi mdi-cash-minus"></i><span>{{ t('nav.expenses') }}</span>
-        </a>
         <a href="{{ route('customers.index') }}" class="hk-sheet__link {{ request()->is('customers*') ? 'active' : '' }}">
             <i class="mdi mdi-account-group-outline"></i><span>{{ t('nav.customers') }}</span>
         </a>
-        <a href="{{ route('suppliers.index') }}" class="hk-sheet__link {{ request()->is('suppliers*') ? 'active' : '' }}">
-            <i class="mdi mdi-truck-outline"></i><span>{{ t('nav.suppliers') }}</span>
+        <a href="{{ route('expenses.index') }}" class="hk-sheet__link {{ request()->is('expenses*') ? 'active' : '' }}">
+            <i class="mdi mdi-cash-minus"></i><span>{{ t('nav.expenses') }}</span>
         </a>
         @if (auth()->user()->isOwner() && auth()->user()->tenant)
             <a href="{{ route('employees.index') }}" class="hk-sheet__link {{ request()->is('employees*') ? 'active' : '' }}">

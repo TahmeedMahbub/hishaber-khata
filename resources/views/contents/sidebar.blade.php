@@ -68,7 +68,8 @@
 
         {{-- More --}}
         @php
-            $moreActive = request()->is('purchases*') || request()->is('customers*')
+            $moreActive = request()->is('purchases*') || request()->is('purchase-returns*')
+                || request()->is('customers*')
                 || request()->is('suppliers*') || request()->is('expenses*')
                 || request()->is('due-payments*')
                 || request()->is('damages*') || request()->is('settings*')
@@ -83,6 +84,11 @@
                 <li class="menu-item {{ request()->is('purchases*') ? 'active' : '' }}">
                     <a href="{{ url('/purchases') }}" class="menu-link">
                         <div>{{ t('nav.purchases') }}</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('purchase-returns*') ? 'active' : '' }}">
+                    <a href="{{ route('purchase-returns.index') }}" class="menu-link">
+                        <div>{{ t('nav.purchase_returns') }}</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('customers*') ? 'active' : '' }}">

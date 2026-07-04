@@ -12,6 +12,7 @@ use App\Domains\Notification\Controllers\NotificationController;
 use App\Domains\Payment\Controllers\DuePaymentController;
 use App\Domains\Product\Controllers\ProductController;
 use App\Domains\Purchase\Controllers\PurchaseController;
+use App\Domains\Purchase\Controllers\PurchaseReturnController;
 use App\Domains\Report\Controllers\ReportController;
 use App\Domains\Sales\Controllers\SaleController;
 use App\Domains\Sales\Controllers\SaleReturnController;
@@ -129,6 +130,11 @@ Route::middleware(['auth', 'verified.owner', 'tenant'])->group(function () {
     Route::get('/sale-returns/{saleReturn}', [SaleReturnController::class, 'show'])->name('sale-returns.show');
     Route::delete('/sale-returns/{saleReturn}', [SaleReturnController::class, 'destroy'])->name('sale-returns.destroy');
     Route::resource('purchases', PurchaseController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+    Route::get('/purchase-returns', [PurchaseReturnController::class, 'index'])->name('purchase-returns.index');
+    Route::get('/purchases/{purchase}/return', [PurchaseReturnController::class, 'create'])->name('purchase-returns.create');
+    Route::post('/purchases/{purchase}/return', [PurchaseReturnController::class, 'store'])->name('purchase-returns.store');
+    Route::get('/purchase-returns/{purchaseReturn}', [PurchaseReturnController::class, 'show'])->name('purchase-returns.show');
+    Route::delete('/purchase-returns/{purchaseReturn}', [PurchaseReturnController::class, 'destroy'])->name('purchase-returns.destroy');
 
     Route::post('/customers/quick', [CustomerController::class, 'quickStore'])->name('customers.quickStore');
     Route::resource('customers', CustomerController::class)->except('show');

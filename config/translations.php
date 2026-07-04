@@ -50,7 +50,8 @@ return [
         'expenses'      => ['bn' => 'খরচ', 'en' => 'Expenses'],
         'damages'       => ['bn' => 'ড্যামেজ / হারানো', 'en' => 'Damage / Loss'],
         'damages_short' => ['bn' => 'ড্যামেজ / লস', 'en' => 'Damage Loss'],
-        'sale_returns'  => ['bn' => 'বিক্রয় রিটার্ন', 'en' => 'Sale Returns'],
+        'sale_returns'     => ['bn' => 'বিক্রয় রিটার্ন', 'en' => 'Sale Returns'],
+        'purchase_returns' => ['bn' => 'ক্রয় রিটার্ন', 'en' => 'Purchase Returns'],
         'employees'     => ['bn' => 'কর্মচারী', 'en' => 'Employees'],
         'settings'      => ['bn' => 'সেটিংস', 'en' => 'Settings'],
         'profile'       => ['bn' => 'প্রোফাইল', 'en' => 'Profile'],
@@ -207,6 +208,8 @@ return [
         'sale_return_deleted' => ['bn' => 'রিটার্ন মুছে ফেলা হয়েছে। স্টক ও বাকি পুনরুদ্ধার করা হয়েছে।', 'en' => 'Return deleted. Stock and due restored.'],
         'purchase_created'   => ['bn' => 'ক্রয় সম্পন্ন হয়েছে।', 'en' => 'Purchase completed.'],
         'purchase_deleted'   => ['bn' => 'ক্রয় মুছে ফেলা হয়েছে।', 'en' => 'Purchase deleted.'],
+        'purchase_return_created' => ['bn' => 'ক্রয় রিটার্ন সফলভাবে সম্পন্ন হয়েছে।', 'en' => 'Purchase return completed.'],
+        'purchase_return_deleted' => ['bn' => 'ক্রয় রিটার্ন মুছে ফেলা হয়েছে। স্টক ও বাকি পুনরুদ্ধার করা হয়েছে।', 'en' => 'Purchase return deleted. Stock and due restored.'],
         'expense_created'    => ['bn' => 'খরচ যোগ করা হয়েছে।', 'en' => 'Expense added.'],
         'expense_updated'    => ['bn' => 'খরচ আপডেট করা হয়েছে।', 'en' => 'Expense updated.'],
         'expense_deleted'    => ['bn' => 'খরচ মুছে ফেলা হয়েছে।', 'en' => 'Expense deleted.'],
@@ -541,6 +544,33 @@ return [
         'grand_total'         => ['bn' => 'সর্বমোট', 'en' => 'Grand Total'],
         'authorized_sign'     => ['bn' => 'কর্তৃপক্ষের স্বাক্ষর', 'en' => 'Authorized Signature'],
         'thanks'              => ['bn' => 'ধন্যবাদ', 'en' => 'Thank you'],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Purchase Return module
+    |--------------------------------------------------------------------------
+    */
+    'purchase_return' => [
+        'title'            => ['bn' => 'ক্রয় রিটার্ন', 'en' => 'Purchase Return'],
+        'new_title'        => ['bn' => 'ক্রয় রিটার্ন করুন', 'en' => 'Create Purchase Return'],
+        'receipt'          => ['bn' => 'রিটার্ন রসিদ', 'en' => 'Return Receipt'],
+        'return_no'        => ['bn' => 'রিটার্ন নং', 'en' => 'Return No'],
+        'original_invoice' => ['bn' => 'মূল ইনভয়েস', 'en' => 'Original Invoice'],
+        'purchased_qty'    => ['bn' => 'ক্রয়কৃত', 'en' => 'Purchased'],
+        'returnable_qty'   => ['bn' => 'রিটার্নযোগ্য', 'en' => 'Returnable'],
+        'return_qty'       => ['bn' => 'রিটার্ন', 'en' => 'Return Qty'],
+        'return_total'     => ['bn' => 'রিটার্ন মোট', 'en' => 'Return Total'],
+        'refunded'         => ['bn' => 'নগদ ফেরত পেয়েছি', 'en' => 'Cash Received'],
+        'adjusted_due'     => ['bn' => 'বাকি থেকে কমানো', 'en' => 'Adjusted from Due'],
+        'reason'           => ['bn' => 'কারণ', 'en' => 'Reason'],
+        'reason_ph'        => ['bn' => 'রিটার্নের কারণ (ঐচ্ছিক)', 'en' => 'Reason for return (optional)'],
+        'return_all'       => ['bn' => 'সবকিছু রিটার্ন', 'en' => 'Return All'],
+        'confirm_btn'      => ['bn' => 'রিটার্ন সম্পন্ন করুন', 'en' => 'Confirm Return'],
+        'delete_confirm'   => ['bn' => 'এই রিটার্ন মুছলে স্টক বাড়বে ও বাকি ফিরে আসবে। নিশ্চিত?', 'en' => 'Deleting this return will reverse stock and due changes. Are you sure?'],
+        'none_yet'         => ['bn' => 'কোনো রিটার্ন হয়নি', 'en' => 'No returns yet'],
+        'returned'         => ['bn' => 'রিটার্ন', 'en' => 'Returned'],
+        'view_return'      => ['bn' => 'রিটার্ন দেখুন', 'en' => 'View Return'],
     ],
 
     /*

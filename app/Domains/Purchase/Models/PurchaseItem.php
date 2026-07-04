@@ -36,4 +36,14 @@ class PurchaseItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function returnedQty(): float
+    {
+        return (float) PurchaseReturnItem::where('purchase_item_id', $this->id)->sum('qty');
+    }
+
+    public function returnableQty(): float
+    {
+        return max(0, (float) $this->qty - $this->returnedQty());
+    }
 }

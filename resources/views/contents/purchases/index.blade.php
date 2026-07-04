@@ -33,7 +33,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="table-responsive text-nowrap">
+                <div class="table-responsive text-nowrap" style="overflow: visible;">
                     <table class="table">
                         <thead>
                             <tr>
@@ -49,7 +49,7 @@
                         </thead>
                         <tbody>
                             @forelse ($purchases as $purchase)
-                                <tr>
+                                <tr style="cursor:pointer" onclick="window.location='{{ route('purchases.show', $purchase) }}'">
                                     <td class="fw-medium">{{ $purchase->invoice_no }}</td>
                                     <td>
                                         {{ $purchase->supplier->name ?? t('purchase.cash_purchase') }}
@@ -68,24 +68,52 @@
                                             <span class="badge bg-label-success">{{ t('purchase.paid_off') }}</span>
                                         @endif
                                     </td>
-                                    <td class="text-end">
-                                        <a href="{{ route('purchases.edit', $purchase) }}"
-                                            class="btn btn-sm btn-icon btn-text-secondary" title="{{ t('common.edit') }}">
-                                            <i class="mdi mdi-pencil-outline"></i>
-                                        </a>
-                                        <a href="{{ route('purchases.show', $purchase) }}"
-                                            class="btn btn-sm btn-icon btn-text-secondary">
-                                            <i class="mdi mdi-eye-outline"></i>
-                                        </a>
-                                        <form method="POST" action="{{ route('purchases.destroy', $purchase) }}"
-                                            class="d-inline"
-                                            data-confirm="{{ t('purchase.delete_confirm_pre') }} <strong>{{ $purchase->invoice_no }}</strong> {{ t('purchase.delete_confirm_post') }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-icon btn-text-danger">
-                                                <i class="mdi mdi-delete-outline"></i>
+                                    <td class="text-end" onclick="event.stopPropagation()">
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-sm btn-icon btn-text-secondary dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                <i class="mdi mdi-dots-vertical mdi-24px"></i>
                                             </button>
-                                        </form>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li>
+                                                    <a href="{{ route('purchases.show', $purchase) }}" class="dropdown-item">
+                                                        <i class="mdi mdi-eye-outline me-2"></i> {{ t('common.view') }}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('purchases.edit', $purchase) }}" class="dropdown-item">
+                                                        <i class="mdi mdi-pencil-outline me-2"></i> {{ t('common.edit') }}
+                                                    </a>
+                                                </li>
+                                                @if ($purchase->status === 'completed')
+                                                    <li>
+                                                        <a href="{{ route('purchase-returns.create', $purchase) }}" class="dropdown-item">
+                                                            <i class="mdi mdi-undo-variant me-2"></i> {{ t('purchase_return.returned') }}
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('purchase-returns.index', ['search' => $purchase->invoice_no]) }}" class="dropdown-item">
+                                                            <i class="mdi mdi-clipboard-text-clock-outline me-2"></i> {{ t('nav.purchase_returns') }}
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                <li>
+                                                    <a href="{{ route('purchases.show', $purchase) }}" class="dropdown-item" onclick="window.open(this.href); return false;">
+                                                        <i class="mdi mdi-printer-outline me-2"></i> {{ t('common.print') }}
+                                                    </a>
+                                                </li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li>
+                                                    <form method="POST" action="{{ route('purchases.destroy', $purchase) }}"
+                                                        onsubmit="return confirm('{{ t('purchase.delete_confirm_pre') }} {{ $purchase->invoice_no }} {{ t('purchase.delete_confirm_post') }}')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item text-danger">
+                                                            <i class="mdi mdi-delete-outline me-2"></i> {{ t('common.delete') }}
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
