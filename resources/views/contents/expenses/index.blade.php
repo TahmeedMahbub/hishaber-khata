@@ -46,12 +46,12 @@
                         </thead>
                         <tbody>
                             @forelse ($expenses as $expense)
-                                <tr>
+                                <tr style="cursor:pointer" onclick="window.location='{{ route('expenses.edit', $expense) }}'">
                                     <td class="fw-medium">{{ $expense->title }}</td>
                                     <td>{{ $expense->expense_date?->format('d/m/Y') }}</td>
                                     <td>{{ $expense->note ?? '—' }}</td>
                                     <td class="text-end">৳ {{ number_format($expense->amount, 2) }}</td>
-                                    <td class="text-end">
+                                    <td class="text-end" onclick="event.stopPropagation()">
                                         <a href="{{ route('expenses.edit', $expense) }}"
                                             class="btn btn-sm btn-icon btn-text-secondary">
                                             <i class="mdi mdi-pencil-outline"></i>

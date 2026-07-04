@@ -93,7 +93,7 @@
                         </thead>
                         <tbody>
                             @forelse ($products as $product)
-                                <tr>
+                                <tr style="cursor:pointer" onclick="window.location='{{ route('products.edit', $product) }}'">
                                     <td class="fw-medium">
                                         {{ $product->name }}
                                         @if ($product->barcode)
@@ -116,7 +116,7 @@
                                             <span class="badge bg-label-secondary">{{ t('common.inactive') }}</span>
                                         @endif
                                     </td>
-                                    <td class="text-end">
+                                    <td class="text-end" onclick="event.stopPropagation()">
                                         <a href="{{ route('products.edit', $product) }}"
                                             class="btn btn-sm btn-icon btn-text-secondary">
                                             <i class="mdi mdi-pencil-outline"></i>

@@ -138,7 +138,7 @@
                         </thead>
                         <tbody>
                             @forelse ($rows as $row)
-                                <tr>
+                                <tr style="cursor:pointer" onclick="window.location='{{ route('due-payments.create', ['party_type' => $row->party_type, 'party_id' => $row->id]) }}'">
                                     <td class="fw-medium">{{ $row->name }}</td>
                                     <td>{{ $row->phone ?: '—' }}</td>
                                     <td>
@@ -149,7 +149,7 @@
                                         @endif
                                     </td>
                                     <td class="text-end fw-medium text-danger">৳ {{ number_format($row->due, 2) }}</td>
-                                    <td class="text-end">
+                                    <td class="text-end" onclick="event.stopPropagation()">
                                         <a href="{{ route('due-payments.create', ['party_type' => $row->party_type, 'party_id' => $row->id]) }}"
                                             class="btn btn-sm btn-primary">
                                             <i class="mdi mdi-cash"></i>

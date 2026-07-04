@@ -47,7 +47,7 @@
                         </thead>
                         <tbody>
                             @forelse ($customers as $customer)
-                                <tr>
+                                <tr style="cursor:pointer" onclick="window.location='{{ route('customers.edit', $customer) }}'">
                                     <td class="fw-medium">{{ $customer->name }}</td>
                                     <td>{{ $customer->phone ?? '—' }}</td>
                                     <td class="text-end">{{ $customer->sales_count }}</td>
@@ -59,7 +59,7 @@
                                             <span class="text-muted">৳ 0.00</span>
                                         @endif
                                     </td>
-                                    <td class="text-end">
+                                    <td class="text-end" onclick="event.stopPropagation()">
                                         <a href="{{ route('customers.edit', $customer) }}"
                                             class="btn btn-sm btn-icon btn-text-secondary">
                                             <i class="mdi mdi-pencil-outline"></i>

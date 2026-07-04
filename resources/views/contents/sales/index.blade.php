@@ -33,7 +33,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="table-responsive text-nowrap">
+                <div class="table-responsive text-nowrap" style="overflow: visible;">
                     <table class="table">
                         <thead>
                             <tr>
@@ -49,7 +49,7 @@
                         </thead>
                         <tbody>
                             @forelse ($sales as $sale)
-                                <tr>
+                                <tr style="cursor:pointer" onclick="window.location='{{ route('sales.show', $sale) }}'">
                                     <td class="fw-medium">{{ $sale->invoice_no }}</td>
                                     <td>{{ $sale->customer->name ?? t('sale.walkin_short') }}</td>
                                     <td>{{ $sale->sale_date->format('d M Y') }}</td>
@@ -63,7 +63,7 @@
                                             <span class="badge bg-label-success">{{ t('sale.paid_off') }}</span>
                                         @endif
                                     </td>
-                                    <td class="text-end">
+                                    <td class="text-end" onclick="event.stopPropagation()">
                                         <div class="dropdown">
                                             <button type="button" class="btn btn-sm btn-icon btn-text-secondary dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                 <i class="mdi mdi-dots-vertical mdi-24px"></i>

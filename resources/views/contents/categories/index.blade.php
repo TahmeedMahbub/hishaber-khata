@@ -40,7 +40,7 @@
                         </thead>
                         <tbody>
                             @forelse ($categories as $category)
-                                <tr>
+                                <tr style="cursor:pointer" onclick="window.location='{{ route('categories.edit', $category) }}'">
                                     <td class="fw-medium">{{ $category->name }}</td>
                                     <td>
                                         @if ($category->status === 'active')
@@ -49,7 +49,7 @@
                                             <span class="badge bg-label-secondary">{{ t('common.inactive') }}</span>
                                         @endif
                                     </td>
-                                    <td class="text-end">
+                                    <td class="text-end" onclick="event.stopPropagation()">
                                         <a href="{{ route('categories.edit', $category) }}"
                                             class="btn btn-sm btn-icon btn-text-secondary">
                                             <i class="mdi mdi-pencil-outline"></i>
