@@ -26,7 +26,12 @@
                     <div class="card-body">
                         {{-- Product search --}}
                         <div class="mb-3 position-relative">
-                            <label class="form-label">{{ t('sale.search_product') }}</label>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label mb-0">{{ t('sale.search_product') }}</label>
+                                <button type="button" class="btn btn-sm btn-outline-danger d-none py-1 px-1" id="clearCartBtn">
+                                    <i class="mdi mdi-delete-sweep me-1"></i> {{ t('sale.clear_cart') ?? 'Clear Cart' }}
+                                </button>
+                            </div>
                             <div class="input-group">
                                 <input type="text" id="productSearch" class="form-control" autocomplete="off"
                                     placeholder="{{ t('sale.search_product_ph') }}">
@@ -130,9 +135,16 @@
                             <input type="text" name="note" class="form-control form-control-sm" placeholder="{{ t('sale.note_ph') }}">
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100" id="saveBtn" disabled>
-                            <i class="mdi mdi-check me-1"></i> {{ t('sale.complete') }}
-                        </button>
+                        <input type="hidden" name="_add_another" id="_add_another" value="0">
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary flex-grow-1 px-2" id="saveBtn" disabled>
+                                <i class="mdi mdi-check me-1"></i> {{ t('sale.complete') }}
+                            </button>
+                            <button type="submit" class="btn btn-outline-primary flex-shrink-0 px-2" id="saveNewBtn" disabled
+                                onclick="document.getElementById('_add_another').value='1'">
+                                <i class="mdi mdi-plus me-1"></i> {{ t('common.save_and_add_another') ?? 'Save & New' }}
+                            </button>
+                        </div>
                     </hr>
                 </div>
             </div>
@@ -209,6 +221,27 @@
     var cartEmpty = document.getElementById('cartEmpty');
     var searchInput = document.getElementById('productSearch');
     var resultsBox = document.getElementById('productResults');
+    var clearCartBtn = document.getElementById('clearCartBtn');
+
+    function saveCart() {
+        localStorage.setItem('pos_cart', JSON.stringify(cart));
+    }
+
+    function loadCart() {
+        try {
+            var saved = localStorage.getItem('pos_cart');
+            if (saved) {
+                var parsed = JSON.parse(saved);
+                // Validate that saved products still exist
+                var productIds = PRODUCTS.map(function (p) { return String(p.id); });
+                Object.keys(parsed).forEach(function (id) {
+                    if (productIds.indexOf(id) !== -1 && parsed[id].qty > 0) {
+                        cart[id] = parsed[id];
+                    }
+                });
+            }
+        } catch (e) {}
+    }
 
     function fmt(n) { return (Math.round(n * 100) / 100).toFixed(2); }
 
@@ -223,6 +256,8 @@
         cartBody.querySelectorAll('.item-row').forEach(function (r) { r.remove(); });
         var ids = Object.keys(cart);
         cartEmpty.style.display = ids.length ? 'none' : '';
+        clearCartBtn.classList.toggle('d-none', !ids.length);
+        saveCart();
 
         ids.forEach(function (id) {
             var it = cart[id];
@@ -280,6 +315,7 @@
         document.getElementById('changeText').textContent = fmt(change);
         document.getElementById('dueText').textContent = fmt(due);
         document.getElementById('saveBtn').disabled = Object.keys(cart).length === 0;
+        document.getElementById('saveNewBtn').disabled = Object.keys(cart).length === 0;
     }
 
     function hideResults() { resultsBox.style.display = 'none'; resultsBox.innerHTML = ''; activeIndex = -1; }
@@ -400,6 +436,7 @@
             var line = (parseFloat(e.target.value) || 0) * cart[id].price;
             var cell = e.target.closest('.item-row').querySelector('.line-total');
             if (cell) { cell.textContent = '৳ ' + fmt(line); }
+            saveCart();
             recalc();
         }
     });
@@ -514,6 +551,21 @@
             errBox.classList.remove('d-none');
         });
     });
+
+    // Clear cart button
+    clearCartBtn.addEventListener('click', function () {
+        cart = {};
+        render();
+    });
+
+    // Clear localStorage on form submit (successful sale)
+    document.getElementById('posForm').addEventListener('submit', function () {
+        localStorage.removeItem('pos_cart');
+    });
+
+    // Load cart from localStorage on page load
+    loadCart();
+    if (Object.keys(cart).length) { render(); }
 
     // Barcode scanner -> finds product by barcode and adds (like scan + enter)
     initBarcodeScanner(

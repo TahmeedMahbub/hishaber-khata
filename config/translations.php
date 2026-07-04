@@ -82,7 +82,7 @@ return [
     */
     'common' => [
         'save'                => ['bn' => 'সংরক্ষণ', 'en' => 'Save'],
-        'save_and_add_another' => ['bn' => 'সংরক্ষণ ও নতুন', 'en' => 'Save & Add Another'],
+        'save_and_add_another' => ['bn' => 'সংরক্ষণ ও নতুন', 'en' => 'Save & Add New'],
         'update'          => ['bn' => 'আপডেট করুন', 'en' => 'Update'],
         'create'          => ['bn' => 'তৈরি করুন', 'en' => 'Create'],
         'add'             => ['bn' => 'যোগ করুন', 'en' => 'Add'],
@@ -458,12 +458,13 @@ return [
         'change_due'          => ['bn' => 'ফেরতযোগ্য টাকা', 'en' => 'Change Due'],
         'toggle_discount_due' => ['bn' => 'ছাড় / বাকি রাখুন', 'en' => 'Add Discount / Due'],
         'note_ph'             => ['bn' => 'নোট (ঐচ্ছিক)', 'en' => 'Note (optional)'],
-        'complete'            => ['bn' => 'বিক্রয় সম্পন্ন করুন', 'en' => 'Complete Sale'],
+        'complete'            => ['bn' => 'সম্পন্ন করুন', 'en' => 'Complete'],
         'save'                => ['bn' => 'সংরক্ষণ', 'en' => 'Save'],
         'no_product_found'    => ['bn' => 'কোনো পণ্য পাওয়া যায়নি', 'en' => 'No product found'],
         'prev_due_label'      => ['bn' => 'পূর্ববর্তী বকেয়াঃ', 'en' => 'Previous due:'],
         'customer_add_failed' => ['bn' => 'কাস্টমার যোগ করা যায়নি।', 'en' => 'Could not add customer.'],
         'server_error'        => ['bn' => 'সার্ভার ত্রুটি। আবার চেষ্টা করুন।', 'en' => 'Server error. Please try again.'],
+        'clear_cart'          => ['bn' => 'কার্ট খালি করুন', 'en' => 'Clear Cart'],
     ],
 
     /*

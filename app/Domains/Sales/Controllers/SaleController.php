@@ -43,6 +43,11 @@ class SaleController extends Controller
     {
         $sale = $this->service->create($request->validated());
 
+        if ($request->input('_add_another')) {
+            return redirect()->route('sales.create')
+                ->with('success', t('msg.sale_created'));
+        }
+
         return redirect()->route('sales.show', $sale)
             ->with('success', t('msg.sale_created'));
     }
