@@ -52,27 +52,33 @@
     <div class="col-md-6">
         <label for="purchase_price" class="form-label">{{ t('product.purchase_price_label') }}</label>
         <input type="number" step="0.01" min="0" id="purchase_price" name="purchase_price"
-            class="form-control" value="{{ $val('purchase_price', '0') }}" required>
+            class="form-control numeric-focus" value="{{ $val('purchase_price', '') }}" placeholder="0" required>
     </div>
 
     <div class="col-md-6">
         <label for="sale_price" class="form-label">{{ t('product.sale_price_label') }}</label>
         <input type="number" step="0.01" min="0" id="sale_price" name="sale_price"
-            class="form-control" value="{{ $val('sale_price', '0') }}" required>
+            class="form-control numeric-focus" value="{{ $val('sale_price', '') }}" placeholder="0" required>
     </div>
 
     <div class="col-md-6">
         <label for="stock_qty" class="form-label">{{ t('product.current_stock') }}</label>
         <input type="number" step="0.01" min="0" id="stock_qty" name="stock_qty"
-            class="form-control" value="{{ $val('stock_qty', '0') }}" required>
+            class="form-control numeric-focus" value="{{ $val('stock_qty', '') }}" placeholder="0" required>
     </div>
 
     <div class="col-md-6">
         <label for="low_stock_alert" class="form-label">{{ t('product.low_stock_alert') }}</label>
         <input type="number" step="0.01" min="0" id="low_stock_alert" name="low_stock_alert"
-            class="form-control" value="{{ $val('low_stock_alert', '0') }}">
+            class="form-control numeric-focus" value="{{ $val('low_stock_alert', '') }}" placeholder="0">
     </div>
 </div>
+
+<script>
+document.querySelectorAll('.numeric-focus').forEach(function(el) {
+    el.addEventListener('focus', function() { this.select(); });
+});
+</script>
 
 {{-- Add category modal --}}
 <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-hidden="true">
