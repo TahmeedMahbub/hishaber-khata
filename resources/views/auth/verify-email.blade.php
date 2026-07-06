@@ -4,9 +4,6 @@
 
 @section('auth-content')
     <div class="text-center mb-3">
-        <span class="badge bg-label-primary rounded-circle p-3 mb-3">
-            <i class="mdi mdi-email-check-outline" style="font-size: 2rem; line-height: 1;"></i>
-        </span>
         <h4 class="mb-1">{{ t('authpage.verify_heading') }}</h4>
         <p class="mb-0 text-muted">{{ t('authpage.verify_subtitle') }}</p>
     </div>
@@ -22,19 +19,46 @@
         </div>
     @endif
 
-    <p class="text-muted small text-center mb-4">{{ t('authpage.verify_spam_note') }}</p>
-
-    <form method="POST" action="{{ route('verification.send') }}">
+    {{-- 4-digit verification code entry --}}
+    <form method="POST" action="{{ route('verification.code') }}" class="mb-3">
         @csrf
-        <button type="submit" class="btn btn-primary d-grid w-100 mb-3">
-            <span><i class="mdi mdi-email-sync-outline me-1"></i>{{ t('authpage.verify_resend_btn') }}</span>
+        <div class="mb-3">
+            <label for="code" class="form-label">{{ t('authpage.verify_code_label') }}</label>
+            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4"
+                   class="form-control form-control-lg text-center fw-bold @error('code') is-invalid @enderror"
+                   id="code" name="code" value="{{ old('code') }}"
+                   placeholder="••••" autocomplete="one-time-code" autofocus
+                   style="letter-spacing: .6rem; font-size: 1.6rem;">
+            @error('code')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+            <small class="text-muted d-block mt-1">{{ t('authpage.verify_code_hint') }}</small>
+        </div>
+        <button type="submit" class="btn btn-primary d-grid w-100">
+            <span><i class="mdi mdi-shield-check-outline me-1"></i>{{ t('authpage.verify_code_btn') }}</span>
         </button>
     </form>
 
-    <form method="POST" action="{{ route('logout') }}" class="text-center">
-        @csrf
-        <button type="submit" class="btn btn-link p-0">{{ t('authpage.verify_logout') }}</button>
-    </form>
+    <p class="text-muted small text-center mb-4">{{ t('authpage.verify_spam_note') }}</p>
+
+    <div class="row g-2">
+        <div class="col-7">
+            <form method="POST" action="{{ route('verification.send') }}">
+                @csrf
+                <button type="submit" class="btn btn-outline-primary d-grid w-100 p-2">
+                    <span><i class="mdi mdi-email-sync-outline me-1"></i>{{ t('authpage.verify_resend_btn') }}</span>
+                </button>
+            </form>
+        </div>
+        <div class="col-5">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="btn btn-outline-secondary d-grid w-100">
+                    <span><i class="mdi mdi-logout me-1"></i>{{ t('authpage.verify_logout') }}</span>
+                </button>
+            </form>
+        </div>
+    </div>
 @endsection
 
 
