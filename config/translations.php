@@ -837,7 +837,7 @@ return [
         'login_link'            => ['bn' => 'লগইন করুন', 'en' => 'Log In'],
         'verify_title'          => ['bn' => 'ইমেইল যাচাই', 'en' => 'Verify Email'],
         'verify_heading'        => ['bn' => 'আপনার ইমেইল যাচাই করুন', 'en' => 'Verify Your Email'],
-        'verify_subtitle'       => ['bn' => 'আমরা আপনার ইমেইলে একটি ৪-সংখ্যার কোড পাঠিয়েছি। অ্যাকাউন্ট সক্রিয় করতে কোডটি লিখুন।', 'en' => 'We have sent a 4-digit code to your email. Enter it to activate your account.'],
+        'verify_subtitle'       => ['bn' => 'আপনার ইমেইলে একটি ৪-সংখ্যার কোড পাঠানো হয়েছে। অ্যাকাউন্ট সক্রিয় করতে কোডটি লিখুন।', 'en' => 'We have sent a 4-digit code to your email. Enter it to activate your account.'],
         'verify_spam_note'      => ['bn' => 'ইমেইল না পেলে অনুগ্রহ করে স্প্যাম ফোল্ডার দেখুন।', 'en' => "Didn't get the email? Please check your spam folder."],
         'verify_resend_btn'     => ['bn' => 'আবার কোড পাঠান', 'en' => 'Resend Code'],
         'verify_resent'         => ['bn' => 'একটি নতুন যাচাইকরণ কোড আপনার ইমেইলে পাঠানো হয়েছে।', 'en' => 'A new verification code has been sent to your email.'],
