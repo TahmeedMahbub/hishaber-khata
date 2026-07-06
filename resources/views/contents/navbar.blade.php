@@ -20,7 +20,7 @@
             {{-- POS quick access (desktop only — mobile uses the bottom nav) --}}
             @unless (request()->routeIs('sales.create'))
             <li class="nav-item me-3 d-none d-lg-block">
-                <a href="{{ route('sales.create') }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('sales.create') }}" class="btn btn-sm fw-bold hk-sell-btn">
                     <i class="mdi mdi-cash-register me-1"></i> {{ t('nav.sell') }}
                 </a>
             </li>

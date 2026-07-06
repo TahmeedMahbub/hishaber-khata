@@ -66,19 +66,12 @@
             </ul>
         </li>
 
-        {{-- More --}}
-        @php
-            $moreActive = request()->is('purchases*') || request()->is('purchase-returns*')
-                || request()->is('customers*')
-                || request()->is('suppliers*') || request()->is('expenses*')
-                || request()->is('due-payments*')
-                || request()->is('damages*') || request()->is('settings*')
-                || request()->is('feedback*') || request()->is('profile*');
-        @endphp
-        <li class="menu-item {{ $moreActive ? 'active open' : '' }}">
+        {{-- Purchases --}}
+        @php $purchasesActive = request()->is('purchases*') || request()->is('purchase-returns*'); @endphp
+        <li class="menu-item {{ $purchasesActive ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons mdi mdi-dots-horizontal"></i>
-                <div>{{ t('nav.more') }}</div>
+                <i class="menu-icon tf-icons mdi mdi-cart-outline"></i>
+                <div>{{ t('nav.purchases') }}</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->is('purchases*') ? 'active' : '' }}">
@@ -91,6 +84,23 @@
                         <div>{{ t('nav.purchase_returns') }}</div>
                     </a>
                 </li>
+            </ul>
+        </li>
+
+        {{-- More --}}
+        @php
+            $moreActive = request()->is('customers*')
+                || request()->is('suppliers*') || request()->is('expenses*')
+                || request()->is('due-payments*')
+                || request()->is('damages*') || request()->is('settings*')
+                || request()->is('feedback*') || request()->is('profile*');
+        @endphp
+        <li class="menu-item {{ $moreActive ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons mdi mdi-dots-horizontal"></i>
+                <div>{{ t('nav.more') }}</div>
+            </a>
+            <ul class="menu-sub">
                 <li class="menu-item {{ request()->is('customers*') ? 'active' : '' }}">
                     <a href="{{ url('/customers') }}" class="menu-link">
                         <div>{{ t('nav.customers') }}</div>
