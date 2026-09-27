@@ -24,6 +24,7 @@ class RegisterBusinessRequest extends FormRequest
             'email'         => ['required', 'email', 'max:150', 'unique:users,email'],
             'password'      => ['required', 'string', 'min:6'],
             'business_type' => ['required', 'string', Rule::in(array_keys(config('business_types.types')))],
+            'source'        => ['nullable', 'string', 'max:50'],
         ];
     }
 

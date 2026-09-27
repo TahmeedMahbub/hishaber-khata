@@ -71,13 +71,15 @@ CREATE TABLE IF NOT EXISTS `tenants` (
     `phone`         VARCHAR(20)  NOT NULL,
     `email`         VARCHAR(150) NULL,
     `business_type` ENUM('grocery','pharmacy','cosmetics','stationery','mobile_accessories','wholesale','other') NOT NULL DEFAULT 'other',
+    `source`        VARCHAR(50) NULL,
     `status`        ENUM('active','suspended','pending') NOT NULL DEFAULT 'active',
     `created_at`    TIMESTAMP    NULL DEFAULT NULL,
     `updated_at`    TIMESTAMP    NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `tenants_public_id_unique` (`public_id`),
     UNIQUE KEY `tenants_phone_unique` (`phone`),
-    KEY `tenants_status_index` (`status`)
+    KEY `tenants_status_index` (`status`),
+    KEY `tenants_source_index` (`source`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =====================================================================

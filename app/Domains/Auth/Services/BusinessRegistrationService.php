@@ -20,7 +20,7 @@ class BusinessRegistrationService extends BaseService
     /**
      * Register a new business and return the created owner user.
      *
-     * @param  array{business_name:string,owner_name:string,phone:string,email:?string,password:string,business_type:string}  $data
+     * @param  array{business_name:string,owner_name:string,phone:string,email:?string,password:string,business_type:string,source:?string}  $data
      */
     public function register(array $data): User
     {
@@ -42,6 +42,7 @@ class BusinessRegistrationService extends BaseService
             'phone'         => $data['phone'],
             'email'         => $data['email'] ?? null,
             'business_type' => $data['business_type'],
+            'source'        => $data['source'] ?? null,
             'status'        => 'active',
         ]);
     }

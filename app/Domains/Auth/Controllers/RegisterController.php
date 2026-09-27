@@ -6,6 +6,7 @@ use App\Domains\Auth\Requests\RegisterBusinessRequest;
 use App\Domains\Auth\Services\AuthService;
 use App\Domains\Auth\Services\BusinessRegistrationService;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\CaptureSource;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -33,7 +34,12 @@ class RegisterController extends Controller
      */
     public function store(RegisterBusinessRequest $request): RedirectResponse
     {
-        $user = $this->registration->register($request->validated());
+        $validated = $request->validated();
+
+        // Attach captured source from session/middleware
+        $validated['source'] = CaptureSource::pullSource($request);
+
+        $user = $this->registration->register($validated);
 
         // Dispatch the Registered event so the owner receives a Brevo
         // verification email (handled by SendEmailVerificationNotification).

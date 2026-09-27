@@ -17,6 +17,7 @@ class Tenant extends Model
         'phone',
         'email',
         'business_type',
+        'source',
         'status',
     ];
 
