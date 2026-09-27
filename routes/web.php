@@ -32,19 +32,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('capture.source')->group(function () {
-    Route::get('/', function () {
-        return view('landing', [
-            'seo' => LandingSeo::make(request(), 'bn'),
-        ]);
-    })->name('home');
+Route::get('/', function () {
+    return view('landing', [
+        'seo' => LandingSeo::make(request(), 'bn'),
+    ]);
+})->name('home');
 
-    Route::get('/{locale}', function (string $locale) {
-        return view('landing', [
-            'seo' => LandingSeo::make(request(), $locale),
-        ]);
-    })->whereIn('locale', ['bn', 'en'])->name('landing.locale');
-});
+Route::get('/{locale}', function (string $locale) {
+    return view('landing', [
+        'seo' => LandingSeo::make(request(), $locale),
+    ]);
+})->whereIn('locale', ['bn', 'en'])->name('landing.locale');
 
 Route::get('/sitemap.xml', function () {
     return response()
@@ -58,7 +56,7 @@ Route::post('/feedback', [FeedbackController::class, 'storePublic'])->name('feed
 /*
 | Guest routes: business registration & login
 */
-Route::middleware(['guest', 'capture.source'])->group(function () {
+Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
     Route::post('/register', [RegisterController::class, 'store']);
 
