@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'verified.owner' => \App\Http\Middleware\EnsureOwnerEmailIsVerified::class,
         'tenant' => \App\Http\Middleware\TenantMiddleware::class,
+        'attribution' => \App\Http\Middleware\CaptureAttribution::class,
     ];
 }

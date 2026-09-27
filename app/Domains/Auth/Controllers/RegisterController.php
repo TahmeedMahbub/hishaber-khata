@@ -6,6 +6,7 @@ use App\Domains\Auth\Requests\RegisterBusinessRequest;
 use App\Domains\Auth\Services\AuthService;
 use App\Domains\Auth\Services\BusinessRegistrationService;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\CaptureAttribution;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -40,6 +41,9 @@ class RegisterController extends Controller
         event(new Registered($user));
 
         $this->auth->login($user);
+
+        // Attach marketing attribution batch to the new user
+        CaptureAttribution::attachUser($request, $user->id);
 
         $request->session()->regenerate();
 

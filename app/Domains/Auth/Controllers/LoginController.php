@@ -5,6 +5,7 @@ namespace App\Domains\Auth\Controllers;
 use App\Domains\Auth\Requests\LoginRequest;
 use App\Domains\Auth\Services\AuthService;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\CaptureAttribution;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -43,6 +44,10 @@ class LoginController extends Controller
                 ->with('show_register_prompt', true)
                 ->withErrors(['phone' => t('msg.no_account')]);
         }
+
+        // Attach marketing attribution batch to the authenticated user
+        $user = $request->user();
+        CaptureAttribution::attachUser($request, $user->id);
 
         $request->session()->regenerate();
 
