@@ -96,7 +96,8 @@ class CaptureAttribution
     /**
      * Extract all tracking parameters from the request.
      * Captures ALL query parameters dynamically (except excluded),
-     * plus landing_page, referrer, and ip as special keys.
+     * plus landing_page and referrer as special keys.
+     * IP is stored in the dedicated `ip` column, not as a key.
      */
     protected function extractTrackingParams(Request $request): array
     {
@@ -124,11 +125,8 @@ class CaptureAttribution
             $params['referrer'] = $referrer;
         }
 
-        // Add IP address
-        $ip = $request->ip();
-        if ($ip) {
-            $params['ip'] = $ip;
-        }
+        // IP is stored in the dedicated `ip` column, not as a key-value row
+        // $params['ip'] = $request->ip(); // Skip - stored in `ip` column
 
         return $params;
     }
