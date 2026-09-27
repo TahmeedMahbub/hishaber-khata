@@ -45,8 +45,11 @@ class LoginController extends Controller
                 ->withErrors(['phone' => t('msg.no_account')]);
         }
 
-        // Attach marketing attribution batch to the authenticated user
+        // Update last_ip on successful login
         $user = $request->user();
+        $user->forceFill(['last_ip' => $request->ip()])->save();
+
+        // Attach marketing attribution batch to the authenticated user
         CaptureAttribution::attachUser($request, $user->id);
 
         $request->session()->regenerate();

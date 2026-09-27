@@ -137,6 +137,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `status`            ENUM('active','inactive') NOT NULL DEFAULT 'active',
     `language`          ENUM('bn','en') NOT NULL DEFAULT 'bn',
     `remember_token`    VARCHAR(100) NULL,
+    `last_ip`           VARCHAR(45) NULL,
     `created_at`        TIMESTAMP NULL DEFAULT NULL,
     `updated_at`        TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),

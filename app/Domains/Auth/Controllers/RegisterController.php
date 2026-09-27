@@ -36,6 +36,9 @@ class RegisterController extends Controller
     {
         $user = $this->registration->register($request->validated());
 
+        // Store the registration IP
+        $user->forceFill(['last_ip' => $request->ip()])->save();
+
         // Dispatch the Registered event so the owner receives a Brevo
         // verification email (handled by SendEmailVerificationNotification).
         event(new Registered($user));
