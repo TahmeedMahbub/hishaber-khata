@@ -14,6 +14,12 @@ class ExpenseController extends Controller
 {
     public function __construct(protected ExpenseService $service)
     {
+        $this->middleware(function ($request, $next) {
+            app(\App\Domains\Tenant\Services\SubscriptionService::class)
+                ->checkFeatureOrFail('expense_tracking', null, 'খরচ ট্র্যাকিং');
+
+            return $next($request);
+        });
     }
 
     public function index(Request $request): View

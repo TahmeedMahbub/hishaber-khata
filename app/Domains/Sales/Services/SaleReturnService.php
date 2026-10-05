@@ -9,8 +9,15 @@ use App\Domains\Sales\Models\Sale;
 use App\Domains\Sales\Models\SaleReturn;
 use App\Domains\Sales\Models\SaleReturnItem;
 
+use App\Domains\Tenant\Services\TenantSequenceService;
+
 class SaleReturnService extends BaseService
 {
+    public function __construct(
+        protected TenantSequenceService $sequences,
+    ) {
+    }
+
     /**
      * Create a sale return: restore stock, adjust customer due, record refund.
      *
@@ -63,20 +70,20 @@ class SaleReturnService extends BaseService
             $adjustedDue = $sale->customer_id ? min($total, $remainingDue) : 0;
             $refunded = round($total - $adjustedDue, 2);
 
+            $tenantId = (int) ($sale->tenant_id ?? app(\App\Domains\Tenant\Services\TenantManager::class)->getTenantId());
+            $returnNo = $this->sequences->generateFormattedNumber($tenantId, 'sale_return', 'RET-');
+
             $return = SaleReturn::create([
                 'branch_id'    => $sale->branch_id,
                 'sale_id'      => $sale->id,
                 'customer_id'  => $sale->customer_id,
                 'user_id'      => auth()->id(),
+                'return_no'    => $returnNo,
                 'total'        => $total,
                 'refunded'     => $refunded,
                 'adjusted_due' => $adjustedDue,
                 'reason'       => $data['reason'] ?? null,
                 'return_date'  => now()->toDateString(),
-            ]);
-
-            $return->update([
-                'return_no' => 'RET-' . str_pad((string) $return->id, 5, '0', STR_PAD_LEFT),
             ]);
 
             // Create return items and restore stock

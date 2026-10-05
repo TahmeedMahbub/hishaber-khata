@@ -17,6 +17,12 @@ class CustomerController extends Controller
 {
     public function __construct(protected CustomerService $service)
     {
+        $this->middleware(function ($request, $next) {
+            app(\App\Domains\Tenant\Services\SubscriptionService::class)
+                ->checkFeatureOrFail('customer_management', null, 'কাস্টমার ম্যানেজমেন্ট');
+
+            return $next($request);
+        });
     }
 
     public function index(Request $request): View

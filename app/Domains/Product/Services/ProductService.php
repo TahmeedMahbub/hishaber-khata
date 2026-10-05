@@ -7,10 +7,14 @@ use App\Domains\Product\Models\Product;
 use App\Domains\Product\Repositories\ProductRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
+use App\Domains\Tenant\Services\SubscriptionService;
+
 class ProductService extends BaseService
 {
-    public function __construct(protected ProductRepository $products)
-    {
+    public function __construct(
+        protected ProductRepository $products,
+        protected SubscriptionService $subscriptions,
+    ) {
     }
 
     public function paginate(?string $search = null, ?int $categoryId = null): LengthAwarePaginator
@@ -25,6 +29,8 @@ class ProductService extends BaseService
 
     public function create(array $data): Product
     {
+        $this->subscriptions->checkProductLimitOrFail();
+
         return $this->products->create($this->prepare($data));
     }
 

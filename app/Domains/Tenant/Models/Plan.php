@@ -14,6 +14,9 @@ class Plan extends Model
         'name',
         'slug',
         'price',
+        'product_limit',
+        'monthly_sales_limit',
+        'monthly_purchase_limit',
         'branch_limit',
         'employee_limit',
         'features_json',
@@ -21,11 +24,14 @@ class Plan extends Model
     ];
 
     protected $casts = [
-        'price' => 'decimal:2',
-        'branch_limit' => 'integer',
-        'employee_limit' => 'integer',
-        'features_json' => 'array',
-        'is_active' => 'boolean',
+        'price'                  => 'decimal:2',
+        'product_limit'          => 'integer',
+        'monthly_sales_limit'    => 'integer',
+        'monthly_purchase_limit' => 'integer',
+        'branch_limit'           => 'integer',
+        'employee_limit'         => 'integer',
+        'features_json'          => 'array',
+        'is_active'              => 'boolean',
     ];
 
     public function subscriptions(): HasMany

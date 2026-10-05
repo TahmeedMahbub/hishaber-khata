@@ -7,12 +7,17 @@ use App\Domains\Product\Models\Product;
 use App\Domains\Purchase\Models\Purchase;
 use App\Domains\Purchase\Repositories\PurchaseRepository;
 use App\Domains\Supplier\Models\Supplier;
+use App\Domains\Tenant\Services\SubscriptionService;
+use App\Domains\Tenant\Services\TenantSequenceService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class PurchaseService extends BaseService
 {
-    public function __construct(protected PurchaseRepository $purchases)
-    {
+    public function __construct(
+        protected PurchaseRepository $purchases,
+        protected TenantSequenceService $sequences,
+        protected SubscriptionService $subscriptions,
+    ) {
     }
 
     public function paginate(?string $search = null): LengthAwarePaginator
@@ -32,6 +37,8 @@ class PurchaseService extends BaseService
      */
     public function create(array $data): Purchase
     {
+        $this->subscriptions->checkPurchaseLimitOrFail();
+
         return $this->transaction(function () use ($data) {
             $user = auth()->user();
 
@@ -56,10 +63,16 @@ class PurchaseService extends BaseService
             $paid = isset($data['paid']) ? round((float) $data['paid'], 2) : $total;
             $due = max(0, round($total - $paid, 2));
 
+            $tenantId = (int) ($user->tenant_id ?? app(\App\Domains\Tenant\Services\TenantManager::class)->getTenantId());
+            $invoiceNo = ! empty($data['invoice_no'])
+                ? $data['invoice_no']
+                : $this->sequences->generateFormattedNumber($tenantId, 'purchase', 'PUR-');
+
             $purchase = Purchase::create([
                 'branch_id'     => $user->branch_id ?? null,
                 'supplier_id'   => $data['supplier_id'] ?? null,
                 'user_id'       => $data['user_id'] ?? $user->id ?? null,
+                'invoice_no'    => $invoiceNo,
                 'status'        => 'completed',
                 'total'         => $total,
                 'paid'          => $paid,
@@ -67,8 +80,6 @@ class PurchaseService extends BaseService
                 'purchase_date' => $data['purchase_date'] ?? now()->toDateString(),
                 'note'          => $data['note'] ?? null,
             ]);
-
-            $purchase->update(['invoice_no' => 'PUR-' . str_pad((string) $purchase->id, 5, '0', STR_PAD_LEFT)]);
 
             foreach ($lines as $line) {
                 $purchase->items()->create([

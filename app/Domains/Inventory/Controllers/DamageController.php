@@ -15,6 +15,12 @@ class DamageController extends Controller
 {
     public function __construct(protected DamageService $service)
     {
+        $this->middleware(function ($request, $next) {
+            app(\App\Domains\Tenant\Services\SubscriptionService::class)
+                ->checkFeatureOrFail('stock_management', null, 'স্টক ম্যানেজমেন্ট');
+
+            return $next($request);
+        });
     }
 
     public function index(Request $request): View

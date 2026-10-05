@@ -12,6 +12,19 @@ class ReportController extends Controller
 {
     public function __construct(protected ReportService $reports)
     {
+        $this->middleware(function ($request, $next) {
+            app(\App\Domains\Tenant\Services\SubscriptionService::class)
+                ->checkFeatureOrFail('basic_reports', null, 'রিপোর্ট');
+
+            return $next($request);
+        })->only(['dailySales', 'monthlySales']);
+
+        $this->middleware(function ($request, $next) {
+            app(\App\Domains\Tenant\Services\SubscriptionService::class)
+                ->checkFeatureOrFail('premium_reports', null, 'প্রিমিয়াম রিপোর্ট');
+
+            return $next($request);
+        })->only(['purchases', 'stock', 'lowStock', 'customerDue', 'supplierDue', 'expenses', 'cashBook', 'profitLoss']);
     }
 
     public function index(): View

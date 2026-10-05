@@ -16,6 +16,12 @@ class DuePaymentController extends Controller
 {
     public function __construct(protected DuePaymentService $service)
     {
+        $this->middleware(function ($request, $next) {
+            app(\App\Domains\Tenant\Services\SubscriptionService::class)
+                ->checkFeatureOrFail('due_management', null, 'বকেয়া হিসাব');
+
+            return $next($request);
+        });
     }
 
     public function index(Request $request): View

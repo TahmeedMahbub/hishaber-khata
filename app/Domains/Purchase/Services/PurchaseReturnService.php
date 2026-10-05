@@ -9,8 +9,15 @@ use App\Domains\Purchase\Models\PurchaseReturn;
 use App\Domains\Purchase\Models\PurchaseReturnItem;
 use App\Domains\Supplier\Models\Supplier;
 
+use App\Domains\Tenant\Services\TenantSequenceService;
+
 class PurchaseReturnService extends BaseService
 {
+    public function __construct(
+        protected TenantSequenceService $sequences,
+    ) {
+    }
+
     /**
      * Create a purchase return: decrement stock, adjust supplier due.
      *
@@ -68,20 +75,20 @@ class PurchaseReturnService extends BaseService
             $adjustedDue = $purchase->supplier_id ? min($total, $remainingDue) : 0;
             $refunded = round($total - $adjustedDue, 2);
 
+            $tenantId = (int) ($purchase->tenant_id ?? app(\App\Domains\Tenant\Services\TenantManager::class)->getTenantId());
+            $returnNo = $this->sequences->generateFormattedNumber($tenantId, 'purchase_return', 'PRET-');
+
             $return = PurchaseReturn::create([
                 'branch_id'    => $purchase->branch_id,
                 'purchase_id'  => $purchase->id,
                 'supplier_id'  => $purchase->supplier_id,
                 'user_id'      => auth()->id(),
+                'return_no'    => $returnNo,
                 'total'        => $total,
                 'refunded'     => $refunded,
                 'adjusted_due' => $adjustedDue,
                 'reason'       => $data['reason'] ?? null,
                 'return_date'  => now()->toDateString(),
-            ]);
-
-            $return->update([
-                'return_no' => 'PRET-' . str_pad((string) $return->id, 5, '0', STR_PAD_LEFT),
             ]);
 
             // Create return items and DECREMENT stock (items go back to supplier)

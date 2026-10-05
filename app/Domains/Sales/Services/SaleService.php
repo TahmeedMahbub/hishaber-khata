@@ -7,12 +7,17 @@ use App\Domains\Customer\Models\Customer;
 use App\Domains\Product\Models\Product;
 use App\Domains\Sales\Models\Sale;
 use App\Domains\Sales\Repositories\SaleRepository;
+use App\Domains\Tenant\Services\SubscriptionService;
+use App\Domains\Tenant\Services\TenantSequenceService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class SaleService extends BaseService
 {
-    public function __construct(protected SaleRepository $sales)
-    {
+    public function __construct(
+        protected SaleRepository $sales,
+        protected TenantSequenceService $sequences,
+        protected SubscriptionService $subscriptions,
+    ) {
     }
 
     public function paginate(?string $search = null): LengthAwarePaginator
@@ -32,6 +37,8 @@ class SaleService extends BaseService
      */
     public function create(array $data): Sale
     {
+        $this->subscriptions->checkSalesLimitOrFail();
+
         return $this->transaction(function () use ($data) {
             $user = auth()->user();
 
@@ -59,10 +66,14 @@ class SaleService extends BaseService
             $paid = isset($data['paid']) ? round((float) $data['paid'], 2) : $total;
             $due = max(0, round($total - $paid, 2));
 
+            $tenantId = (int) ($user->tenant_id ?? app(\App\Domains\Tenant\Services\TenantManager::class)->getTenantId());
+            $invoiceNo = $this->sequences->generateFormattedNumber($tenantId, 'sale');
+
             $sale = Sale::create([
                 'branch_id'   => $user->branch_id ?? null,
                 'customer_id' => $data['customer_id'] ?? null,
                 'user_id'     => $data['user_id'] ?? $user->id ?? null,
+                'invoice_no'  => $invoiceNo,
                 'status'      => 'completed',
                 'total'       => $total,
                 'discount'    => $discount,
@@ -71,8 +82,6 @@ class SaleService extends BaseService
                 'sale_date'   => now()->toDateString(),
                 'note'        => $data['note'] ?? null,
             ]);
-
-            $sale->update(['invoice_no' => 'INV-' . str_pad((string) $sale->id, 5, '0', STR_PAD_LEFT)]);
 
             foreach ($lines as $line) {
                 $sale->items()->create([

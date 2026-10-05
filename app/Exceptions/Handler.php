@@ -26,5 +26,31 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(function (\App\Domains\Tenant\Exceptions\SubscriptionLimitException $e, $request) {
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'error'            => $e->getMessage(),
+                    'requires_upgrade' => true,
+                ], 403);
+            }
+
+            return redirect()->back()
+                ->with('subscription_error', $e->getMessage())
+                ->with('requires_upgrade', true);
+        });
+
+        $this->renderable(function (\App\Domains\Tenant\Exceptions\FeatureRestrictedException $e, $request) {
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'error'            => $e->getMessage(),
+                    'requires_upgrade' => true,
+                ], 403);
+            }
+
+            return redirect()->back()
+                ->with('subscription_error', $e->getMessage())
+                ->with('requires_upgrade', true);
+        });
     }
 }

@@ -205,6 +205,8 @@ class SettingsController extends Controller
 
         abort_unless($user->isOwner() && $user->tenant, 403);
 
+        app(\App\Domains\Tenant\Services\SubscriptionService::class)->checkEmployeeLimitOrFail();
+
         $validator = Validator::make($request->all(), [
             'name'     => ['required', 'string', 'max:150'],
             'phone'    => ['nullable', 'string', 'max:20', Rule::unique('users', 'phone')],

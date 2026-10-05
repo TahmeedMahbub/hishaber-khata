@@ -33,6 +33,7 @@
         </div>
         @include('contents.mobile-bottom-nav')
         @include('contents.partials.global-modal')
+        @include('contents.partials.upgrade-modal')
         @include('contents.end-section')
     </body>
 </html>

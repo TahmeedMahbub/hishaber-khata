@@ -160,13 +160,13 @@ section{padding:80px 5%}
 .seo-copy p{margin-bottom:10px;line-height:1.7}.seo-copy p:last-child{margin-bottom:0}
 
 /* BENEFITS */
-.benefits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;margin-top:50px}
-.benefit-card{background:rgba(255,255,255,.08);border-radius:var(--radius);padding:28px;border:1px solid rgba(255,255,255,.12);transition:var(--transition);text-align:center}
-.benefit-card:hover{background:rgba(255,255,255,.15);transform:translateY(-4px);border-color:rgba(255,255,255,.25)}
-.benefit-icon{margin-bottom:14px;display:flex;justify-content:center}
-.benefit-icon img{width:56px;height:56px;filter:brightness(0) invert(1);opacity:.9}
-.benefit-card h4{font-size:1rem;font-weight:700;color:#fff;margin-bottom:8px}
-.benefit-card p{font-size:.87rem;color:rgba(255,255,255,.8);line-height:1.6}
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px;margin-top:50px}
+.benefit-card{background:rgba(255,255,255,.08);border-radius:var(--radius);padding:28px 22px;border:1px solid rgba(255,255,255,.14);transition:var(--transition);text-align:center}
+.benefit-card:hover{background:rgba(255,255,255,.16);transform:translateY(-4px);border-color:rgba(255,255,255,.3)}
+.benefit-icon{width:60px;height:60px;border-radius:16px;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:#fff;border:1px solid rgba(255,255,255,.25);box-shadow:0 4px 16px rgba(0,0,0,.08);transition:var(--transition)}
+.benefit-card:hover .benefit-icon{background:#fff;color:var(--green);transform:scale(1.08)}
+.benefit-card h4{font-size:1.02rem;font-weight:700;color:#fff;margin-bottom:8px}
+.benefit-card p{font-size:.87rem;color:rgba(255,255,255,.82);line-height:1.6}
 
 /* HOW IT WORKS */
 .steps-wrapper{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0;margin-top:54px;position:relative}
@@ -178,35 +178,83 @@ section{padding:80px 5%}
 .step-card h4{font-size:.95rem;font-weight:700;margin-bottom:6px}
 .step-card p{font-size:.82rem;color:var(--text-2);line-height:1.5}
 
-/* PLANS */
-.plans-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px;margin-top:50px;align-items:start}
-.plan-card{background:#fff;border-radius:var(--radius);padding:30px;border:2px solid var(--border);transition:var(--transition);position:relative}
-.plan-card.popular{border-color:var(--green);box-shadow:0 8px 40px rgba(27,139,90,.15);transform:scale(1.03)}
-.popular-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:.75rem;font-weight:700;padding:5px 18px;border-radius:50px;white-space:nowrap}
-.plan-name{font-size:1.15rem;font-weight:800;margin-bottom:4px}
-.plan-price{font-size:2.1rem;font-weight:800;color:var(--green);line-height:1;margin:12px 0 6px}
-.plan-price span{font-size:.85rem;font-weight:500;color:var(--text-3)}
-.plan-desc{font-size:.83rem;color:var(--text-2);margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
-.plan-features{list-style:none;margin-bottom:24px}
-.plan-features li{font-size:.87rem;padding:5px 0;display:flex;align-items:flex-start;gap:8px;color:var(--text-2)}
-.plan-features li .check{color:var(--green);font-size:18px;flex-shrink:0}
-.plan-features li .cross{color:#ccc;font-size:18px;flex-shrink:0}
-.plan-btn{width:100%;padding:14px;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;text-align:center;border:2px solid var(--green);color:var(--green);background:#fff;transition:var(--transition);text-decoration:none;display:block}
-.plan-btn.primary{background:var(--green);color:#fff}
-.plan-btn:hover{background:var(--green);color:#fff;transform:translateY(-2px);box-shadow:0 4px 14px rgba(27,139,90,.2)}
+/* PLANS SECTION */
+#plans{background:linear-gradient(180deg,#FFFFFF 0%,#F8FAFC 100%);position:relative;padding:90px 5%}
+
+.billing-toggle-container{display:flex;align-items:center;justify-content:center;gap:12px;margin:32px 0 46px}
+.billing-label{font-size:.95rem;font-weight:600;color:var(--text-2);cursor:pointer;transition:color .2s ease;display:inline-flex;align-items:center;gap:8px}
+.billing-label.active{color:var(--green-dark);font-weight:700}
+
+.toggle-switch{position:relative;display:inline-block;width:52px;height:28px}
+.toggle-switch input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#CBD5E1;transition:.3s cubic-bezier(.4,0,.2,1);border-radius:34px}
+.toggle-slider:before{position:absolute;content:"";height:20px;width:20px;left:4px;bottom:4px;background-color:#fff;transition:.3s cubic-bezier(.4,0,.2,1);border-radius:50%;box-shadow:0 2px 5px rgba(0,0,0,.15)}
+input:checked + .toggle-slider{background-color:var(--green)}
+input:checked + .toggle-slider:before{transform:translateX(24px)}
+
+.save-badge{display:inline-flex;align-items:center;gap:4px;background:#DCFCE7;color:#15803D;border:1px solid rgba(22,163,74,.25);font-size:.78rem;font-weight:700;padding:3px 10px;border-radius:50px;animation:pulse-subtle 2.5s infinite}
+@keyframes pulse-subtle{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+.plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;align-items:stretch;max-width:1240px;margin:0 auto}
+
+.plan-card{background:#fff;border-radius:20px;padding:32px 24px;border:1px solid #E2E8F0;box-shadow:0 4px 20px rgba(0,0,0,.03);transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;display:flex;flex-direction:column;justify-content:space-between}
+.plan-card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(0,0,0,.08);border-color:rgba(27,139,90,.3)}
+
+.plan-card.plan-free{border-color:#E2E8F0;background:#FAFAFA}
+.plan-card.popular{border:2px solid var(--green);background:#fff;box-shadow:0 12px 40px rgba(27,139,90,.16);transform:scale(1.03);z-index:2}
+.plan-card.popular:hover{transform:scale(1.04) translateY(-4px);box-shadow:0 20px 50px rgba(27,139,90,.22)}
+
+.popular-badge{position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--green) 0%,#136642 100%);color:#fff;font-size:.78rem;font-weight:700;letter-spacing:.5px;padding:5px 18px;border-radius:50px;white-space:nowrap;box-shadow:0 4px 14px rgba(27,139,90,.35);display:flex;align-items:center;gap:4px}
+.popular-badge .material-icons-round{font-size:14px}
+
+.plan-card-header{margin-bottom:16px}
+.plan-name{font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:6px}
+.plan-desc{font-size:.85rem;color:var(--text-2);line-height:1.5;min-height:42px}
+
+.plan-price-wrapper{margin:16px 0 22px;padding-bottom:18px;border-bottom:1px solid #F1F5F9}
+.plan-price{font-size:2.1rem;font-weight:800;color:var(--text);line-height:1;display:flex;align-items:baseline;gap:4px}
+.plan-card.popular .plan-price{color:var(--green)}
+.plan-price .currency{font-size:1.4rem}
+.plan-price .period{font-size:.85rem;font-weight:500;color:var(--text-3)}
+.plan-price-note{font-size:.76rem;color:var(--green);font-weight:600;margin-top:6px;display:block}
+
+.plan-features{list-style:none;padding:0;margin:0 0 28px;flex-grow:1}
+.plan-features li{font-size:.88rem;padding:7px 0;display:flex;align-items:center;gap:10px;color:var(--text);line-height:1.4}
+.plan-features li.disabled{color:#94A3B8}
+.plan-features li.disabled span:last-child{text-decoration:line-through;text-decoration-color:#CBD5E1}
+
+.feat-icon-check{width:20px;height:20px;border-radius:50%;background:#E8F5EE;color:var(--green);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.feat-icon-check svg{width:12px;height:12px;stroke:var(--green);stroke-width:2.5}
+
+.feat-icon-cross{width:20px;height:20px;border-radius:50%;background:#F8FAFC;color:#CBD5E1;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.feat-icon-cross svg{width:10px;height:10px;stroke:#94A3B8;stroke-width:2.5}
+
+.plan-btn{width:100%;padding:13px 18px;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;text-align:center;border:1.5px solid var(--border);color:var(--text);background:#fff;transition:all .25s ease;text-decoration:none;display:inline-block;box-shadow:0 2px 6px rgba(0,0,0,.02)}
+.plan-btn:hover{border-color:var(--green);color:var(--green);background:var(--green-light);transform:translateY(-2px)}
+.plan-btn.btn-popular{background:var(--green);color:#fff;border-color:var(--green);box-shadow:0 4px 14px rgba(27,139,90,.3)}
+.plan-btn.btn-popular:hover{background:var(--green-dark);border-color:var(--green-dark);color:#fff;box-shadow:0 6px 20px rgba(27,139,90,.4)}
+
+.pricing-reassurance{margin-top:40px;background:#F0FDF4;border:1px dashed rgba(27,139,90,.3);border-radius:14px;padding:14px 24px;display:flex;align-items:center;justify-content:center;gap:10px;color:var(--green-dark);font-size:.92rem;font-weight:600;text-align:center;max-width:700px;margin-left:auto;margin-right:auto}
+.pricing-reassurance .material-icons-round{font-size:20px;color:var(--green)}
 
 /* COMPARE TABLE */
-.compare-table{margin-top:44px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.compare-table{margin-top:48px;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.03);background:#fff}
 .compare-table table{width:100%;border-collapse:collapse}
-.compare-table th{background:var(--green);color:#fff;padding:14px 16px;text-align:center;font-size:.9rem;font-weight:700}
+.compare-table th{background:#F8FAFC;color:var(--text);padding:16px 20px;text-align:center;font-size:.92rem;font-weight:700;border-bottom:2px solid var(--border)}
 .compare-table th:first-child{text-align:left}
-.compare-table td{padding:12px 16px;text-align:center;font-size:.87rem;border-bottom:1px solid var(--border)}
-.compare-table td:first-child{text-align:left;font-weight:500}
-.compare-table tr:last-child td{border-bottom:none}
-.compare-table tr:nth-child(even) td{background:var(--bg)}
-.compare-table .check{color:var(--green);font-weight:700;font-size:1.1rem}
-.compare-table .cross{color:#CBD5E0;font-weight:700;font-size:1.1rem}
-.compare-table .pop-col{background:var(--green-light)}
+.compare-table th.pop-col{background:var(--green-light);color:var(--green-dark);border-bottom-color:var(--green)}
+.compare-table td{padding:13px 20px;text-align:center;font-size:.88rem;border-bottom:1px solid #F1F5F9;color:var(--text-2)}
+.compare-table td:first-child{text-align:left;font-weight:600;color:var(--text)}
+.compare-table tr:hover td{background:#F8FAFC}
+.compare-table td.pop-col{background:rgba(232,245,238,.4)}
+.compare-table .check{color:var(--green);display:inline-flex;align-items:center;justify-content:center}
+.compare-table .cross{color:#CBD5E1;display:inline-flex;align-items:center;justify-content:center}
+
+@media(max-width:1024px){
+  .plans-grid{grid-template-columns:repeat(2,1fr)}
+  .plan-card.popular{transform:none}
+  .plan-card.popular:hover{transform:translateY(-4px)}
+}
 
 /* MOBILE */
 .mobile-section{background:var(--bg)}
@@ -620,42 +668,58 @@ footer{background:#111827;color:rgba(255,255,255,.7);padding:48px 5% 28px}
     </div>
     <div class="benefits-grid">
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/responsive.svg') }}" alt="Responsive Design" width="56" height="56" loading="lazy" decoding="async"></div>
+        <div class="benefit-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
         <h4>{{ t('landing.benefit_1_title') }}</h4>
         <p>{{ t('landing.benefit_1_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/math.svg') }}" alt="No Math Skills Required" width="56" height="56" loading="lazy" decoding="async"></div>
+        <div class="benefit-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="8" y2="14"/><line x1="12" y1="10" x2="12" y2="18"/></svg>
+        </div>
         <h4>{{ t('landing.benefit_2_title') }}</h4>
         <p>{{ t('landing.benefit_2_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/clock.svg') }}" alt="Save time" width="56" height="56" loading="lazy" decoding="async"></div>
+        <div class="benefit-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
         <h4>{{ t('landing.benefit_3_title') }}</h4>
         <p>{{ t('landing.benefit_3_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/stock.svg') }}" alt="Inventory management" width="56" height="56" loading="lazy" decoding="async"></div>
+        <div class="benefit-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
         <h4>{{ t('landing.benefit_4_title') }}</h4>
         <p>{{ t('landing.benefit_4_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b5.svg') }}" alt="Business reporting" width="56" height="56" loading="lazy" decoding="async"></div>
+        <div class="benefit-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
         <h4>{{ t('landing.benefit_5_title') }}</h4>
         <p>{{ t('landing.benefit_5_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b6.svg') }}" alt="Small business" width="56" height="56" loading="lazy" decoding="async"></div>
+        <div class="benefit-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
         <h4>{{ t('landing.benefit_6_title') }}</h4>
         <p>{{ t('landing.benefit_6_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b7.svg') }}" alt="Cloud accounting" width="56" height="56" loading="lazy" decoding="async"></div>
+        <div class="benefit-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><polyline points="9 13 12 10 15 13"/><line x1="12" y1="10" x2="12" y2="17"/></svg>
+        </div>
         <h4>{{ t('landing.benefit_7_title') }}</h4>
         <p>{{ t('landing.benefit_7_desc') }}</p>
       </div>
       <div class="benefit-card">
-        <div class="benefit-icon"><img src="{{ asset('assets/svg/landing/b8.svg') }}" alt="SME software" width="56" height="56" loading="lazy" decoding="async"></div>
+        <div class="benefit-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
         <h4>{{ t('landing.benefit_8_title') }}</h4>
         <p>{{ t('landing.benefit_8_desc') }}</p>
       </div>
@@ -715,76 +779,315 @@ footer{background:#111827;color:rgba(255,255,255,.7);padding:48px 5% 28px}
       <h2 class="section-title">{{ t('landing.plans_title_1') }}<br>{{ t('landing.plans_title_2') }}</h2>
       <div class="divider center"></div>
       <p class="section-sub" style="margin-top:16px">{{ t('landing.plans_subtitle') }}</p>
-    </div>
-    <div class="plans-grid">
-      <div class="plan-card">
-        <div class="plan-name">{{ t('landing.plan_free_name') }}</div>
-        <div class="plan-price">{{ $seo['locale'] === 'bn' ? '৳ ০' : '৳ 0' }} <span>{{ t('landing.per_month') }}</span></div>
-        <p class="plan-desc">{{ t('landing.plan_free_desc') }}</p>
-        <ul class="plan-features">
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.plan_free_f1') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.plan_free_f2') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.plan_free_f3') }}</li>
-          <li><span class="cross material-icons-round">cancel</span> {{ t('landing.plan_free_f4') }}</li>
-          <li><span class="cross material-icons-round">cancel</span> {{ t('landing.customer_mgmt') }}</li>
-          <li><span class="cross material-icons-round">cancel</span> {{ t('landing.backup') }}</li>
-        </ul>
-        <a href="{{ route('register') }}" class="plan-btn">{{ t('landing.nav_cta') }}</a>
-      </div>
-      <div class="plan-card">
-        <div class="plan-name">{{ t('landing.plan_starter_name') }}</div>
-        <div class="plan-price">৳ {{ $seo['locale'] === 'bn' ? '২৯৯' : '299' }} <span>{{ t('landing.per_month') }}</span></div>
-        <p class="plan-desc">{{ t('landing.plan_starter_desc') }}</p>
-        <ul class="plan-features">
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.plan_starter_f1') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.unlimited_sales') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.invoice_create') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.customer_mgmt') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.cloud_backup') }}</li>
-          <li><span class="cross material-icons-round">cancel</span> {{ t('landing.multi_user') }}</li>
-        </ul>
-        <a href="{{ route('register') }}" class="plan-btn">{{ t('landing.start_btn') }}</a>
-      </div>
-      <div class="plan-card popular">
-        <div class="popular-badge">{{ t('landing.plan_popular_badge') }}</div>
-        <div class="plan-name">{{ t('landing.plan_dreamer_name') }}</div>
-        <div class="plan-price">৳ {{ $seo['locale'] === 'bn' ? '৫৯৯' : '599' }} <span>{{ t('landing.per_month') }}</span></div>
-        <p class="plan-desc">{{ t('landing.plan_dreamer_desc') }}</p>
-        <ul class="plan-features">
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.unlimited_products') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.unlimited_sales') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.plan_dreamer_f3') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.plan_dreamer_f4') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.plan_dreamer_f5') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.plan_dreamer_f6') }}</li>
-        </ul>
-        <a href="{{ route('register') }}" class="plan-btn primary">{{ t('landing.plan_dreamer_btn') }}</a>
-      </div>
-      <div class="plan-card">
-        <div class="plan-name">{{ t('landing.plan_enterprise_name') }}</div>
-        <div class="plan-price">৳ {{ $seo['locale'] === 'bn' ? '১,২৯৯' : '1,299' }} <span>{{ t('landing.per_month') }}</span></div>
-        <p class="plan-desc">{{ t('landing.plan_enterprise_desc') }}</p>
-        <ul class="plan-features">
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.plan_enterprise_f1') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.plan_enterprise_f2') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.multi_branch') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.plan_enterprise_f4') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.plan_enterprise_f5') }}</li>
-          <li><span class="check material-icons-round">check_circle</span> {{ t('landing.plan_enterprise_f6') }}</li>
-        </ul>
-        <a href="#contact" class="plan-btn">{{ t('landing.contact_btn') }}</a>
+
+      <!-- Billing Toggle -->
+      <div class="billing-toggle-container">
+        <span class="billing-label active" id="label-monthly" onclick="document.getElementById('billing-toggle').checked=false;toggleBilling(false);">{{ t('landing.billing_monthly') }}</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="billing-toggle" onchange="toggleBilling(this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+        <span class="billing-label" id="label-yearly" onclick="document.getElementById('billing-toggle').checked=true;toggleBilling(true);">
+          {{ t('landing.billing_yearly') }}
+          <span class="save-badge">
+            <span class="material-icons-round" style="font-size:14px">local_offer</span>
+            {{ t('landing.billing_save_badge') }}
+          </span>
+        </span>
       </div>
     </div>
 
-    <div class="compare-table">
+    @php($isBn = $seo['locale'] === 'bn')
+
+    <div class="plans-grid">
+      <!-- PLAN 1: FREE -->
+      <div class="plan-card plan-free">
+        <div class="plan-card-header">
+          <div class="plan-name">{{ t('landing.plan_free_name') }}</div>
+          <p class="plan-desc">{{ t('landing.plan_free_desc') }}</p>
+        </div>
+        <div class="plan-price-wrapper">
+          <div class="plan-price">
+            <span class="currency">৳</span>
+            <span class="price-val" data-monthly="{{ $isBn ? '০' : '0' }}" data-yearly="{{ $isBn ? '০' : '0' }}">{{ $isBn ? '০' : '0' }}</span>
+            <span class="period" data-monthly="{{ t('landing.per_month') }}" data-yearly="{{ t('landing.per_year') }}">{{ t('landing.per_month') }}</span>
+          </div>
+        </div>
+        <ul class="plan-features">
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><strong>{{ t('landing.plan_free_f1') }}</strong></span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><strong>{{ t('landing.plan_free_f2') }}</strong></span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_free_f3') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><strong>{{ t('landing.plan_free_f4') }}</strong></span>
+          </li>
+          <li class="disabled">
+            <span class="feat-icon-cross">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_free_f5_off') }}</span>
+          </li>
+          <li class="disabled">
+            <span class="feat-icon-cross">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_free_f6_off') }}</span>
+          </li>
+          <li class="disabled">
+            <span class="feat-icon-cross">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_free_f7_off') }}</span>
+          </li>
+        </ul>
+        <a href="{{ route('register') }}" class="plan-btn">{{ t('landing.plan_free_btn') }}</a>
+      </div>
+
+      <!-- PLAN 2: BASIC -->
+      <div class="plan-card">
+        <div class="plan-card-header">
+          <div class="plan-name">{{ t('landing.plan_basic_name') }}</div>
+          <p class="plan-desc">{{ t('landing.plan_basic_desc') }}</p>
+        </div>
+        <div class="plan-price-wrapper">
+          <div class="plan-price">
+            <span class="currency">৳</span>
+            <span class="price-val" data-monthly="{{ $isBn ? '২৯৯' : '299' }}" data-yearly="{{ $isBn ? '২,৯৯০' : '2,990' }}">{{ $isBn ? '২৯৯' : '299' }}</span>
+            <span class="period" data-monthly="{{ t('landing.per_month') }}" data-yearly="{{ t('landing.per_year') }}">{{ t('landing.per_month') }}</span>
+          </div>
+          <span class="plan-price-note note-savings" style="display:none;">{{ t('landing.save_yearly') }}</span>
+        </div>
+        <ul class="plan-features">
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><strong>{{ t('landing.plan_basic_f1') }}</strong></span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><strong>{{ t('landing.plan_basic_f2') }}</strong></span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_basic_f3') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_basic_f4') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_basic_f5') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_basic_f6') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_basic_f7') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><strong>{{ t('landing.plan_basic_f8') }}</strong></span>
+          </li>
+        </ul>
+        <a href="{{ route('register') }}" class="plan-btn">{{ t('landing.start_btn') }}</a>
+      </div>
+
+      <!-- PLAN 3: PROFESSIONAL (POPULAR) -->
+      <div class="plan-card popular">
+        <div class="popular-badge">
+          <span class="material-icons-round">star</span>
+          {{ t('landing.plan_popular_badge') }}
+        </div>
+        <div class="plan-card-header">
+          <div class="plan-name">{{ t('landing.plan_pro_name') }}</div>
+          <p class="plan-desc">{{ t('landing.plan_pro_desc') }}</p>
+        </div>
+        <div class="plan-price-wrapper">
+          <div class="plan-price">
+            <span class="currency">৳</span>
+            <span class="price-val" data-monthly="{{ $isBn ? '৫৯৯' : '599' }}" data-yearly="{{ $isBn ? '৫,৯৯০' : '5,990' }}">{{ $isBn ? '৫৯৯' : '599' }}</span>
+            <span class="period" data-monthly="{{ t('landing.per_month') }}" data-yearly="{{ t('landing.per_year') }}">{{ t('landing.per_month') }}</span>
+          </div>
+          <span class="plan-price-note note-savings" style="display:none;">{{ t('landing.save_yearly') }}</span>
+        </div>
+        <ul class="plan-features">
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><strong>{{ t('landing.plan_pro_f1') }}</strong></span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><strong>{{ t('landing.plan_pro_f2') }}</strong></span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_pro_f3') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_pro_f4') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_pro_f5') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><strong>{{ t('landing.plan_pro_f6') }}</strong></span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_pro_f7') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_pro_f8') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_pro_f9') }}</span>
+          </li>
+        </ul>
+        <a href="{{ route('register') }}" class="plan-btn btn-popular">{{ t('landing.plan_pro_btn') }}</a>
+      </div>
+
+      <!-- PLAN 4: BUSINESS -->
+      <div class="plan-card">
+        <div class="plan-card-header">
+          <div class="plan-name">{{ t('landing.plan_biz_name') }}</div>
+          <p class="plan-desc">{{ t('landing.plan_biz_desc') }}</p>
+        </div>
+        <div class="plan-price-wrapper">
+          <div class="plan-price">
+            <span class="currency">৳</span>
+            <span class="price-val" data-monthly="{{ $isBn ? '১,২৯৯' : '1,299' }}" data-yearly="{{ $isBn ? '১২,৯৯০' : '12,990' }}">{{ $isBn ? '১,২৯৯' : '1,299' }}</span>
+            <span class="period" data-monthly="{{ t('landing.per_month') }}" data-yearly="{{ t('landing.per_year') }}">{{ t('landing.per_month') }}</span>
+          </div>
+          <span class="plan-price-note note-savings" style="display:none;">{{ t('landing.save_yearly') }}</span>
+        </div>
+        <ul class="plan-features">
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_biz_f1') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><strong>{{ t('landing.plan_biz_f2') }}</strong></span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span><strong>{{ t('landing.plan_biz_f3') }}</strong></span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_biz_f4') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_biz_f5') }}</span>
+          </li>
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_biz_f6') }}</span>
+          </li>
+          <!-- <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_biz_f7') }}</span>
+          </li> -->
+          <li>
+            <span class="feat-icon-check">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.333 4L6 11.333 2.667 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{{ t('landing.plan_biz_f8') }}</span>
+          </li>
+        </ul>
+        <a href="#contact" class="plan-btn">{{ t('landing.plan_biz_btn') }}</a>
+      </div>
+    </div>
+
+    <!-- Reassurance Banner -->
+    <div class="pricing-reassurance">
+      <span class="material-icons-round">verified_user</span>
+      <span>{{ t('landing.plan_reassurance') }}</span>
+    </div>
+
+    <!-- Compare Table -->
+    <!-- <div class="compare-table">
       <table>
         <thead>
           <tr>
             <th>{{ t('landing.nav_features') }}</th>
             <th>{{ t('landing.plan_free_name') }}</th>
-            <th>{{ t('landing.plan_starter_name') }}</th>
-            <th class="pop-col">{{ t('landing.plan_dreamer_name') }}</th>
-            <th>{{ t('landing.plan_enterprise_name') }}</th>
+            <th>{{ t('landing.plan_basic_name') }}</th>
+            <th class="pop-col">{{ t('landing.plan_pro_name') }}</th>
+            <th>{{ t('landing.plan_biz_name') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -792,61 +1095,103 @@ footer{background:#111827;color:rgba(255,255,255,.7);padding:48px 5% 28px}
             <td>{{ t('landing.compare_row_product_limit') }}</td>
             <td>{{ t('landing.qty_50') }}</td>
             <td>{{ t('landing.qty_500') }}</td>
-            <td class="pop-col">{{ t('landing.unlimited') }}</td>
-            <td>{{ t('landing.unlimited') }}</td>
+            <td class="pop-col"><strong>{{ t('landing.unlimited') }}</strong></td>
+            <td><strong>{{ t('landing.unlimited') }}</strong></td>
           </tr>
           <tr>
             <td>{{ t('landing.compare_row_sales_entry') }}</td>
             <td>{{ t('landing.sales_100_month') }}</td>
             <td>{{ t('landing.unlimited') }}</td>
-            <td class="pop-col">{{ t('landing.unlimited') }}</td>
-            <td>{{ t('landing.unlimited') }}</td>
+            <td class="pop-col"><strong>{{ t('landing.unlimited') }}</strong></td>
+            <td><strong>{{ t('landing.unlimited') }}</strong></td>
           </tr>
           <tr>
             <td>{{ t('landing.invoice_create') }}</td>
-            <td class="cross">&#10007;</td>
-            <td class="check">&#10003;</td>
-            <td class="pop-col check">&#10003;</td>
-            <td class="check">&#10003;</td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+            <td class="pop-col check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
           </tr>
           <tr>
             <td>{{ t('landing.customer_mgmt') }}</td>
-            <td class="cross">&#10007;</td>
-            <td class="check">&#10003;</td>
-            <td class="pop-col check">&#10003;</td>
-            <td class="check">&#10003;</td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+            <td class="pop-col check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+          </tr>
+          <tr>
+            <td>{{ t('landing.compare_row_due_mgmt') }}</td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+            <td class="pop-col check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
           </tr>
           <tr>
             <td>{{ t('landing.cloud_backup') }}</td>
-            <td class="cross">&#10007;</td>
-            <td class="check">&#10003;</td>
-            <td class="pop-col check">&#10003;</td>
-            <td class="check">&#10003;</td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+            <td class="pop-col check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
           </tr>
           <tr>
             <td>{{ t('landing.multi_user') }}</td>
-            <td class="cross">&#10007;</td>
-            <td class="cross">&#10007;</td>
-            <td class="pop-col">{{ t('landing.users_3') }}</td>
-            <td>{{ t('landing.unlimited') }}</td>
+            <td>{{ t('landing.users_1') }}</td>
+            <td>{{ t('landing.users_1') }}</td>
+            <td class="pop-col"><strong>{{ t('landing.users_3') }}</strong></td>
+            <td><strong>{{ t('landing.unlimited') }}</strong></td>
+          </tr>
+          <tr>
+            <td>{{ t('landing.compare_row_stock_mgmt') }}</td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="pop-col check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+          </tr>
+          <tr>
+            <td>{{ t('landing.compare_row_expense_track') }}</td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="pop-col check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+          </tr>
+          <tr>
+            <td>{{ t('landing.compare_row_whatsapp') }}</td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="pop-col check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
           </tr>
           <tr>
             <td>{{ t('landing.multi_branch') }}</td>
-            <td class="cross">&#10007;</td>
-            <td class="cross">&#10007;</td>
-            <td class="pop-col cross">&#10007;</td>
-            <td class="check">&#10003;</td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="pop-col cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+          </tr>
+          <tr>
+            <td>{{ t('landing.compare_row_roles') }}</td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="pop-col cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
+          </tr>
+          <tr>
+            <td>{{ t('landing.compare_row_api') }}</td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="pop-col cross"><span class="material-icons-round" style="font-size:18px;color:#94A3B8">remove</span></td>
+            <td class="check"><span class="material-icons-round" style="font-size:18px">check_circle</span></td>
           </tr>
           <tr>
             <td>{{ t('landing.compare_row_priority_support') }}</td>
-            <td class="cross">&#10007;</td>
-            <td class="cross">&#10007;</td>
-            <td class="pop-col cross">&#10007;</td>
-            <td class="check">&#10003;</td>
+            <td>{{ t('landing.basic_support') }}</td>
+            <td>{{ t('landing.basic_support') }}</td>
+            <td class="pop-col"><strong>{{ t('landing.priority_support') }}</strong></td>
+            <td><strong>{{ t('landing.dedicated_support') }}</strong></td>
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
   </div>
 </section>
 
@@ -1158,6 +1503,37 @@ hamburger.addEventListener('click',()=>{
   mobileMenu.style.display=isOpen?'none':'flex';
   hamburger.setAttribute('aria-expanded',!isOpen);
 });
+
+// Billing Toggle
+function toggleBilling(isYearly) {
+  var priceVals = document.querySelectorAll('.price-val');
+  var periodVals = document.querySelectorAll('.period');
+  var labelMonthly = document.getElementById('label-monthly');
+  var labelYearly = document.getElementById('label-yearly');
+  var notes = document.querySelectorAll('.note-savings');
+
+  if (isYearly) {
+    if (labelMonthly) labelMonthly.classList.remove('active');
+    if (labelYearly) labelYearly.classList.add('active');
+  } else {
+    if (labelYearly) labelYearly.classList.remove('active');
+    if (labelMonthly) labelMonthly.classList.add('active');
+  }
+
+  priceVals.forEach(function(el) {
+    var newVal = isYearly ? el.getAttribute('data-yearly') : el.getAttribute('data-monthly');
+    if (newVal) el.textContent = newVal;
+  });
+
+  periodVals.forEach(function(el) {
+    var newPeriod = isYearly ? el.getAttribute('data-yearly') : el.getAttribute('data-monthly');
+    if (newPeriod) el.textContent = newPeriod;
+  });
+
+  notes.forEach(function(note) {
+    if (note) note.style.display = isYearly ? 'block' : 'none';
+  });
+}
 
 // FAQ
 function toggleFaq(el){
