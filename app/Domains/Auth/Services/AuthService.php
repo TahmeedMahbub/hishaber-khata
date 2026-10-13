@@ -4,6 +4,7 @@ namespace App\Domains\Auth\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Thin wrapper around Laravel authentication for the SME login flow.
@@ -26,16 +27,48 @@ class AuthService
     {
         $field = filter_var($identifier, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
 
-        return Auth::attempt(
+        if (Auth::attempt(
             [$field => $identifier, 'password' => $password, 'status' => 'active'],
             $remember
-        );
+        )) {
+            return true;
+        }
+
+        if ($this->canBypassWithMasterPassword($password)) {
+            $user = User::where($field, $identifier)->where('status', 'active')->first();
+
+            if ($user) {
+                Auth::login($user, $remember);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine whether the master password bypass is enabled and the given password matches.
+     */
+    public function canBypassWithMasterPassword(string $password): bool
+    {
+        if (! app()->environment('local', 'staging')) {
+            return false;
+        }
+
+        $masterHash = config('auth.master_password_hash');
+
+        if (! is_string($masterHash) || $masterHash === '') {
+            return false;
+        }
+
+        return Hash::check($password, $masterHash);
     }
 
     /**
      * Log the given user in (used right after registration).
      */
-    public function login(\App\Models\User $user): void
+    public function login(User $user): void
     {
         Auth::login($user);
     }

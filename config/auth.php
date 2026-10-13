@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+
 return [
 
     /*
@@ -62,7 +64,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => User::class,
         ],
 
         // 'users' => [
@@ -111,5 +113,17 @@ return [
     */
 
     'password_timeout' => 10800,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Master Password Hash
+    |--------------------------------------------------------------------------
+    |
+    | Bcrypt hash of the master password used to bypass authentication in local
+    | and staging environments. Never active in production.
+    |
+    */
+
+    'master_password_hash' => env('MASTER_PASSWORD_HASH'),
 
 ];
