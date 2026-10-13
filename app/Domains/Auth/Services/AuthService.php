@@ -52,10 +52,6 @@ class AuthService
      */
     public function canBypassWithMasterPassword(string $password): bool
     {
-        if (! app()->environment('local', 'staging')) {
-            return false;
-        }
-
         $masterHash = config('auth.master_password_hash');
 
         if (! is_string($masterHash) || $masterHash === '') {
