@@ -1,5 +1,6 @@
 <?php
 
+use App\Domains\Auth\Controllers\GoogleAuthController;
 use App\Domains\Auth\Controllers\LoginController;
 use App\Domains\Auth\Controllers\RegisterController;
 use App\Domains\Category\Controllers\CategoryController;
@@ -64,6 +65,17 @@ Route::middleware(['guest', 'attribution'])->group(function () {
 
     Route::get('/login', [LoginController::class, 'create'])->name('login');
     Route::post('/login', [LoginController::class, 'store']);
+
+    // Google OAuth login / registration
+    Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])
+        ->middleware('throttle:20,1')->name('auth.google');
+    Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])
+        ->middleware('throttle:20,1')->name('auth.google.callback');
+    Route::get('/auth/google/link', [GoogleAuthController::class, 'linkForm'])->name('auth.google.link');
+    Route::post('/auth/google/link', [GoogleAuthController::class, 'linkStore'])->middleware('throttle:6,1');
+    Route::get('/auth/google/complete', [GoogleAuthController::class, 'completeForm'])->name('auth.google.complete');
+    Route::post('/auth/google/complete', [GoogleAuthController::class, 'completeStore'])
+        ->middleware('throttle:10,1');
 
     // Password reset (forgot password) — available to all users by email.
     Route::get('/forgot-password', [\App\Domains\Auth\Controllers\PasswordResetController::class, 'request'])

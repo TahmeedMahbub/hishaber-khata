@@ -64,6 +64,8 @@
         <button class="btn btn-primary d-grid w-100" type="submit">{{ t('authpage.create_account') }}</button>
     </form>
 
+    @include('auth.partials.google-button')
+
     <p class="text-center mt-3">
         <span>{{ t('authpage.already_have_account') }}</span>
         <a href="{{ route('login') }}"><span>{{ t('authpage.login_link') }}</span></a>
