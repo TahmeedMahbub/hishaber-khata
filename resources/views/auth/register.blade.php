@@ -66,6 +66,13 @@
 
     @include('auth.partials.google-button')
 
+    <p class="text-center text-muted small mt-3 mb-0">
+        {{ t('authpage.legal_agree') }}
+        <a href="{{ route('legal.terms') }}" target="_blank" rel="noopener">{{ t('landing.footer_terms') }}</a>
+        &amp;
+        <a href="{{ route('legal.privacy') }}" target="_blank" rel="noopener">{{ t('landing.footer_privacy_policy') }}</a>
+    </p>
+
     <p class="text-center mt-3">
         <span>{{ t('authpage.already_have_account') }}</span>
         <a href="{{ route('login') }}"><span>{{ t('authpage.login_link') }}</span></a>

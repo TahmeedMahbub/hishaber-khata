@@ -88,6 +88,8 @@ class LandingSeo
             ['loc' => "{$baseUrl}/en", 'priority' => '0.9', 'changefreq' => 'weekly'],
             ['loc' => "{$baseUrl}/register", 'priority' => '0.6', 'changefreq' => 'monthly'],
             ['loc' => "{$baseUrl}/login", 'priority' => '0.3', 'changefreq' => 'monthly'],
+            ['loc' => "{$baseUrl}/privacy-policy", 'priority' => '0.3', 'changefreq' => 'yearly'],
+            ['loc' => "{$baseUrl}/terms-of-service", 'priority' => '0.3', 'changefreq' => 'yearly'],
         ];
     }
 

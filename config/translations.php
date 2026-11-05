@@ -827,6 +827,7 @@ return [
         'google_link_subtitle'  => ['bn' => 'এই ইমেইলে আগে থেকেই একটি অ্যাকাউন্ট আছে। যুক্ত করতে আপনার পাসওয়ার্ড দিয়ে নিশ্চিত করুন।', 'en' => 'An account already exists for this email. Confirm your password to link Google to it.'],
         'google_link_btn'       => ['bn' => 'নিশ্চিত করে লগইন করুন', 'en' => 'Confirm & Log In'],
         'google_link_bad_password' => ['bn' => 'পাসওয়ার্ড সঠিক নয়।', 'en' => 'The password is incorrect.'],
+        'legal_agree'           => ['bn' => 'রেজিস্টার করে আপনি সম্মত হচ্ছেন:', 'en' => 'By registering you agree to:'],
         'google_continue'       => ['bn' => 'Google দিয়ে চালিয়ে যান', 'en' => 'Continue with Google'],
         'or_divider'            => ['bn' => 'অথবা', 'en' => 'or'],
         'google_failed'         => ['bn' => 'Google লগইন সম্পূর্ণ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।', 'en' => 'Google sign-in could not be completed. Please try again.'],

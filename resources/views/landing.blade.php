@@ -1470,8 +1470,8 @@ footer{background:#111827;color:rgba(255,255,255,.7);padding:48px 5% 28px}
       <h5>{{ t('landing.footer_help') }}</h5>
       <a href="#faq">{{ t('landing.nav_faq') }}</a>
       <a href="#contact">{{ $seo['locale'] === 'bn' ? 'যোগাযোগ' : 'Contact' }}</a>
-      <a href="#">{{ t('landing.footer_privacy_policy') }}</a>
-      <a href="#">{{ t('landing.footer_terms') }}</a>
+      <a href="{{ route('legal.privacy') }}">{{ t('landing.footer_privacy_policy') }}</a>
+      <a href="{{ route('legal.terms') }}">{{ t('landing.footer_terms') }}</a>
     </div>
     <div class="footer-col">
       <h5>{{ $seo['locale'] === 'bn' ? 'যোগাযোগ' : 'Contact' }}</h5>
@@ -1485,7 +1485,7 @@ footer{background:#111827;color:rgba(255,255,255,.7);padding:48px 5% 28px}
       <span class="dev-heart">&hearts;</span>
       <span>Designed &amp; Developed by <span class="dev-name">Tahmeed Mahbub</span></span>
     </a>
-    <span><a href="#">{{ t('landing.footer_privacy') }}</a> &middot; <a href="#">{{ t('landing.footer_terms_short') }}</a></span>
+    <span><a href="{{ route('legal.privacy') }}">{{ t('landing.footer_privacy') }}</a> &middot; <a href="{{ route('legal.terms') }}">{{ t('landing.footer_terms_short') }}</a></span>
   </div>
 </footer>
 

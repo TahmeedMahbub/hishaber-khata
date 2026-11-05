@@ -5,6 +5,7 @@ use App\Domains\Auth\Controllers\LoginController;
 use App\Domains\Auth\Controllers\RegisterController;
 use App\Domains\Category\Controllers\CategoryController;
 use App\Domains\Common\Controllers\FeedbackController;
+use App\Domains\Common\Controllers\LegalController;
 use App\Domains\Customer\Controllers\CustomerController;
 use App\Domains\Dashboard\Controllers\DashboardController;
 use App\Domains\Expense\Controllers\ExpenseController;
@@ -52,6 +53,10 @@ Route::get('/sitemap.xml', function () {
         ->view('sitemap', ['urls' => LandingSeo::sitemap(request())])
         ->header('Content-Type', 'application/xml');
 })->name('sitemap');
+
+// Public legal pages (also used as Google OAuth branding URLs) - no auth/tenant required.
+Route::get('/privacy-policy', [LegalController::class, 'privacy'])->name('legal.privacy');
+Route::get('/terms-of-service', [LegalController::class, 'terms'])->name('legal.terms');
 
 // Public feedback (e.g. from the landing page) — no auth/tenant required.
 Route::post('/feedback', [FeedbackController::class, 'storePublic'])->name('feedback.public');
