@@ -410,7 +410,7 @@ footer{background:#111827;color:rgba(255,255,255,.7);padding:48px 5% 28px}
 <nav>
   <div class="nav-inner">
     <a href="{{ route('home') }}" class="logo" aria-label="{{ $seo['brand'] }}">
-      <div class="logo-icon"><img src="{{ asset('assets/img/project/brand-logo.svg') }}" alt="{{ $seo['brand'] }}" width="42" height="42"></div>
+      <div class="logo-icon"><img src="{{ brand_logo($seo['locale']) }}" alt="{{ $seo['brand'] }}" width="42" height="42"></div>
     </a>
     <div class="nav-links">
       <a href="#features">{{ t('landing.nav_features') }}</a>
@@ -453,7 +453,7 @@ footer{background:#111827;color:rgba(255,255,255,.7);padding:48px 5% 28px}
       <p class="hero-sub fade-up delay-2">{{ t('landing.hero_subtitle') }}</p>
       <div class="hero-btns fade-up delay-3">
         <a href="{{ route('register') }}" class="btn-primary">
-          <span class="material-icons-round" style="font-size:20px">rocket_launch</span>
+          <span class="material-icons-round" style="font-size:20px">loupe</span>
           {{ t('landing.nav_cta') }}
         </a>
         <a href="{{ route('login') }}" class="btn-secondary">
@@ -1454,7 +1454,7 @@ footer{background:#111827;color:rgba(255,255,255,.7);padding:48px 5% 28px}
   <div class="footer-inner">
     <div class="footer-brand">
       <a href="{{ route('home') }}" class="logo" aria-label="{{ $seo['brand'] }}">
-        <div class="logo-icon"><img src="{{ asset('assets/img/project/brand-logo.svg') }}" alt="{{ $seo['brand'] }}" width="42" height="42"></div>
+        <div class="logo-icon"><img src="{{ brand_logo($seo['locale']) }}" alt="{{ $seo['brand'] }}" width="42" height="42"></div>
       </a>
       <p>{{ t('landing.footer_about') }}</p>
     </div>

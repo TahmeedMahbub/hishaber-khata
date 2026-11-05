@@ -61,7 +61,7 @@ a{color:var(--green-dark)}
 <body>
 <header class="lg-header">
   <div class="lg-header-inner">
-    <a href="{{ route('home') }}" class="lg-logo"><img src="{{ asset('assets/img/project/brand-logo.svg') }}" alt="" width="36" height="36"><span>Hishabiz</span></a>
+    <a href="{{ route('home') }}" class="lg-logo"><img src="{{ brand_logo() }}" alt="" width="36" height="36"><span>Hishabiz</span></a>
     <nav class="lg-nav">
       <a href="{{ route('home') }}">Home</a>
       <a href="{{ route('legal.privacy') }}" class="{{ request()->routeIs('legal.privacy') ? 'active' : '' }}">Privacy Policy</a>
